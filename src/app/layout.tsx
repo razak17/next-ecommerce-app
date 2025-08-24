@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Ecommerce App",
+  title: "Evershop",
   description:
     "An ecommerce app built with Next.js, TypeScript, and Tailwind CSS",
 };
