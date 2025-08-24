@@ -1,0 +1,74 @@
+{
+  "lsp": {
+    "override": ["biome", "jsonls", "vtsls"],
+    "disabled": {
+      "servers": ["tailwindcss"]
+    },
+    "lang": {
+      "typescript": {
+        "tsgo": false,
+        "vtsls": true
+      },
+      "web": {
+        "eslint": false,
+        "biome": false
+      }
+    }
+  },
+  "plugin": {
+    "custom": {
+      "baredot": {
+        "enable": false
+      }
+    }
+  },
+  "explorer": {
+    "variant": "neo-tree"
+  },
+  "plugins": {
+    "disabled": [],
+    "modules": {
+      "disabled": [],
+      "override": [
+        "heirline_statusline",
+        "heirline",
+        "lang",
+        "markdown",
+        "telescope",
+        "undo",
+        "ai",
+        "editing",
+        "hydra",
+        "opencode",
+        "codecompanion",
+        "CopilotChat",
+        "core",
+        "whichkey",
+        "lsp",
+        "lsp_preview",
+        "snippets",
+        "autopair",
+        "tools",
+        "theme",
+        "session",
+        "editing",
+        "snacks",
+        "snacks_picker",
+        "snacks_ui_select",
+        "snacks_notifier",
+        "snacks_indent",
+        "icons",
+        "git",
+        "transparent",
+        "explorer",
+        "blink",
+        "window_picker",
+        "treesitter-main",
+        "comment",
+        "typescript",
+        "log",
+        "terminal"
+      ]
+    }
+  }
+}
