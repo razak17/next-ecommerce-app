@@ -8,6 +8,20 @@
       "when": 1756036627147,
       "tag": "0000_boring_caretaker",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1756038978814,
+      "tag": "0001_third_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756039916635,
+      "tag": "0002_pretty_titanium_man",
+      "breakpoints": true
     }
   ]
 }
