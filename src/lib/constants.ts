@@ -1,12 +1,14 @@
 export const redirects = {
   toLogin: "/login",
-  toSignup: "/register",
+  toRegister: "/register",
   afterLogin: "/dashboard",
   afterLogout: "/",
   afterVerify: "/dashboard",
   toResetPassword: "/reset-password",
   toForgotPassword: "/forgot-password",
   toLanding: "/",
+  toTerms: "/terms",
+  toPrivacy: "/privacy",
   toDashboard: "/dashboard",
   adminToDashboard: "/admin/dashboard",
 } as const;

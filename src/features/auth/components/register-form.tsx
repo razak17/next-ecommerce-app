@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -54,7 +55,8 @@ export function RegisterForm() {
 
     if (success) {
       toast.success(message);
-      router.push(redirects.adminToDashboard);
+      router.refresh();
+      router.push(redirects.toLanding);
     } else {
       toast.error(message);
     }
@@ -130,6 +132,16 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
+        <div className="text-muted-foreground text-sm">
+          Already have an account?{" "}
+          <Link
+            aria-label="Login"
+            href={redirects.toLogin}
+            className="text-primary underline-offset-4 transition-colors hover:underline"
+          >
+            Login
+          </Link>
+        </div>
         <Button className="mt-2" disabled={isLoading}>
           {isLoading && (
             <Icons.spinner

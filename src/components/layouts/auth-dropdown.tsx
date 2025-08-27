@@ -44,7 +44,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <Link href={redirects.toSignup}>
+          <Link href={redirects.toRegister}>
             <UserRound className="mr-2 size-4" />
             Register
             <span className="sr-only">Register</span>

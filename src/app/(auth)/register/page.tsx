@@ -1,12 +1,9 @@
-import { IconBrandFacebook, IconBrandGithub } from "@tabler/icons-react";
-import { Loader2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 import { redirects } from "@/lib/constants";
 
 import { Shell } from "@/components/shell";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -28,7 +25,7 @@ export const metadata: Metadata = {
 export default function RegisterPage() {
   return (
     <Shell className="max-w-lg">
-      <Card className="gap-4">
+      <Card className="gap-4 bg-background">
         <CardHeader>
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
@@ -53,16 +50,16 @@ export default function RegisterPage() {
           <p className="px-8 text-center text-muted-foreground text-sm">
             By creating an account, you agree to our{" "}
             <Link
-              aria-label="Sign in"
-              href="/terms"
+              aria-label="Terms"
+              href={redirects.toTerms}
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
             </Link>{" "}
             and{" "}
             <Link
-              aria-label="Sign in"
-              href="/terms"
+              aria-label="Privacy"
+              href={redirects.toPrivacy}
               className="underline underline-offset-4 hover:text-primary"
             >
               Privacy Policy

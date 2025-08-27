@@ -1,6 +1,6 @@
 {
   "lsp": {
-    "override": ["biome", "jsonls", "ts_ls"],
+    "override": ["biome", "jsonls", "vtsls"],
     "disabled": {
       "servers": ["tailwindcss"]
     },
@@ -30,6 +30,10 @@
     "modules": {
       "disabled": [],
       "override": [
+        "editing",
+        "hydra",
+        "autopair",
+        "log",
         "codecompanion",
         "opencode",
         "window_picker",

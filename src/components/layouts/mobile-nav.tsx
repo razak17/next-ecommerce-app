@@ -156,7 +156,7 @@ export function MobileNav({ items, user }: MobileNavProps) {
                 <Button
                   className="justify-start"
                   onClick={() => {
-                    router.push(redirects.toSignup);
+                    router.push(redirects.toRegister);
                     setOpen(false);
                   }}
                 >
