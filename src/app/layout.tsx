@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
+import { SiteFooter } from "@/components/layouts/site-footer";
 import { SiteHeader } from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
               }
             />
             <main className="flex-1">{children}</main>
+            <SiteFooter />
           </div>
         </ThemeProvider>
       </body>

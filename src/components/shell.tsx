@@ -3,13 +3,13 @@ import type * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const shellVariants = cva("grid items-center gap-8 pt-6 pb-8 md:py-8", {
+const shellVariants = cva("grid items-center gap-8 pt-6 pb-8 lg:py-6", {
   variants: {
     variant: {
       default: "container",
       sidebar: "",
       centered: "container flex h-dvh max-w-2xl flex-col justify-center",
-      markdown: "container max-w-3xl py-4",
+      markdown: "container max-w-3xl py-8 md:py-10",
     },
   },
   defaultVariants: {
