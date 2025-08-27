@@ -2,14 +2,18 @@
 
 import * as React from "react";
 
+import { authClient } from "@/lib/auth/client";
+import { redirects } from "@/lib/constants";
+import { showErrorToast } from "@/lib/handle-error";
+
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
-type OAuthStrategy = "oauth_google" | "oauth_github";
+type OAuthStrategy = "google" | "github";
 
 const oauthProviders = [
-  { name: "Google", strategy: "oauth_google", icon: "google" },
-  { name: "GitHub", strategy: "oauth_github", icon: "gitHub" },
+  { name: "Google", strategy: "google", icon: "google" },
+  { name: "GitHub", strategy: "github", icon: "gitHub" },
 ] satisfies {
   name: string;
   icon: keyof typeof Icons;
@@ -19,7 +23,18 @@ const oauthProviders = [
 export function OAuthSignIn() {
   const [loading, setLoading] = React.useState<OAuthStrategy | null>(null);
 
-  async function oauthSignIn(provider: OAuthStrategy) {}
+  async function oauthSignIn(provider: OAuthStrategy) {
+    try {
+      setLoading(provider);
+      await authClient.signIn.social({
+        provider: provider,
+        callbackURL: redirects.toLanding,
+      });
+    } catch (err) {
+      setLoading(null);
+      showErrorToast(err);
+    }
+  }
 
   return (
     <div className="grid grid-cols-2 gap-2">

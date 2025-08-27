@@ -1,6 +1,6 @@
 {
   "lsp": {
-    "override": ["biome", "jsonls", "vtsls"],
+    "override": ["biome", "jsonls", "vtsls", "copilot"],
     "disabled": {
       "servers": ["tailwindcss"]
     },

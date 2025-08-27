@@ -6,6 +6,7 @@ import { admin as adminPlugin } from "better-auth/plugins";
 import { ac, admin, consumer } from "./permissions";
 import { db } from "@/db/drizzle";
 import * as schema from "@/db/schema";
+import { env } from "@/env";
 
 export const auth = betterAuth({
   user: {
@@ -34,9 +35,18 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
-    sendResetPassword: async ({ user, url }) => {},
+    sendResetPassword: async () => {},
   },
-  socialProviders: {},
+  socialProviders: {
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    },
+    github: {
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
+    },
+  },
   plugins: [
     adminPlugin({
       ac,
