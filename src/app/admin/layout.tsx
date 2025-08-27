@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { redirects } from "@/lib/constants";
 
-import { SiteHeader } from "@/components/layouts/site-header";
-
 export default async function AdminLayout({
   children,
 }: Readonly<{
@@ -23,16 +21,5 @@ export default async function AdminLayout({
     redirect(redirects.toLanding);
   }
 
-  return (
-    <div className="relative flex min-h-screen flex-col">
-      <SiteHeader
-        user={
-          session.user
-            ? { name: session.user.name, image: session.user.image }
-            : null
-        }
-      />
-      <main className="flex-1">{children}</main>
-    </div>
-  );
+  return <div>{children}</div>;
 }
