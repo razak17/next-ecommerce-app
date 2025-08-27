@@ -4,5 +4,6 @@ export * from "./products";
 export * from "./stocks";
 export * from "./subcategories";
 export * from "./tags";
+export * from "./users";
 export * from "./variants";
 export * from "./variants";

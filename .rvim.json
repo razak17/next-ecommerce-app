@@ -1,6 +1,6 @@
 {
   "lsp": {
-    "override": ["biome", "jsonls", "vtsls"],
+    "override": ["biome", "jsonls", "ts_ls"],
     "disabled": {
       "servers": ["tailwindcss"]
     },
@@ -30,45 +30,23 @@
     "modules": {
       "disabled": [],
       "override": [
-        "heirline_statusline",
-        "heirline",
-        "mini-surround",
-        "lang",
-        "markdown",
-        "telescope",
-        "undo",
-        "ai",
-        "editing",
-        "hydra",
-        "opencode",
-        "codecompanion",
-        "CopilotChat",
+        "typescript",
+        "treesitter-main",
+        "snippets",
         "core",
         "whichkey",
         "lsp",
-        "lsp_preview",
-        "snippets",
-        "autopair",
         "tools",
+        "terminal",
         "theme",
-        "session",
-        "editing",
+        "git",
         "snacks",
         "snacks_picker",
         "snacks_ui_select",
         "snacks_notifier",
         "snacks_indent",
-        "icons",
-        "git",
-        "transparent",
-        "explorer",
         "blink",
-        "window_picker",
-        "treesitter-main",
-        "comment",
-        "typescript",
-        "log",
-        "terminal"
+        "session"
       ]
     }
   }
