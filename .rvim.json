@@ -30,6 +30,8 @@
     "modules": {
       "disabled": [],
       "override": [
+        "window_picker",
+        "explorer",
         "typescript",
         "treesitter-main",
         "snippets",

@@ -5,7 +5,7 @@ import { ac, admin, consumer } from "./permissions";
 import { env } from "@/env.js";
 
 export const authClient = createAuthClient({
-  baseURL: env.BETTER_AUTH_URL,
+  baseURL: env.NEXT_PUBLIC_APP_URL,
   plugins: [
     adminClient({
       ac,
