@@ -1,5 +1,6 @@
 "use client";
 
+import { Heart, Home, ShoppingBag, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,6 +19,13 @@ interface MainNavProps {
   items?: NavItem[];
 }
 
+const iconMap = {
+  Home,
+  ShoppingBag,
+  ShoppingCart,
+  Heart,
+};
+
 export function MainNav({ items }: MainNavProps) {
   const pathname = usePathname();
 
@@ -26,6 +34,10 @@ export function MainNav({ items }: MainNavProps) {
       <NavigationMenu>
         <NavigationMenuList>
           {items?.map((item) => {
+            const IconComponent = item.icon
+              ? iconMap[item.icon as keyof typeof iconMap]
+              : null;
+
             return (
               <NavigationMenuItem key={item.title}>
                 <NavigationMenuLink
@@ -37,7 +49,12 @@ export function MainNav({ items }: MainNavProps) {
                       "bg-accent text-accent-foreground",
                   )}
                 >
-                  <Link href={item.url}>{item.title}</Link>
+                  <Link href={item.url}>
+                    <div className="flex items-center gap-2">
+                      {IconComponent && <IconComponent className="h-4 w-4" />}
+                      <span>{item.title}</span>
+                    </div>
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             );

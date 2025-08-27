@@ -30,6 +30,8 @@
     "modules": {
       "disabled": [],
       "override": [
+        "codecompanion",
+        "opencode",
         "window_picker",
         "explorer",
         "typescript",
