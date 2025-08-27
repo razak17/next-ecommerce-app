@@ -1,11 +1,7 @@
-import { Shell } from "@/components/shell";
+import { redirect } from "next/navigation";
 
-export default function AdminHome() {
-  return (
-    <Shell className="flex h-dvh flex-col items-center justify-center">
-      <section className="flex flex-col items-center text-center font-mono">
-        <h1 className="font-bold text-4xl">Admin Home</h1>
-      </section>
-    </Shell>
-  );
+import { redirects } from "@/lib/constants";
+
+export default async function AdminPage() {
+  return <>{redirect(redirects.adminToDashboard)}</>;
 }
