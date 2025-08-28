@@ -29,7 +29,7 @@ export default function RegisterPage() {
         <CardHeader>
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
-            Choose your preferred registration up method
+            Choose your preferred registration method
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">

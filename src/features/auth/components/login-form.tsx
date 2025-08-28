@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { signIn } from "../actions/auth";
 import { loginSchema } from "../validations/auth";
 
-export function LoginForm() {
+export function LoginForm({ isModal }: { isModal?: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -47,6 +47,9 @@ export function LoginForm() {
       toast.success(message);
       router.refresh();
       router.push(redirects.toLanding);
+      if (isModal) {
+        router.back();
+      }
     } else {
       toast.error(message);
     }
@@ -56,7 +59,10 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="grid w-full gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="email"

@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { signUp } from "../actions/auth";
 import { registerSchema } from "../validations/auth";
 
-export function RegisterForm() {
+export function RegisterForm({ isModal }: { isModal?: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -57,6 +57,9 @@ export function RegisterForm() {
       toast.success(message);
       router.refresh();
       router.push(redirects.toLanding);
+      if (isModal) {
+        router.back();
+      }
     } else {
       toast.error(message);
     }

@@ -7,7 +7,8 @@ const links = {
 
 export const siteConfig = {
   name: "Evershop",
-  description: "Ecommerce Platform",
+  description:
+    "An ecommerce app built with Next.js, TypeScript, and Tailwind CSS",
   url: "https://ecommerce.razakmo.tech",
   links,
   mainNav: [

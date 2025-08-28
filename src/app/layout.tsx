@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { headers } from "next/headers";
+import "./globals.css";
 
 import { auth } from "@/lib/auth";
 import { fontMono, fontSans } from "@/lib/fonts";
@@ -10,18 +10,22 @@ import { SiteFooter } from "@/components/layouts/site-footer";
 import { SiteHeader } from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { siteConfig } from "@/config/site";
+
+interface RootLayoutProps
+  extends React.PropsWithChildren<{
+    modals: React.ReactNode;
+  }> {}
 
 export const metadata: Metadata = {
-  title: "Evershop",
-  description:
-    "An ecommerce app built with Next.js, TypeScript, and Tailwind CSS",
+  title: siteConfig.name,
+  description: siteConfig.description,
 };
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  modals,
+}: RootLayoutProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -49,7 +53,10 @@ export default async function RootLayout({
                   : null
               }
             />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+              {children}
+              {modals}
+            </main>
             <SiteFooter />
           </div>
         </ThemeProvider>
