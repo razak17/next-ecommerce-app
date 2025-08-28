@@ -23,7 +23,9 @@ interface MobileNavProps {
   items?: NavItem[];
   user: {
     name: string;
+    email: string;
     image?: string | null;
+    role?: string | null;
   } | null;
 }
 

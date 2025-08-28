@@ -8,7 +8,9 @@ import { siteConfig } from "@/config/site";
 interface SiteHeaderProps {
   user: {
     name: string;
+    email: string;
     image?: string | null;
+    role: string;
   } | null;
 }
 

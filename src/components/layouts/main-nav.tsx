@@ -52,7 +52,7 @@ export function MainNav({ items }: MainNavProps) {
                   <Link href={item.url}>
                     <div className="flex items-center gap-2">
                       {IconComponent && (
-                        <IconComponent className="h-4 w-4 text-foreground" />
+                        <IconComponent className="size-4 text-foreground" />
                       )}
                       <span>{item.title}</span>
                     </div>

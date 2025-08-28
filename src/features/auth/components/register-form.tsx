@@ -50,7 +50,7 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
       password,
       firstName,
       lastName,
-      role: "admin",
+      role: "consumer",
     });
 
     if (success) {

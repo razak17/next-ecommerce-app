@@ -1,11 +1,15 @@
 "use client";
 
+import { DashboardIcon, ExitIcon, GearIcon } from "@radix-ui/react-icons";
+import { IconUsersGroup } from "@tabler/icons-react";
 import {
+  ChartColumnStacked,
   ChevronDown,
-  GraduationCap,
+  CreditCard,
   LogIn,
-  LogOut,
-  UserRound,
+  ShoppingBag,
+  User,
+  WalletCards,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,17 +22,88 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuPortal,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface AuthDropdownProps {
   user: {
     name: string;
+    email: string;
     image?: string | null;
+    role: string;
   } | null;
 }
+
+const iconMap = {
+  ChevronDown,
+  LogIn,
+  User,
+  DashboardIcon,
+  ExitIcon,
+  GearIcon,
+  IconUsersGroup,
+  ShoppingBag,
+  ChartColumnStacked,
+  WalletCards,
+  CreditCard,
+};
+
+const authItems = {
+  admin: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: "DashboardIcon",
+    },
+    {
+      title: "Products",
+      url: "/products",
+      icon: "ShoppingBag",
+    },
+    {
+      title: "Categories",
+      url: "/categories",
+      icon: "ChartColumnStacked",
+    },
+    {
+      title: "Orders",
+      url: "/orders",
+      icon: "CreditCard",
+    },
+    {
+      title: "Users",
+      url: "/users",
+      icon: "IconUsersGroup",
+    },
+    {
+      title: "Profile",
+      url: "/profile",
+      icon: "GearIcon",
+    },
+  ],
+  consumer: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: "DashboardIcon",
+    },
+    {
+      title: "Orders",
+      url: "/orders",
+      icon: "CreditCard",
+    },
+    {
+      title: "Profile",
+      url: "/profile",
+      icon: "User",
+    },
+  ],
+};
 
 export function AuthDropdown({ user }: AuthDropdownProps) {
   const router = useRouter();
@@ -45,7 +120,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
         </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link href={redirects.toRegister}>
-            <UserRound className="mr-2 size-4" />
+            <User className="mr-2 size-4" />
             Register
             <span className="sr-only">Register</span>
           </Link>
@@ -53,6 +128,13 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
       </>
     );
   }
+
+  const initials = user.name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase();
 
   return (
     <DropdownMenu>
@@ -63,19 +145,9 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           className="flex items-center gap-2 rounded-sm px-2"
           aria-label="User menu"
         >
-          <Avatar className="h-8 w-8">
+          <Avatar className="size-8">
             <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
-            <AvatarFallback>
-              {(user?.name
-                ? user.name
-                    .trim()
-                    .split(/\s+/)
-                    .slice(0, 2)
-                    .map((p) => p[0])
-                    .join("")
-                    .toUpperCase()
-                : "U") || "U"}
-            </AvatarFallback>
+            <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <span className="max-w-[10rem] truncate font-medium text-md">
             {user?.name ?? "User"}
@@ -84,28 +156,88 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
-        <DropdownMenuContent align="end" sideOffset={8} className="w-42">
+        <DropdownMenuContent
+          className="w-56 bg-background"
+          align="end"
+          forceMount
+        >
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="font-medium text-sm leading-none">{user.name}</p>
+              <p className="text-muted-foreground text-xs leading-none">
+                {user.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <AuthDropdownGroup role={user.role} />
+          <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="text-md text-primary focus:text-primary"
-            onClick={() => {
-              router.push(redirects.toDashboard);
-            }}
-          >
-            <GraduationCap className="size-5" />
-            Portal
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="text-md text-primary focus:text-primary"
             onClick={async () => {
               await authClient.signOut();
               router.refresh();
             }}
           >
-            <LogOut className="size-5" />
-            Logout
+            <ExitIcon
+              className="mr-2 size-4 text-foreground"
+              aria-hidden="true"
+            />
+            Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenuPortal>
     </DropdownMenu>
+  );
+}
+
+function AuthDropdownGroup({ role }: { role: string }) {
+  return (
+    <DropdownMenuGroup>
+      {role === "admin" ? (
+        <span>
+          {authItems.admin.map((item) => {
+            const IconComponent = item.icon
+              ? iconMap[item.icon as keyof typeof iconMap]
+              : null;
+
+            return (
+              <DropdownMenuItem key={item.title} asChild>
+                <Link href={item.url}>
+                  {IconComponent && (
+                    <IconComponent
+                      className="mr-2 size-4 text-foreground"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {item.title}
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
+        </span>
+      ) : (
+        <span>
+          {authItems.consumer.map((item) => {
+            const IconComponent = item.icon
+              ? iconMap[item.icon as keyof typeof iconMap]
+              : null;
+
+            return (
+              <DropdownMenuItem key={item.title} asChild>
+                <Link href={item.url}>
+                  {IconComponent && (
+                    <IconComponent
+                      className="mr-2 size-4 text-foreground"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {item.title}
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
+        </span>
+      )}
+    </DropdownMenuGroup>
   );
 }

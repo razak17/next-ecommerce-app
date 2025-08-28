@@ -49,7 +49,7 @@ export default async function RootLayout({
             <SiteHeader
               user={
                 session?.user
-                  ? { name: session.user.name, image: session.user.image }
+                  ? { ...session.user, role: session.user.role || "consumer" }
                   : null
               }
             />
