@@ -57,32 +57,32 @@ const authItems = {
   admin: [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/admin/dashboard",
       icon: "DashboardIcon",
     },
     {
       title: "Products",
-      url: "/products",
+      url: "/admin/products",
       icon: "ShoppingBag",
     },
     {
       title: "Categories",
-      url: "/categories",
+      url: "/admin/categories",
       icon: "ChartColumnStacked",
     },
     {
       title: "Orders",
-      url: "/orders",
+      url: "/admin/orders",
       icon: "CreditCard",
     },
     {
       title: "Users",
-      url: "/users",
+      url: "/admin/users",
       icon: "IconUsersGroup",
     },
     {
       title: "Profile",
-      url: "/profile",
+      url: "/admin/profile",
       icon: "GearIcon",
     },
   ],
