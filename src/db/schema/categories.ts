@@ -1,11 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { json, pgTable, text, varchar } from "drizzle-orm/pg-core";
 
 import { generateId } from "@/lib/id";
 
 import { products } from "./products";
 import { subcategories } from "./subcategories";
 import { lifecycleDates } from "./utils";
+import type { StoredFile } from "@/types";
 
 export const categories = pgTable("categories", {
   id: varchar("id", { length: 30 })
@@ -13,7 +14,7 @@ export const categories = pgTable("categories", {
     .primaryKey(), // prefix_ + nanoid (12)
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
-  image: text("image"),
+  image: json("image").$type<StoredFile | null>().default(null),
   description: text("description"),
   ...lifecycleDates,
 });

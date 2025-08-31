@@ -43,6 +43,13 @@
       "when": 1756314362328,
       "tag": "0005_furry_freak",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1756661670503,
+      "tag": "0006_late_ultimo",
+      "breakpoints": true
     }
   ]
 }

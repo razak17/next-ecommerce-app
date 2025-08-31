@@ -10,12 +10,14 @@ export async function getCategories() {
   return await cache(
     async () => {
       return db
-        .selectDistinct({
+        .select({
           id: categories.id,
           name: categories.name,
           slug: categories.slug,
           description: categories.description,
           image: categories.image,
+          createdAt: categories.createdAt,
+          updatedAt: categories.updatedAt,
         })
         .from(categories)
         .orderBy(desc(categories.name));
@@ -24,6 +26,25 @@ export async function getCategories() {
     {
       revalidate: 3600, // every hour
       tags: ["categories"],
+    },
+  )();
+}
+
+export async function getCategoryById(id: string) {
+  return await cache(
+    async () => {
+      const category = await db
+        .select()
+        .from(categories)
+        .where(eq(categories.id, id))
+        .limit(1);
+
+      return category[0] || null;
+    },
+    [`category-${id}`],
+    {
+      revalidate: 3600, // every hour
+      tags: [`category-${id}`],
     },
   )();
 }

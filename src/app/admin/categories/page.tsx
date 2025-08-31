@@ -6,12 +6,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CreateCategoryForm } from "@/features/categories/components/create-category-form";
+import { CategoryDialog } from "@/features/categories/components/category-dialog";
+import { CategoryForm } from "@/features/categories/components/category-form";
+import { getCategories } from "@/features/categories/queries/categories";
 
-export default function AdminCategoriesPage() {
+export default async function AdminCategoriesPage() {
+  const categories = await getCategories();
+
   return (
     <Shell>
-      <Card className="mx-auto w-xl">
+      <Card className="mx-auto w-full">
         <CardHeader>
           <CardTitle>Create New Category</CardTitle>
           <CardDescription>
@@ -19,7 +23,16 @@ export default function AdminCategoriesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CreateCategoryForm />
+          <CategoryForm />
+        </CardContent>
+      </Card>
+      <Card className="mx-auto w-full">
+        <CardHeader>
+          <CardTitle>Categories</CardTitle>
+          <CardDescription>List of categories</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CategoryDialog categories={categories} />
         </CardContent>
       </Card>
     </Shell>

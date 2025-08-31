@@ -106,7 +106,7 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
   return (
     <Form {...form}>
       <form
-        className="grid w-full max-w-2xl gap-5"
+        className="grid w-full gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField

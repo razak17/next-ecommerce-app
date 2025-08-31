@@ -19,7 +19,7 @@ export default function AdminProductsPage() {
 
   return (
     <Shell>
-      <Card className="mx-auto w-xl">
+      <Card className="mx-auto w-full">
         <CardHeader>
           <CardTitle>Create New Product</CardTitle>
           <CardDescription>Add a new product to your inventory</CardDescription>

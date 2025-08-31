@@ -10,7 +10,7 @@ export const createCategorySchema = z.object({
       "Slug must contain only lowercase letters, numbers, and hyphens",
     ),
   description: z.string().optional(),
-  image: z.custom<File[] | undefined | null>().optional().nullable(),
+  // image: z.custom<File[] | undefined | null>().optional().nullable(),
 });
 
 export type CreateCategorySchema = z.infer<typeof createCategorySchema>;
