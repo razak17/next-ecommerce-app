@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  modals,
+  // modals,
 }: RootLayoutProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -55,7 +55,7 @@ export default async function RootLayout({
             />
             <main className="flex-1">
               {children}
-              {modals}
+              {/* {modals} */}
             </main>
             <SiteFooter />
           </div>
