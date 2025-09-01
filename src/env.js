@@ -19,6 +19,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: z.string().min(1),
     UPSTASH_REDIS_REST_URL: z.string().min(1),
     UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
+    RESEND_API_KEY: z.string().min(1),
+    EMAIL_SENDER_NAME: z.string().min(1),
+    EMAIL_SENDER_ADDRESS: z.string().min(1),
   },
 
   /**
@@ -47,6 +50,9 @@ export const env = createEnv({
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    EMAIL_SENDER_NAME: process.env.EMAIL_SENDER_NAME,
+    EMAIL_SENDER_ADDRESS: process.env.EMAIL_SENDER_ADDRESS,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
   /**

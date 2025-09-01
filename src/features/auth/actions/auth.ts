@@ -2,8 +2,10 @@
 
 import type { APIError } from "better-auth";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 import { auth } from "@/lib/auth";
+import { redirects } from "@/lib/constants";
 
 import { db } from "@/db/drizzle";
 import { user } from "@/db/schema";
@@ -16,6 +18,8 @@ export const signIn = async (email: string, password: string) => {
         password,
       },
     });
+
+    revalidatePath(redirects.toLanding);
 
     return {
       success: true,

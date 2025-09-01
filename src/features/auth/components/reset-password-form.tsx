@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
+import { authClient } from "@/lib/auth/client";
 import { redirects } from "@/lib/constants";
 
 import { Icons } from "@/components/icons";
@@ -20,38 +21,37 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { signIn } from "../actions/auth";
-import { loginSchema } from "../validations/auth";
+import { resetPasswordSchema } from "../validations/auth";
 
-export function LoginForm({ isModal }: { isModal?: boolean }) {
+export function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false);
 
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+
+  const token = searchParams.get("token") as string;
+
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof resetPasswordSchema>) {
     setIsLoading(true);
 
-    const { email, password } = values;
+    const { error } = await authClient.resetPassword({
+      newPassword: values.password,
+      token,
+    });
 
-    const { success, message } = await signIn(email, password);
-
-    if (success) {
-      toast.success(message);
-      router.refresh();
-      if (isModal) {
-        router.back();
-        router.push(redirects.toLanding);
-      }
+    if (error) {
+      toast.error(error.message);
     } else {
-      toast.error(message);
+      toast.success("Password reset successfully");
+      router.push(redirects.toLogin);
     }
 
     setIsLoading(false);
@@ -65,12 +65,12 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
       >
         <FormField
           control={form.control}
-          name="email"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="email@example.com" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,25 +78,25 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
         />
         <FormField
           control={form.control}
-          name="password"
+          name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
+                <PasswordInput {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="mt-2" disabled={isLoading}>
+        <Button disabled={isLoading}>
           {isLoading && (
             <Icons.spinner
               className="mr-2 size-4 animate-spin"
               aria-hidden="true"
             />
           )}
-          Login
+          Reset Password
         </Button>
       </form>
     </Form>

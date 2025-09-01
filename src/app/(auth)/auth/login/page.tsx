@@ -59,7 +59,7 @@ export default function LoginPage() {
           </div>
           <Link
             aria-label="Reset password"
-            href={redirects.toResetPassword}
+            href={redirects.toForgotPassword}
             className="text-primary text-sm underline-offset-4 transition-colors hover:underline"
           >
             Reset password
