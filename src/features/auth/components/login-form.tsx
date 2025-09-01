@@ -46,10 +46,10 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
     if (success) {
       toast.success(message);
       router.refresh();
-      router.push(redirects.toLanding);
       if (isModal) {
         router.back();
       }
+      router.push(redirects.toLanding);
     } else {
       toast.error(message);
     }

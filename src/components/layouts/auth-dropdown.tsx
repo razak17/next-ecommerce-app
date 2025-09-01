@@ -175,6 +175,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <DropdownMenuItem
             onClick={async () => {
               await authClient.signOut();
+              router.push(redirects.toLanding);
               router.refresh();
             }}
           >
