@@ -12,11 +12,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { siteConfig } from "@/config/site";
 
-interface RootLayoutProps
-  extends React.PropsWithChildren<{
-    modals: React.ReactNode;
-  }> {}
-
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
@@ -24,8 +19,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  // modals,
-}: RootLayoutProps) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -53,10 +49,7 @@ export default async function RootLayout({
                   : null
               }
             />
-            <main className="flex-1">
-              {children}
-              {/* {modals} */}
-            </main>
+            <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>
         </ThemeProvider>

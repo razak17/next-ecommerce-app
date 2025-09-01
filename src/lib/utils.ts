@@ -32,6 +32,10 @@ export function formatBytes(
   }`;
 }
 
+type SuccessResult<T> = readonly [data: T, error: null];
+type ErrorResult<E> = readonly [data: null, error: E];
+type Result<T, E = Error> = SuccessResult<T> | ErrorResult<E>;
+
 export async function tryCatch<T, E = Error>(
   promise: Promise<T>,
 ): Promise<Result<T, E>> {
