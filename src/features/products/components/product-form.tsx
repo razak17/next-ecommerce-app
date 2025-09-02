@@ -1,11 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
+import { tryCatch } from "@/lib/utils";
 
 import { FileUploader } from "@/components/file-uploader";
 import { Files } from "@/components/files";
@@ -56,8 +59,9 @@ interface CreateProductFormProps {
   }>;
 }
 
-export function CreateProductForm({ promises }: CreateProductFormProps) {
+export function ProductForm({ promises }: CreateProductFormProps) {
   const { categories, subcategories } = React.use(promises);
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const { uploadFiles, progresses, uploadedFiles, isUploading } = useUploadFile(
@@ -80,27 +84,24 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
 
   async function onSubmit(input: CreateProductSchema) {
     setIsLoading(true);
-
-    toast.promise(
-      uploadFiles(input.images ?? []).then(() => {
-        return addProduct({
-          ...input,
-          images: JSON.stringify(uploadedFiles) as unknown as StoredFile[],
-        });
+    const uploaded = await uploadFiles(input.images ?? []);
+    const [data] = await tryCatch(
+      addProduct({
+        ...input,
+        images: uploaded
+          ? (JSON.stringify(uploaded) as unknown as StoredFile[])
+          : [],
       }),
-      {
-        loading: "Adding product...",
-        success: () => {
-          form.reset();
-          setIsLoading(false);
-          return "Product";
-        },
-        error: (err) => {
-          setIsLoading(false);
-          return getErrorMessage(err);
-        },
-      },
     );
+    if (data?.error) {
+      toast.error(data.error);
+      setIsLoading(false);
+      return;
+    }
+    toast.success("Product added successfully");
+    form.reset();
+    router.push(redirects.adminToProducts);
+    setIsLoading(false);
   }
 
   return (
@@ -114,7 +115,7 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Name *</FormLabel>
               <FormControl>
                 <Input placeholder="Type product name here." {...field} />
               </FormControl>
@@ -144,7 +145,7 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
             name="categoryId"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
+                <FormLabel>Category *</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={(value: typeof field.value) =>
@@ -210,7 +211,7 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
             name="price"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Price</FormLabel>
+                <FormLabel>Price *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Type product price here."
@@ -227,7 +228,7 @@ export function CreateProductForm({ promises }: CreateProductFormProps) {
             name="inventory"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Inventory</FormLabel>
+                <FormLabel>Inventory *</FormLabel>
                 <FormControl>
                   <Input
                     type="number"

@@ -16,3 +16,7 @@ export interface NavItem {
   isActive?: boolean;
   items?: NavItem[];
 }
+
+export interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}

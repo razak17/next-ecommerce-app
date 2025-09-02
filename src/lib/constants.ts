@@ -15,4 +15,5 @@ export const redirects = {
   toDashboard: "/dashboard",
   adminToDashboard: "/admin/dashboard",
   adminToCategories: "/admin/categories",
+  adminToProducts: "/admin/products",
 } as const;

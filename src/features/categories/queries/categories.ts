@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import { desc, eq } from "drizzle-orm";
 import { unstable_cache as cache } from "next/cache";

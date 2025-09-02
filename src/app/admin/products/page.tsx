@@ -1,4 +1,10 @@
+import { IconPlus } from "@tabler/icons-react";
+import Link from "next/link";
+
+import { redirects } from "@/lib/constants";
+
 import { Shell } from "@/components/shell";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,28 +12,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  getCategories,
-  getSubcategories,
-} from "@/features/categories/queries/categories";
-import { CreateProductForm } from "@/features/products/components/create-product-form";
 
-export default function AdminProductsPage() {
-  const promises = Promise.all([getCategories(), getSubcategories()]).then(
-    ([categories, subcategories]) => ({ categories, subcategories }),
-  );
-
+export default function ProductsPage() {
   return (
-    <Shell>
-      <Card className="mx-auto w-full">
-        <CardHeader>
-          <CardTitle>Create New Product</CardTitle>
-          <CardDescription>Add a new product to your inventory</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CreateProductForm promises={promises} />
-        </CardContent>
-      </Card>
+    <Shell className="flex flex-col">
+      <div className="container mx-auto py-10">
+        <div className="mb-8 flex items-center justify-between">
+          <div className="mb-8">
+            <h1 className="font-bold text-4xl">Products</h1>
+            <p className="text-muted-foreground">
+              Manage your product listings and inventory
+            </p>
+          </div>
+          <Button size="lg" asChild>
+            <Link
+              className="flex w-48 items-center gap-2"
+              href={`${redirects.adminToProducts}/new`}
+            >
+              <IconPlus className="size-4" />
+              Add New Product
+            </Link>
+          </Button>
+        </div>
+      </div>
     </Shell>
   );
 }
