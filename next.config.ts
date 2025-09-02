@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "utfs.sh",
       },
+      {
+        protocol: "https",
+        hostname: "ufs.sh",
+      },
     ],
     unoptimized: true,
   },

@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq, ne, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { redirects } from "@/lib/constants";
@@ -52,6 +52,20 @@ export async function updateCategory(
 
     if (!category) {
       throw new Error("Category not found.");
+    }
+
+    const categoryWithSameNameOrSlug = await db.query.categories.findFirst({
+      columns: {
+        id: true,
+      },
+      where: and(
+        ne(categories.id, id),
+        or(eq(categories.name, input.name), eq(categories.slug, input.slug)),
+      ),
+    });
+
+    if (categoryWithSameNameOrSlug) {
+      throw new Error("Category name or slug already taken.");
     }
 
     await db

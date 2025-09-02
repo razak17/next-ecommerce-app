@@ -21,4 +21,19 @@ export const createProductSchema = z.object({
   // status: z.enum(["active", "draft", "archived"]).default("active"),
 });
 
+export const updateProductSchema = createProductSchema;
+
+export const getProductsSchema = z.object({
+  page: z.coerce.number().default(1),
+  per_page: z.coerce.number().default(10),
+  sort: z.string().optional().default("createdAt.desc"),
+  categories: z.string().optional(),
+  subcategory: z.string().optional(),
+  subcategories: z.string().optional(),
+  price_range: z.string().optional(),
+  active: z.string().optional().default("true"),
+});
+
 export type CreateProductSchema = z.infer<typeof createProductSchema>;
+export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
+export type GetProductsSchema = z.infer<typeof getProductsSchema>;
