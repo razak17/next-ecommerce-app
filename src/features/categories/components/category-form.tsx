@@ -74,7 +74,7 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
       setIsLoading(false);
       return;
     }
-    toast.success(`Category ${category ? "updated" : "created"} successfully`);
+    toast.success(`Category ${category ? "updated" : "added"} successfully`);
     form.reset();
     if (onSuccess) {
       onSuccess();
