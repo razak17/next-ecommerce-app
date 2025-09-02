@@ -45,7 +45,6 @@ import type {
   getSubcategories,
 } from "@/features/categories/queries/categories";
 import { useUploadFile } from "@/hooks/use-file-upload";
-import type { StoredFile } from "@/types";
 import { addProduct } from "../actions/products";
 import {
   type CreateProductSchema,
@@ -88,9 +87,7 @@ export function ProductForm({ promises }: CreateProductFormProps) {
     const [data] = await tryCatch(
       addProduct({
         ...input,
-        images: uploaded
-          ? (JSON.stringify(uploaded) as unknown as StoredFile[])
-          : [],
+        images: uploaded ?? [],
       }),
     );
     if (data?.error) {
