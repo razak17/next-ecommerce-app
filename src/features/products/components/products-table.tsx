@@ -3,24 +3,11 @@
 import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { toast } from "sonner";
 
 import { redirects } from "@/lib/constants";
-import { getErrorMessage } from "@/lib/handle-error";
 
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { PlaceholderImage } from "@/components/placeholder-image";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -60,26 +47,6 @@ interface ProductsTableProps {
 }
 
 export function ProductsTable({ products }: ProductsTableProps) {
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-
-  const handleDelete = async (id: string) => {
-    try {
-      setDeletingId(id);
-      const result = await deleteProduct(id);
-
-      if (result.error) {
-        toast.error(result.error);
-        return;
-      }
-
-      toast.success("Product deleted successfully");
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
   if (products.length === 0) {
     return (
       <Card>
@@ -196,36 +163,17 @@ export function ProductsTable({ products }: ProductsTableProps) {
                           <span className="sr-only">Edit product</span>
                         </Link>
                       </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            disabled={deletingId === product.id}
-                          >
-                            <IconTrash className="size-4 text-destructive" />
-                            <span className="sr-only">Delete product</span>
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Product</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete "{product.name}"?
-                              This action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(product.id)}
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                      <ConfirmDialog
+                        title="Delete Product"
+                        description={`Are you sure you want to delete "${product.name}"? This action cannot be undone.`}
+                        successMessage="Product deleted successfully"
+                        onConfirm={deleteProduct.bind(null, product.id)}
+                      >
+                        <Button variant="ghost" size="sm">
+                          <IconTrash className="size-4 text-destructive" />
+                          <span className="sr-only">Delete product</span>
+                        </Button>
+                      </ConfirmDialog>
                     </div>
                   </TableCell>
                 </TableRow>

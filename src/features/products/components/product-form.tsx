@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -10,7 +11,6 @@ import { redirects } from "@/lib/constants";
 import { tryCatch } from "@/lib/utils";
 
 import { FileUploader } from "@/components/file-uploader";
-import { Files } from "@/components/files";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +45,7 @@ import type {
   getSubcategories,
 } from "@/features/categories/queries/categories";
 import { useUploadFile } from "@/hooks/use-file-upload";
-import { StoredFile } from "@/types";
+import type { StoredFile } from "@/types";
 import { addProduct, updateProduct } from "../actions/products";
 import {
   type CreateProductSchema,
@@ -65,11 +65,11 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const { uploadFiles, progresses, uploadedFiles, isUploading } = useUploadFile(
-    "imageUploader",
-    {
-      defaultUploadedFiles: product?.images ?? [],
-    },
+  const { uploadFiles, progresses, isUploading } =
+    useUploadFile("imageUploader");
+
+  const [existingImages, setExistingImages] = React.useState<StoredFile[]>(
+    product?.images ?? [],
   );
 
   const form = useForm<CreateProductSchema>({
@@ -86,12 +86,18 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
 
   async function onSubmit(input: CreateProductSchema) {
     setIsLoading(true);
-    const uploaded = await uploadFiles(input.images ?? []);
+
+    const newlyUploaded = input.images?.length
+      ? await uploadFiles(input.images)
+      : [];
+
+    const allImages = [...existingImages, ...(newlyUploaded ?? [])];
+
     const action = product ? updateProduct.bind(null, product.id) : addProduct;
     const [data] = await tryCatch(
       action({
         ...input,
-        images: uploaded ?? [],
+        images: allImages,
       }),
     );
     if (data?.error) {
@@ -245,13 +251,45 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
           />
         </div>
         <div className="space-y-6">
+          {existingImages.length > 0 && (
+            <div>
+              <h4 className="mb-2 font-medium text-sm">Current Images</h4>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {existingImages.map((file, index) => (
+                  <div key={file.id} className="group relative aspect-square">
+                    <Image
+                      src={file.url}
+                      alt={file.name}
+                      fill
+                      sizes="200px"
+                      className="rounded-md object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-1 right-1 opacity-0 transition-opacity group-hover:opacity-100"
+                      onClick={() => {
+                        setExistingImages((prev) =>
+                          prev.filter((_, i) => i !== index),
+                        );
+                      }}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <FormField
             control={form.control}
             name="images"
             render={({ field }) => (
               <div className="space-y-6">
                 <FormItem className="w-full">
-                  <FormLabel>Images</FormLabel>
+                  <FormLabel>Upload New Images</FormLabel>
                   <FormControl>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -277,9 +315,6 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
                   </FormControl>
                   <FormMessage />
                 </FormItem>
-                {product && uploadedFiles.length > 0 ? (
-                  <Files files={uploadedFiles} />
-                ) : null}
               </div>
             )}
           />
