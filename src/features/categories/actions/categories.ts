@@ -7,7 +7,7 @@ import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
-import { categories } from "@/db/schema";
+import { type Category, categories } from "@/db/schema";
 import type { CreateCategorySchema } from "../validations/categories";
 
 export async function addCategory(input: CreateCategorySchema) {
@@ -41,7 +41,10 @@ export async function addCategory(input: CreateCategorySchema) {
   }
 }
 
-export async function updateCategory(id: string, input: CreateCategorySchema) {
+export async function updateCategory(
+  id: Category["id"],
+  input: CreateCategorySchema,
+) {
   try {
     const category = await db.query.categories.findFirst({
       where: eq(categories.id, categories.id),
@@ -72,7 +75,7 @@ export async function updateCategory(id: string, input: CreateCategorySchema) {
   }
 }
 
-export async function deleteCategory(id: string) {
+export async function deleteCategory(id: Category["id"]) {
   try {
     const category = await db.query.categories.findFirst({
       where: eq(categories.id, categories.id),

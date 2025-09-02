@@ -26,7 +26,7 @@ export function CategoryDialog({ trigger, categories }: CategoryDialogProps) {
   const handleSuccess = () => setOpen(false);
 
   return (
-    <div className="space-y-4">
+    <div className="space-x-4">
       {categories?.map((category) => (
         <Button
           className="rounded-md border-none px-4 py-2 outline-none hover:bg-primary hover:text-background"

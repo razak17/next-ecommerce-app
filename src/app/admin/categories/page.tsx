@@ -15,26 +15,28 @@ export default async function AdminCategoriesPage() {
 
   return (
     <Shell>
-      <Card className="mx-auto w-full">
-        <CardHeader>
-          <CardTitle>Create New Category</CardTitle>
-          <CardDescription>
-            Add a new product category to organize your products
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CategoryForm />
-        </CardContent>
-      </Card>
-      <Card className="mx-auto w-full">
-        <CardHeader>
-          <CardTitle>Categories</CardTitle>
-          <CardDescription>List of categories</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CategoryDialog categories={categories} />
-        </CardContent>
-      </Card>
+      <div className="container mx-auto flex flex-col gap-6 py-10">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create New Category</CardTitle>
+            <CardDescription>
+              Add a new product category to organize your products
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CategoryForm />
+          </CardContent>
+        </Card>
+        <Card className="mx-auto w-full">
+          <CardHeader>
+            <CardTitle>Categories</CardTitle>
+            <CardDescription>List of categories</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CategoryDialog categories={categories} />
+          </CardContent>
+        </Card>
+      </div>
     </Shell>
   );
 }

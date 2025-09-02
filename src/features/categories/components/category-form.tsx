@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { getErrorMessage } from "@/lib/handle-error";
+import { tryCatch } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -50,23 +50,17 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
 
   async function onDelete(id: string) {
     setIsDeleting(true);
-    try {
-      const response = await deleteCategory(id);
-      if (response.error) {
-        toast.error("Failed to delete category");
-        return;
-      }
-      toast.success(`Category deleted successfully`);
-      form.reset();
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (error) {
-      console.error("Error delete category:", error);
-      toast.error(getErrorMessage(error));
-    } finally {
+    const [data] = await tryCatch(deleteCategory(id));
+    if (data?.error) {
+      toast.error(data.error);
       setIsDeleting(false);
+      return;
     }
+    toast.success("Category deleted successfully");
+    if (onSuccess) {
+      onSuccess();
+    }
+    setIsDeleting(false);
   }
 
   async function onSubmit(input: CreateCategorySchema) {
@@ -74,25 +68,18 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
     const action = category
       ? updateCategory.bind(null, category.id)
       : addCategory;
-    try {
-      const response = await action({
-        ...input,
-      });
-      if (response.error) {
-        toast.error(response.error);
-        return;
-      }
-      toast.success(`Category ${category ? "updated" : "added"} successfully`);
-      form.reset();
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (error) {
-      console.error("Category error", error);
-      toast.error(getErrorMessage(error));
-    } finally {
+    const [data] = await tryCatch(action({ ...input }));
+    if (data?.error) {
+      toast.error(data.error);
       setIsLoading(false);
+      return;
     }
+    toast.success(`Category ${category ? "updated" : "created"} successfully`);
+    form.reset();
+    if (onSuccess) {
+      onSuccess();
+    }
+    setIsLoading(false);
   }
 
   return (
