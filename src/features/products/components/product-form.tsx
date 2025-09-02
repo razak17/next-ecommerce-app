@@ -39,52 +39,57 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import type { Product } from "@/db/schema";
 import type {
   getCategories,
   getSubcategories,
 } from "@/features/categories/queries/categories";
 import { useUploadFile } from "@/hooks/use-file-upload";
-import { addProduct } from "../actions/products";
+import { StoredFile } from "@/types";
+import { addProduct, updateProduct } from "../actions/products";
 import {
   type CreateProductSchema,
   createProductSchema,
 } from "../validations/products";
 
 interface CreateProductFormProps {
+  product?: Product;
   promises: Promise<{
     categories: Awaited<ReturnType<typeof getCategories>>;
     subcategories: Awaited<ReturnType<typeof getSubcategories>>;
   }>;
 }
 
-export function ProductForm({ promises }: CreateProductFormProps) {
+export function ProductForm({ product, promises }: CreateProductFormProps) {
   const { categories, subcategories } = React.use(promises);
   const router = useRouter();
 
   const [isLoading, setIsLoading] = React.useState(false);
   const { uploadFiles, progresses, uploadedFiles, isUploading } = useUploadFile(
     "imageUploader",
-    { defaultUploadedFiles: [] },
+    {
+      defaultUploadedFiles: product?.images ?? [],
+    },
   );
 
   const form = useForm<CreateProductSchema>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
-      inventory: NaN,
-      categoryId: "",
-      subcategoryId: "",
-      images: [],
+      name: product?.name ?? "",
+      description: product?.description ?? "",
+      price: product?.price ?? "",
+      inventory: product?.inventory ?? NaN,
+      categoryId: product?.categoryId ?? "",
+      subcategoryId: product?.subcategoryId ?? "",
     },
   });
 
   async function onSubmit(input: CreateProductSchema) {
     setIsLoading(true);
     const uploaded = await uploadFiles(input.images ?? []);
+    const action = product ? updateProduct.bind(null, product.id) : addProduct;
     const [data] = await tryCatch(
-      addProduct({
+      action({
         ...input,
         images: uploaded ?? [],
       }),
@@ -94,7 +99,7 @@ export function ProductForm({ promises }: CreateProductFormProps) {
       setIsLoading(false);
       return;
     }
-    toast.success("Product added successfully");
+    toast.success(`Product ${product ? "updated" : "added"} successfully`);
     form.reset();
     router.push(redirects.adminToProducts);
     setIsLoading(false);
@@ -272,7 +277,7 @@ export function ProductForm({ promises }: CreateProductFormProps) {
                   </FormControl>
                   <FormMessage />
                 </FormItem>
-                {uploadedFiles.length > 0 ? (
+                {product && uploadedFiles.length > 0 ? (
                   <Files files={uploadedFiles} />
                 ) : null}
               </div>
@@ -292,7 +297,7 @@ export function ProductForm({ promises }: CreateProductFormProps) {
               aria-hidden="true"
             />
           )}
-          Add Product
+          {product ? "Update Product" : "Add Product"}
           <span className="sr-only">Add Product</span>
         </Button>
       </form>
