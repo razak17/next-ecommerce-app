@@ -1,17 +1,19 @@
 import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { redirects } from "@/lib/constants";
 
 import { Shell } from "@/components/shell";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ProductsTable } from "@/features/products/components/products-table";
+import { ProductsTableSkeleton } from "@/features/products/components/products-table-skeleton";
+import { getAllProducts } from "@/features/products/queries/products";
+
+async function ProductsContent() {
+  const products = await getAllProducts();
+  return <ProductsTable products={products} />;
+}
 
 export default function ProductsPage() {
   return (
@@ -24,9 +26,9 @@ export default function ProductsPage() {
               Manage your product listings and inventory
             </p>
           </div>
-          <Button size="lg" asChild>
+          <Button asChild>
             <Link
-              className="flex w-48 items-center gap-2"
+              className="flex items-center gap-2"
               href={`${redirects.adminToProducts}/new`}
             >
               <IconPlus className="size-4" />
@@ -34,6 +36,9 @@ export default function ProductsPage() {
             </Link>
           </Button>
         </div>
+        <Suspense fallback={<ProductsTableSkeleton />}>
+          <ProductsContent />
+        </Suspense>
       </div>
     </Shell>
   );

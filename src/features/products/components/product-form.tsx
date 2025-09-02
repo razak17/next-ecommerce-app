@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { redirects } from "@/lib/constants";
-import { getErrorMessage } from "@/lib/handle-error";
 import { tryCatch } from "@/lib/utils";
 
 import { FileUploader } from "@/components/file-uploader";

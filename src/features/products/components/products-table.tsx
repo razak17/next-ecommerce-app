@@ -121,10 +121,13 @@ export function ProductsTable({ products }: ProductsTableProps) {
               {products.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>
-                    <div className="relative h-16 w-16 overflow-hidden rounded-md">
-                      {product.images?.length && product.images[0].url ? (
+                    <div className="relative size-16 overflow-hidden rounded-md">
+                      {product.images?.length ? (
                         <Image
-                          src={product.images[0].url}
+                          src={
+                            product.images[0].url ??
+                            "/images/product-placeholder.webp"
+                          }
                           alt={product.images[0].name}
                           fill
                           className="object-cover"
@@ -181,7 +184,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
                         <Link
                           href={`${redirects.adminToProducts}/${product.id}`}
                         >
-                          <IconEye className="h-4 w-4" />
+                          <IconEye className="size-4" />
                           <span className="sr-only">View product</span>
                         </Link>
                       </Button>
@@ -189,7 +192,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
                         <Link
                           href={`${redirects.adminToProducts}/${product.id}/edit`}
                         >
-                          <IconEdit className="h-4 w-4" />
+                          <IconEdit className="size-4" />
                           <span className="sr-only">Edit product</span>
                         </Link>
                       </Button>
@@ -200,7 +203,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
                             size="sm"
                             disabled={deletingId === product.id}
                           >
-                            <IconTrash className="h-4 w-4 text-destructive" />
+                            <IconTrash className="size-4 text-destructive" />
                             <span className="sr-only">Delete product</span>
                           </Button>
                         </AlertDialogTrigger>

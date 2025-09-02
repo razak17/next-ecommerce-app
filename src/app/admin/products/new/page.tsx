@@ -22,8 +22,10 @@ export default function AdminProductsPage() {
       <div className="container mx-auto py-10">
         <Card>
           <CardHeader>
-            <CardTitle>Create New Product</CardTitle>
-            <CardDescription>
+            <CardTitle className="font-bold text-4xl">
+              Create New Product
+            </CardTitle>
+            <CardDescription className="text-muted-foreground">
               Add a new product to your inventory
             </CardDescription>
           </CardHeader>
