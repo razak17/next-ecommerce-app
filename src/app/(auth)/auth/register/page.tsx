@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function RegisterPage() {
   return (
     <Shell className="max-w-lg">
-      <Card className="gap-4 bg-background">
+      <Card className="gap-4">
         <CardHeader>
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>

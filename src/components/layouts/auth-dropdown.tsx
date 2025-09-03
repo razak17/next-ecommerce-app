@@ -12,10 +12,11 @@ import {
   WalletCards,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth/client";
 import { redirects } from "@/lib/constants";
+import { isActiveUrl } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -192,6 +193,8 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
 }
 
 function AuthDropdownGroup({ role }: { role: string }) {
+  const pathname = usePathname();
+
   return (
     <DropdownMenuGroup>
       {role === "admin" ? (
@@ -202,7 +205,11 @@ function AuthDropdownGroup({ role }: { role: string }) {
               : null;
 
             return (
-              <DropdownMenuItem key={item.title} asChild>
+              <DropdownMenuItem
+                className={`${isActiveUrl(pathname, item.url) && "bg-accent text-accent-foreground"}`}
+                key={item.title}
+                asChild
+              >
                 <Link href={item.url}>
                   {IconComponent && (
                     <IconComponent

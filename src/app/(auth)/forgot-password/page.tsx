@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function ForgotPasswordPage() {
   return (
     <Shell className="max-w-lg">
-      <Card className="gap-4 bg-background">
+      <Card className="gap-4">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Forgot Password</CardTitle>
           <CardDescription>
