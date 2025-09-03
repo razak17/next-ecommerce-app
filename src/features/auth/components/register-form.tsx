@@ -45,7 +45,7 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
 
     const { firstName, lastName, email, password } = values;
 
-    const { success, message } = await signUp({
+    const data = await signUp({
       email,
       password,
       firstName,
@@ -53,17 +53,17 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
       role: "consumer",
     });
 
-    if (success) {
-      toast.success(message);
+    if (data?.error) {
+      toast.success(data.error);
       router.refresh();
-      router.push(redirects.toLanding);
       if (isModal) {
         router.back();
+        router.push(redirects.toLanding);
       }
-    } else {
-      toast.error(message);
+      return;
     }
 
+    toast.error("Signed up successfully.");
     setIsLoading(false);
   }
 

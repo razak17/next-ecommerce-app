@@ -81,9 +81,7 @@ export default async function EditProductPage({
         <Card>
           <CardHeader>
             <CardTitle className="font-bold text-4xl">Edit Product</CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Update your product information
-            </CardDescription>
+            <CardDescription>Update your product information</CardDescription>
           </CardHeader>
           <CardContent>
             <ProductForm product={product} promises={promises} />

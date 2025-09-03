@@ -47,9 +47,7 @@ export default function NewUserPage() {
             <CardTitle className="font-bold text-4xl">
               Create New User
             </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Add a new user to the system
-            </CardDescription>
+            <CardDescription>Add a new user to the system</CardDescription>
           </CardHeader>
           <CardContent>
             <UserForm />

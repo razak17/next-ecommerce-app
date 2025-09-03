@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChangePasswordForm } from "@/features/auth/components/change-password-form";
+import { EmailVerificationForm } from "@/features/auth/components/email-verification-form";
 import { ProfileForm } from "@/features/auth/components/profile-form";
 import { getCurrentUser } from "@/features/users/queries/users";
 
@@ -83,13 +84,18 @@ export default async function ProfilePage() {
                   <p className="font-medium text-muted-foreground text-sm">
                     Email Status
                   </p>
-                  <Badge
-                    variant={
-                      currentUser.emailVerified ? "default" : "destructive"
-                    }
-                  >
-                    {currentUser.emailVerified ? "Verified" : "Not Verified"}
-                  </Badge>
+                  <div className="space-y-4">
+                    <Badge
+                      variant={
+                        currentUser.emailVerified ? "default" : "destructive"
+                      }
+                    >
+                      {currentUser.emailVerified ? "Verified" : "Not Verified"}
+                    </Badge>
+                    {!currentUser.emailVerified && (
+                      <EmailVerificationForm userEmail={currentUser.email} />
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>

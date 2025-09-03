@@ -5,6 +5,8 @@ import { admin as adminPlugin } from "better-auth/plugins";
 
 import { ac, admin, consumer } from "./permissions";
 import ResetPasswordEmail from "@/components/reset-password-email";
+import AccountVerificationEmail from "@/components/verification-email";
+import { siteConfig } from "@/config/site";
 import { db } from "@/db/drizzle";
 import * as schema from "@/db/schema";
 import { env } from "@/env";
@@ -35,6 +37,18 @@ export const auth = betterAuth({
   }),
   emailVerification: {
     autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await resend.emails.send({
+        from: EMAIL_FROM,
+        to: user.email,
+        subject: "Verify your email address",
+        react: AccountVerificationEmail({
+          email: user.email,
+          verificationUrl: url,
+          companyName: siteConfig.name,
+        }),
+      });
+    },
   },
   emailAndPassword: {
     enabled: true,

@@ -41,19 +41,19 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
 
     const { email, password } = values;
 
-    const { success, message } = await signIn(email, password);
+    const data = await signIn(email, password);
 
-    if (success) {
-      toast.success(message);
+    if (data?.error) {
+      toast.success(data.error);
       router.refresh();
       if (isModal) {
         router.back();
         router.push(redirects.toLanding);
       }
-    } else {
-      toast.error(message);
+      return;
     }
 
+    toast.error("Signed in successfully.");
     setIsLoading(false);
   }
 
