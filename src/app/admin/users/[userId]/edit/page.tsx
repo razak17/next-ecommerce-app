@@ -37,7 +37,7 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
 
   return (
     <Shell className="flex flex-col">
-      <div className="container mx-auto py-10">
+      <div className="w-full">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>

@@ -27,7 +27,7 @@ export default async function AdminCategoriesPage() {
 
   return (
     <Shell>
-      <div className="container mx-auto flex flex-col gap-6 py-10">
+      <div className="flex w-full flex-col gap-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
