@@ -29,7 +29,7 @@ export function CategoryDialog({ trigger, categories }: CategoryDialogProps) {
     <div className="space-x-4">
       {categories?.map((category) => (
         <Button
-          className="rounded-md border-none px-4 py-2 outline-none hover:bg-primary hover:text-background"
+          className="rounded-md border-none px-4 py-2 outline-none hover:bg-primary hover:text-background hover:dark:text-foreground"
           variant="outline"
           key={category.id}
           onClick={() => {

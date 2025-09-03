@@ -11,13 +11,6 @@ import { PlaceholderImage } from "@/components/placeholder-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Table,
   TableBody,
   TableCell,
@@ -47,141 +40,113 @@ interface ProductsTableProps {
 }
 
 export function ProductsTable({ products }: ProductsTableProps) {
-  if (products.length === 0) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>No products found</CardTitle>
-          <CardDescription>
-            You haven't created any products yet. Create your first product to
-            get started.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Products ({products.length})</CardTitle>
-        <CardDescription>
-          Manage your product listings and inventory
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Image</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Inventory</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="w-[120px]">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell>
-                    <div className="relative size-16 overflow-hidden rounded-md">
-                      {product.images?.length ? (
-                        <Image
-                          src={
-                            product.images[0].url ??
-                            "/images/product-placeholder.webp"
-                          }
-                          alt={product.images[0].name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 64px) 100vw, 64px"
-                        />
-                      ) : (
-                        <PlaceholderImage className="rounded-none" asChild />
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    <div className="max-w-[200px] truncate">{product.name}</div>
-                    {product.description && (
-                      <div className="max-w-[200px] truncate text-muted-foreground text-sm">
-                        {product.description}
-                      </div>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      {product.category && (
-                        <Badge variant="secondary">{product.category}</Badge>
-                      )}
-                      {product.subcategory && (
-                        <Badge variant="outline" className="block w-fit">
-                          {product.subcategory}
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>${product.price}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        product.inventory > 0 ? "default" : "destructive"
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Image</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Inventory</TableHead>
+            <TableHead>Rating</TableHead>
+            <TableHead>Created</TableHead>
+            <TableHead className="w-[120px]">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {products.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>
+                <div className="relative size-16 overflow-hidden rounded-md">
+                  {product.images?.length ? (
+                    <Image
+                      src={
+                        product.images[0].url ??
+                        "/images/product-placeholder.webp"
                       }
-                    >
-                      {product.inventory} in stock
+                      alt={product.images[0].name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 64px) 100vw, 64px"
+                    />
+                  ) : (
+                    <PlaceholderImage className="rounded-none" asChild />
+                  )}
+                </div>
+              </TableCell>
+              <TableCell className="font-medium">
+                <div className="max-w-[200px] truncate">{product.name}</div>
+                {product.description && (
+                  <div className="max-w-[200px] truncate text-muted-foreground text-sm">
+                    {product.description}
+                  </div>
+                )}
+              </TableCell>
+              <TableCell>
+                <div className="space-y-1">
+                  {product.category && (
+                    <Badge variant="secondary">{product.category}</Badge>
+                  )}
+                  {product.subcategory && (
+                    <Badge variant="outline" className="block w-fit">
+                      {product.subcategory}
                     </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center">
-                      <span className="text-sm">{product.rating}/5</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {product.createdAt
-                      ? new Date(product.createdAt).toLocaleDateString()
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link
-                          href={`${redirects.adminToProducts}/${product.id}`}
-                        >
-                          <IconEye className="size-4" />
-                          <span className="sr-only">View product</span>
-                        </Link>
-                      </Button>
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link
-                          href={`${redirects.adminToProducts}/${product.id}/edit`}
-                        >
-                          <IconEdit className="size-4" />
-                          <span className="sr-only">Edit product</span>
-                        </Link>
-                      </Button>
-                      <ConfirmDialog
-                        title="Delete Product"
-                        description={`Are you sure you want to delete "${product.name}"? This action cannot be undone.`}
-                        successMessage="Product deleted successfully"
-                        onConfirm={deleteProduct.bind(null, product.id)}
-                      >
-                        <Button variant="ghost" size="sm">
-                          <IconTrash className="size-4 text-destructive" />
-                          <span className="sr-only">Delete product</span>
-                        </Button>
-                      </ConfirmDialog>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>${product.price}</TableCell>
+              <TableCell>
+                <Badge
+                  variant={product.inventory > 0 ? "default" : "destructive"}
+                >
+                  {product.inventory} in stock
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center">
+                  <span className="text-sm">{product.rating}/5</span>
+                </div>
+              </TableCell>
+              <TableCell>
+                {product.createdAt
+                  ? new Date(product.createdAt).toLocaleDateString()
+                  : "N/A"}
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link href={`${redirects.adminToProducts}/${product.id}`}>
+                      <IconEye className="size-4" />
+                      <span className="sr-only">View product</span>
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link
+                      href={`${redirects.adminToProducts}/${product.id}/edit`}
+                    >
+                      <IconEdit className="size-4" />
+                      <span className="sr-only">Edit product</span>
+                    </Link>
+                  </Button>
+                  <ConfirmDialog
+                    title="Delete Product"
+                    description={`Are you sure you want to delete "${product.name}"? This action cannot be undone.`}
+                    successMessage="Product deleted successfully"
+                    onConfirm={deleteProduct.bind(null, product.id)}
+                  >
+                    <Button variant="ghost" size="sm">
+                      <IconTrash className="size-4 text-destructive" />
+                      <span className="sr-only">Delete product</span>
+                    </Button>
+                  </ConfirmDialog>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

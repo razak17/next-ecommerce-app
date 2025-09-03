@@ -6,39 +6,77 @@ import { redirects } from "@/lib/constants";
 
 import { Shell } from "@/components/shell";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ProductsTable } from "@/features/products/components/products-table";
 import { ProductsTableSkeleton } from "@/features/products/components/products-table-skeleton";
 import { getAllProducts } from "@/features/products/queries/products";
 
 async function ProductsContent() {
   const products = await getAllProducts();
-  return <ProductsTable products={products} />;
+  if (products.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="font-bold text-2xl">
+            No products found
+          </CardTitle>
+          <CardDescription>
+            You haven't created any products yet. Create your first product to
+            get started.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Total Products ({products.length})</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ProductsTable products={products} />
+      </CardContent>
+    </Card>
+  );
 }
 
 export default function ProductsPage() {
   return (
     <Shell className="flex flex-col">
       <div className="container mx-auto py-10">
-        <div className="mb-8 flex items-center justify-between">
-          <div className="mb-8">
-            <h1 className="font-bold text-4xl">Products</h1>
-            <p className="text-muted-foreground">
-              Manage your product listings and inventory
-            </p>
-          </div>
-          <Button asChild>
-            <Link
-              className="flex items-center gap-2"
-              href={`${redirects.adminToProducts}/new`}
-            >
-              <IconPlus className="size-4" />
-              Add New Product
-            </Link>
-          </Button>
-        </div>
-        <Suspense fallback={<ProductsTableSkeleton />}>
-          <ProductsContent />
-        </Suspense>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-2">
+                <CardTitle className="font-bold text-4xl">Products</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Manage your product listings and inventory
+                </CardDescription>
+              </div>
+              <Button asChild>
+                <Link
+                  className="flex items-center gap-2"
+                  href={`${redirects.adminToProducts}/new`}
+                >
+                  <IconPlus className="size-4" />
+                  Add New Product
+                </Link>
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={<ProductsTableSkeleton />}>
+              <ProductsContent />
+            </Suspense>
+          </CardContent>
+        </Card>
       </div>
     </Shell>
   );
