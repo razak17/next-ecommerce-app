@@ -10,6 +10,7 @@ export const redirects = {
   toResetPassword: "/reset-password",
   toForgotPassword: "/forgot-password",
   toLanding: "/",
+  toProfile: "/profile",
   toTerms: "/terms",
   toPrivacy: "/privacy",
   toDashboard: "/dashboard",

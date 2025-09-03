@@ -9,6 +9,13 @@ export function normalize(str: string) {
   return str === "/" ? "/" : str.replace(/\/$/, "");
 }
 
+export function getInitials(
+  firstName?: string | null,
+  lastName?: string | null,
+) {
+  return `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""}`.toUpperCase();
+}
+
 export function isActiveUrl(pathname: string, url: string) {
   const normalizedPathname = normalize(pathname || "/");
   const normalizedItemUrl = normalize(url);
