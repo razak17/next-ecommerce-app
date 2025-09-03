@@ -65,7 +65,7 @@ export default async function EditProductPage({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink asChild>
+              <BreadcrumbLink className="max-w-[100px] truncate" asChild>
                 <Link href={`${redirects.adminToProducts}/${product.id}`}>
                   {product.name}
                 </Link>
