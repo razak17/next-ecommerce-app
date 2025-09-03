@@ -8,6 +8,14 @@ import { redirects } from "@/lib/constants";
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { Shell } from "@/components/shell";
 import { Badge } from "@/components/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProduct } from "@/features/products/queries/products";
@@ -30,6 +38,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <Shell className="flex flex-col">
       <div className="container mx-auto py-10">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={redirects.adminToDashboard}>Admin</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={redirects.adminToProducts}>Products</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{product.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="font-bold text-4xl">{product.name}</h1>

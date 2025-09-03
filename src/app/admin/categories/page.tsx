@@ -1,4 +1,16 @@
+import Link from "next/link";
+
+import { redirects } from "@/lib/constants";
+
 import { Shell } from "@/components/shell";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -16,9 +28,25 @@ export default async function AdminCategoriesPage() {
   return (
     <Shell>
       <div className="container mx-auto flex flex-col gap-6 py-10">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={redirects.adminToDashboard}>Admin</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Categories</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <Card>
           <CardHeader>
-            <CardTitle>Create New Category</CardTitle>
+            <CardTitle className="font-bold text-4xl">
+              Create New Category
+            </CardTitle>
             <CardDescription>
               Add a new product category to organize your products
             </CardDescription>
