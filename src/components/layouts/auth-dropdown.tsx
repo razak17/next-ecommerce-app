@@ -30,6 +30,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { siteConfig } from "@/config/site";
 
 interface AuthDropdownProps {
   user: {
@@ -52,58 +53,6 @@ const iconMap = {
   ChartColumnStacked,
   WalletCards,
   CreditCard,
-};
-
-const authItems = {
-  admin: [
-    {
-      title: "Dashboard",
-      url: "/admin/dashboard",
-      icon: "DashboardIcon",
-    },
-    {
-      title: "Products",
-      url: "/admin/products",
-      icon: "ShoppingBag",
-    },
-    {
-      title: "Categories",
-      url: "/admin/categories",
-      icon: "ChartColumnStacked",
-    },
-    {
-      title: "Orders",
-      url: "/admin/orders",
-      icon: "CreditCard",
-    },
-    {
-      title: "Users",
-      url: "/admin/users",
-      icon: "IconUsersGroup",
-    },
-    {
-      title: "Profile",
-      url: "/profile",
-      icon: "GearIcon",
-    },
-  ],
-  consumer: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: "DashboardIcon",
-    },
-    {
-      title: "Orders",
-      url: "/orders",
-      icon: "CreditCard",
-    },
-    {
-      title: "Profile",
-      url: "/profile",
-      icon: "User",
-    },
-  ],
 };
 
 export function AuthDropdown({ user }: AuthDropdownProps) {
@@ -153,7 +102,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <span className="max-w-[10rem] truncate font-medium text-md">
             {user?.name ?? "User"}
           </span>
-          <ChevronDown className="size-6 opacity-70" aria-hidden="true" />
+          {/* <ChevronDown className="size-6 opacity-70" aria-hidden="true" /> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
@@ -199,7 +148,7 @@ function AuthDropdownGroup({ role }: { role: string }) {
     <DropdownMenuGroup>
       {role === "admin" ? (
         <span>
-          {authItems.admin.map((item) => {
+          {siteConfig.authItems.admin.map((item) => {
             const IconComponent = item.icon
               ? iconMap[item.icon as keyof typeof iconMap]
               : null;
@@ -225,7 +174,7 @@ function AuthDropdownGroup({ role }: { role: string }) {
         </span>
       ) : (
         <span>
-          {authItems.consumer.map((item) => {
+          {siteConfig.authItems.consumer.map((item) => {
             const IconComponent = item.icon
               ? iconMap[item.icon as keyof typeof iconMap]
               : null;

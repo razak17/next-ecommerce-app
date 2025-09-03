@@ -22,7 +22,7 @@ export function SiteHeader({ user }: SiteHeaderProps) {
           <span className="font-bold font-mono text-xl">{siteConfig.name}</span>
         </Link>
         <MainNav items={siteConfig.mainNav} />
-        <MobileNav items={siteConfig.mainNav} user={user} />
+        <MobileNav items={siteConfig.mainNav} />
         <div className="flex items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             <AuthDropdown user={user} />
