@@ -4,6 +4,10 @@ export const userRoles = ["admin", "consumer"] as const;
 export type UserRole = (typeof userRoles)[number];
 export const userRoleEnums = pgEnum("user_role", userRoles);
 
+export const userGenders = ["male", "female", "other"] as const;
+export type UserGender = (typeof userGenders)[number];
+export const userGenderEnums = pgEnum("user_gender", userGenders);
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -20,7 +24,7 @@ export const user = pgTable("user", {
   updatedAt: timestamp("updated_at")
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
-  gender: text("gender"),
+  gender: userGenderEnums(),
   phone: text("phone"),
   role: userRoleEnums(),
 });

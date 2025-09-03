@@ -136,8 +136,12 @@ export function ProductsTable({ products }: ProductsTableProps) {
                     successMessage="Product deleted successfully"
                     onConfirm={deleteProduct.bind(null, product.id)}
                   >
-                    <Button variant="ghost" size="sm">
-                      <IconTrash className="size-4 text-destructive" />
+                    <Button
+                      className="cursor-pointer"
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <IconTrash className="size-4" />
                       <span className="sr-only">Delete product</span>
                     </Button>
                   </ConfirmDialog>

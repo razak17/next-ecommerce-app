@@ -1,13 +1,13 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 
 import { db } from "@/db/drizzle";
-import { user } from "@/db/schema";
+import { type User, user } from "@/db/schema";
 
 export const getCurrentUser = async () => {
   const session = await auth.api.getSession({
@@ -30,4 +30,20 @@ export const getCurrentUser = async () => {
     ...session,
     currentUser,
   };
+};
+
+export const getAllUsers = async () => {
+  const users = await db.query.user.findMany({
+    orderBy: desc(user.createdAt),
+  });
+
+  return users;
+};
+
+export const getUser = async (userId: User["id"]) => {
+  const foundUser = await db.query.user.findFirst({
+    where: eq(user.id, userId),
+  });
+
+  return foundUser;
 };

@@ -333,7 +333,6 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
             />
           )}
           {product ? "Update Product" : "Add Product"}
-          <span className="sr-only">Add Product</span>
         </Button>
       </form>
     </Form>

@@ -82,7 +82,7 @@ const authItems = {
     },
     {
       title: "Profile",
-      url: "/admin/profile",
+      url: "/profile",
       icon: "GearIcon",
     },
   ],

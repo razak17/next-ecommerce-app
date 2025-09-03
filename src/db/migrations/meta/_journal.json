@@ -50,6 +50,13 @@
       "when": 1756661670503,
       "tag": "0006_late_ultimo",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1756866805073,
+      "tag": "0007_damp_hex",
+      "breakpoints": true
     }
   ]
 }
