@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { redirects } from "@/lib/constants";
-import { tryCatch } from "@/lib/utils";
+import { toTitleCase, tryCatch } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -174,7 +174,7 @@ export function UserForm({ user }: UserFormProps) {
                   <SelectContent>
                     {userRoles.map((role) => (
                       <SelectItem key={role} value={role}>
-                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                        {toTitleCase(role)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -202,7 +202,7 @@ export function UserForm({ user }: UserFormProps) {
                   <SelectContent>
                     {userGenders.map((gender) => (
                       <SelectItem key={gender} value={gender}>
-                        {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                        {toTitleCase(gender)}
                       </SelectItem>
                     ))}
                   </SelectContent>

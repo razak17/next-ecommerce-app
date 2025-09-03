@@ -16,7 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth/client";
 import { redirects } from "@/lib/constants";
-import { isActiveUrl } from "@/lib/utils";
+import { getInitials, isActiveUrl } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -79,13 +79,6 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
     );
   }
 
-  const initials = user.name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((p) => p[0])
-    .join("")
-    .toUpperCase();
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -97,7 +90,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
         >
           <Avatar className="size-8">
             <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
-            <AvatarFallback>{initials}</AvatarFallback>
+            <AvatarFallback>{getInitials({ name: user.name })}</AvatarFallback>
           </Avatar>
           <span className="max-w-[10rem] truncate font-medium text-md">
             {user?.name ?? "User"}

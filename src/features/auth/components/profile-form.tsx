@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { useUploadThing } from "@/lib/uploadthing";
-import { getInitials } from "@/lib/utils";
+import { getInitials, toTitleCase } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -97,7 +97,10 @@ export function ProfileForm({ user }: ProfileFormProps) {
           <Avatar className="h-24 w-24">
             <AvatarImage src={imagePreview || user.image || undefined} />
             <AvatarFallback className="text-lg">
-              {getInitials(user.firstName, user.lastName)}
+              {getInitials({
+                firstName: user.firstName,
+                lastName: user.lastName,
+              })}
             </AvatarFallback>
           </Avatar>
 
@@ -216,7 +219,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                   <SelectContent>
                     {userGenders.map((gender) => (
                       <SelectItem key={gender} value={gender}>
-                        {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                        {toTitleCase(gender)}
                       </SelectItem>
                     ))}
                   </SelectContent>

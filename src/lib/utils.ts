@@ -1,18 +1,56 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { env } from "@/env";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function absoluteUrl(path: string) {
+  return `${env.NEXT_PUBLIC_APP_URL}${path}`;
+}
+
+export function formatPrice(
+  price: number | string,
+  opts: Intl.NumberFormatOptions = {},
+) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: opts.currency ?? "USD",
+    notation: opts.notation ?? "compact",
+    ...opts,
+  }).format(Number(price));
 }
 
 export function normalize(str: string) {
   return str === "/" ? "/" : str.replace(/\/$/, "");
 }
 
-export function getInitials(
-  firstName?: string | null,
-  lastName?: string | null,
-) {
+export function toTitleCase(str: string) {
+  return str.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
+  );
+}
+
+export function getInitials({
+  name,
+  firstName,
+  lastName,
+}: {
+  name?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+}) {
+  if (name) {
+    return name
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((p) => p[0])
+      .join("")
+      .toUpperCase();
+  }
   return `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""}`.toUpperCase();
 }
 
