@@ -66,7 +66,7 @@ export function ErrorCard({
       </CardHeader>
       <CardContent className="space-y-4">
         {process.env.NEXT_PUBLIC_APP_ENV === "development" && error && (
-          <div className="rounded-md bg-muted p-4">
+          <div className="max-h-48 overflow-auto rounded-md bg-muted p-4">
             <h4 className="font-medium text-sm">Error Details:</h4>
             <p className="mt-1 text-muted-foreground text-sm">
               {error.message}
