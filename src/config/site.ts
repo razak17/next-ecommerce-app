@@ -1,4 +1,4 @@
-import type { NavItem } from "@/types";
+import type { NavItem, SidebarNavItem } from "@/types";
 
 const links = {
   github: "https://github.com/razak17/next-ecommerce-app",
@@ -10,46 +10,26 @@ const authItems = {
     {
       title: "Dashboard",
       url: "/admin/dashboard",
-      icon: "DashboardIcon",
-    },
-    {
-      title: "Products",
-      url: "/admin/products",
-      icon: "ShoppingBag",
-    },
-    {
-      title: "Categories",
-      url: "/admin/categories",
-      icon: "ChartColumnStacked",
-    },
-    {
-      title: "Orders",
-      url: "/admin/orders",
-      icon: "CreditCard",
-    },
-    {
-      title: "Users",
-      url: "/admin/users",
-      icon: "IconUsersGroup",
+      icon: "dashboard",
     },
     {
       title: "Profile",
       url: "/profile",
-      icon: "GearIcon",
+      icon: "settings",
     },
-  ] satisfies NavItem[],
+  ] satisfies SidebarNavItem[],
   consumer: [
     {
       title: "Orders",
       url: "/orders",
-      icon: "CreditCard",
+      icon: "credit",
     },
     {
       title: "Profile",
       url: "/profile",
-      icon: "User",
+      icon: "settings",
     },
-  ] satisfies NavItem[],
+  ] satisfies SidebarNavItem[],
 };
 
 export const siteConfig = {

@@ -45,7 +45,7 @@ export function DashboardSidebar({
     {
       title: "Orders",
       url: "/admin/orders",
-      icon: "cart",
+      icon: "credit",
       isActive: segments.includes("orders"),
     },
     {

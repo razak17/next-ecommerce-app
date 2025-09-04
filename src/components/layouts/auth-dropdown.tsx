@@ -1,16 +1,7 @@
 "use client";
 
-import { DashboardIcon, ExitIcon, GearIcon } from "@radix-ui/react-icons";
-import { IconUsersGroup } from "@tabler/icons-react";
-import {
-  ChartColumnStacked,
-  ChevronDown,
-  CreditCard,
-  LogIn,
-  ShoppingBag,
-  User,
-  WalletCards,
-} from "lucide-react";
+import { ExitIcon } from "@radix-ui/react-icons";
+import { LogIn, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -32,24 +23,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { siteConfig } from "@/config/site";
 import type { SessionUser } from "@/types";
+import { Icons } from "../icons";
 
 interface AuthDropdownProps {
   user: SessionUser | null;
 }
-
-const iconMap = {
-  ChevronDown,
-  LogIn,
-  User,
-  DashboardIcon,
-  ExitIcon,
-  GearIcon,
-  IconUsersGroup,
-  ShoppingBag,
-  ChartColumnStacked,
-  WalletCards,
-  CreditCard,
-};
 
 export function AuthDropdown({ user }: AuthDropdownProps) {
   const router = useRouter();
@@ -138,9 +116,7 @@ function AuthDropdownGroup({ role }: { role: string }) {
       {role === "admin" ? (
         <span>
           {siteConfig.authItems.admin.map((item) => {
-            const IconComponent = item.icon
-              ? iconMap[item.icon as keyof typeof iconMap]
-              : null;
+            const IconComponent = Icons[item.icon ?? "chevronLeft"];
 
             return (
               <DropdownMenuItem
@@ -164,9 +140,7 @@ function AuthDropdownGroup({ role }: { role: string }) {
       ) : (
         <span>
           {siteConfig.authItems.consumer.map((item) => {
-            const IconComponent = item.icon
-              ? iconMap[item.icon as keyof typeof iconMap]
-              : null;
+            const IconComponent = Icons[item.icon ?? "chevronLeft"];
 
             return (
               <DropdownMenuItem key={item.title} asChild>

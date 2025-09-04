@@ -1,10 +1,12 @@
 import {
   AvatarIcon,
   ChevronLeftIcon,
+  DashboardIcon,
   GearIcon,
   HomeIcon,
   ImageIcon,
 } from "@radix-ui/react-icons";
+import { ChartColumnStackedIcon } from "lucide-react";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
@@ -192,27 +194,6 @@ export const Icons = {
       <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
       <path d="m3.3 7 8.7 5 8.7-5" />
       <path d="M12 22V12" />
-    </svg>
-  ),
-  category: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-chart-column-stacked-icon lucide-chart-column-stacked"
-      {...props}
-    >
-      <path d="M11 13H7" />
-      <path d="M19 9h-4" />
-      <path d="M3 3v16a2 2 0 0 0 2 2h16" />
-      <rect x="15" y="5" width="4" height="12" rx="1" />
-      <rect x="7" y="8" width="4" height="9" rx="1" />
     </svg>
   ),
   users: (props: IconProps) => (
@@ -494,7 +475,9 @@ export const Icons = {
       <path d="m19 9-5 5-4-4-3 3" />
     </svg>
   ),
-  dashboard: HomeIcon,
+  home: HomeIcon,
+  dashboard: DashboardIcon,
+  category: ChartColumnStackedIcon,
   avatar: AvatarIcon,
   placeholder: ImageIcon,
   settings: GearIcon,

@@ -1,11 +1,11 @@
 "use client";
 
-import { Loader2Icon } from "lucide-react";
 import { type ReactNode, useTransition } from "react";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 
+import { Icons } from "./icons";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -97,7 +97,7 @@ function LoadingTextSwap({
           isLoading ? "visible" : "invisible",
         )}
       >
-        <Loader2Icon className="animate-spin" />
+        <Icons.spinner className="animate-spin" />
       </div>
     </div>
   );
