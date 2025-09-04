@@ -77,7 +77,7 @@ export default function ProductsPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-2">
-                <CardTitle className="font-bold text-4xl">Products</CardTitle>
+                <CardTitle className="font-bold text-2xl">Products</CardTitle>
                 <CardDescription>
                   Manage your product listings and inventory
                 </CardDescription>

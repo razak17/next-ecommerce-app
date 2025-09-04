@@ -78,10 +78,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <Separator className="mt-4 md:hidden" />
           <div className="flex w-full flex-col gap-4 md:w-1/2">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between xl:gap-2">
-              <div className="flex max-w-lg flex-col gap-2">
+              <div className="flex max-w-sm flex-col gap-2">
                 <Tooltip>
                   <TooltipTrigger>
-                    <h1 className="truncate font-bold text-4xl">
+                    <h1 className="truncate font-bold text-2xl">
                       {product.name}
                     </h1>
                   </TooltipTrigger>

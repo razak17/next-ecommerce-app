@@ -54,7 +54,7 @@ export default function AdminProductsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-bold text-4xl">
+            <CardTitle className="font-bold text-2xl">
               Create New Product
             </CardTitle>
             <CardDescription>

@@ -194,6 +194,50 @@ export const Icons = {
       <path d="M12 22V12" />
     </svg>
   ),
+  category: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-chart-column-stacked-icon lucide-chart-column-stacked"
+      {...props}
+    >
+      <path d="M11 13H7" />
+      <path d="M19 9h-4" />
+      <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+      <rect x="15" y="5" width="4" height="12" rx="1" />
+      <rect x="7" y="8" width="4" height="9" rx="1" />
+    </svg>
+  ),
+  users: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="icon icon-tabler icons-tabler-outline icon-tabler-users-group"
+      {...props}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+      <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+      <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+    </svg>
+  ),
   store: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +256,7 @@ export const Icons = {
       <path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7" />
     </svg>
   ),
-  users: (props: IconProps) => (
+  customers: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

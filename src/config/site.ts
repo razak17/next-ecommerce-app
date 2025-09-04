@@ -40,11 +40,6 @@ const authItems = {
   ] satisfies NavItem[],
   consumer: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: "DashboardIcon",
-    },
-    {
       title: "Orders",
       url: "/orders",
       icon: "CreditCard",

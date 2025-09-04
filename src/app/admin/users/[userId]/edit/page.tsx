@@ -66,7 +66,7 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-bold text-4xl">Edit User</CardTitle>
+            <CardTitle className="font-bold text-2xl">Edit User</CardTitle>
             <CardDescription>
               Update user information and settings
             </CardDescription>

@@ -31,14 +31,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { siteConfig } from "@/config/site";
+import type { SessionUser } from "@/types";
 
 interface AuthDropdownProps {
-  user: {
-    name: string;
-    email: string;
-    image?: string | null;
-    role: string;
-  } | null;
+  user: SessionUser | null;
 }
 
 const iconMap = {

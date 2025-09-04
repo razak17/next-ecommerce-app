@@ -4,14 +4,10 @@ import { AuthDropdown } from "./auth-dropdown";
 import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 import { siteConfig } from "@/config/site";
+import type { SessionUser } from "@/types";
 
 interface SiteHeaderProps {
-  user: {
-    name: string;
-    email: string;
-    image?: string | null;
-    role: string;
-  } | null;
+  user: SessionUser | null;
 }
 
 export function SiteHeader({ user }: SiteHeaderProps) {

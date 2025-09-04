@@ -80,7 +80,7 @@ export default async function EditProductPage({
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-bold text-4xl">Edit Product</CardTitle>
+            <CardTitle className="font-bold text-2xl">Edit Product</CardTitle>
             <CardDescription>Update your product information</CardDescription>
           </CardHeader>
           <CardContent>

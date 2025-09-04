@@ -1,3 +1,12 @@
+import type { Icons } from "@/components/icons";
+
+export interface SessionUser {
+  name: string;
+  email: string;
+  image?: string | null;
+  role: string;
+}
+
 export interface StoredFile {
   id: string;
   name: string;
@@ -15,6 +24,17 @@ export interface NavItem {
   description?: string;
   isActive?: boolean;
   items?: NavItem[];
+}
+
+export interface SidebarNavItem {
+  title: string;
+  url: string;
+  disabled?: boolean;
+  external?: boolean;
+  icon?: keyof typeof Icons;
+  label?: string;
+  isActive?: boolean;
+  description?: string;
 }
 
 export interface SearchParams {

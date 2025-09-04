@@ -44,7 +44,7 @@ export default async function AdminCategoriesPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-bold text-4xl">
+            <CardTitle className="font-bold text-2xl">
               Create New Category
             </CardTitle>
             <CardDescription>
@@ -57,7 +57,9 @@ export default async function AdminCategoriesPage() {
         </Card>
         <Card className="mx-auto w-full">
           <CardHeader>
-            <CardTitle>Categories</CardTitle>
+            <CardTitle className="font-bold text-2xl">
+              Categories List
+            </CardTitle>
             <CardDescription>List of categories</CardDescription>
           </CardHeader>
           <CardContent>

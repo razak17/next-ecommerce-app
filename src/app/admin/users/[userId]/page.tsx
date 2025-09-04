@@ -68,7 +68,7 @@ export default async function UserPage({ params }: UserPageProps) {
 
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-4xl">{user.name}</h1>
+            <h1 className="font-bold text-2xl">User Info</h1>
             <p className="text-muted-foreground">
               User profile and account information
             </p>

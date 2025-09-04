@@ -44,11 +44,11 @@ export function CategoryDialog({ trigger, categories }: CategoryDialogProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-2xl">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-xl">
               {category ? "Update" : "Add New"} Category
             </DialogTitle>
-            <DialogDescription className="text-center text-muted-foreground">
+            <DialogDescription>
               Fill in the details below to{" "}
               {category ? "update" : "create a new"} category.
             </DialogDescription>

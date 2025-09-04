@@ -75,7 +75,7 @@ export default function UsersPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-2">
-                <CardTitle className="font-bold text-4xl">Users</CardTitle>
+                <CardTitle className="font-bold text-2xl">Users</CardTitle>
                 <CardDescription>
                   Manage user accounts and permissions
                 </CardDescription>

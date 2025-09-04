@@ -13,9 +13,9 @@ import {
 export default function AdminHome() {
   return (
     <Shell className="flex flex-col">
-      <div className="container mx-auto py-10">
+      <div className="w-full">
         <div className="mb-8">
-          <h1 className="font-bold text-4xl">Admin Dashboard</h1>
+          <h1 className="font-bold text-2xl">Admin Dashboard</h1>
           <p className="text-muted-foreground">
             Manage your e-commerce platform
           </p>
