@@ -70,17 +70,17 @@ export function DashboardSidebar({
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader className="flex h-14 border-border/60 border-b px-0 py-2">
-        <Link href="/" className="w-full">
-          <SidebarMenu className="items-center justify-center px-4 lg:flex lg:px-6">
+      <Link href="/" className="w-full">
+        <SidebarHeader className="flex h-14 items-center justify-center border-border/60 border-b p-0">
+          <SidebarMenu className="items-center justify-center lg:flex">
             <SidebarMenuItem>
               <span className="font-bold font-mono text-xl">
                 {siteConfig.name}
               </span>
             </SidebarMenuItem>
           </SidebarMenu>
-        </Link>
-      </SidebarHeader>
+        </SidebarHeader>
+      </Link>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">

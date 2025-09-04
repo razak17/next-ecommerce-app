@@ -11,6 +11,7 @@ import { ChangePasswordForm } from "@/features/auth/components/change-password-f
 import { EmailVerificationForm } from "@/features/auth/components/email-verification-form";
 import { ProfileForm } from "@/features/auth/components/profile-form";
 import { getCurrentUser } from "@/features/users/queries/users";
+import { UserRole } from "@/types";
 
 export default async function ProfilePage() {
   const { currentUser } = await getCurrentUser();
@@ -57,10 +58,12 @@ export default async function ProfilePage() {
                   </p>
                   <Badge
                     variant={
-                      currentUser.role === "admin" ? "default" : "secondary"
+                      currentUser.role === UserRole.Admin
+                        ? "default"
+                        : "secondary"
                     }
                   >
-                    {currentUser.role === "admin"
+                    {currentUser.role === UserRole.Admin
                       ? "Administrator"
                       : "Customer"}
                   </Badge>

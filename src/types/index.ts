@@ -40,3 +40,14 @@ export interface SidebarNavItem {
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
+
+export const UserRole = {
+  Admin: "admin",
+  Consumer: "consumer",
+} as const;
+
+export const UserGender = {
+  Male: "male",
+  Female: "female",
+  Other: "other",
+} as const;

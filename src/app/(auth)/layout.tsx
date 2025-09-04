@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { redirects } from "@/lib/constants";
 
 import { MainLayout } from "@/components/layouts/main-layout";
+import { UserRole } from "@/types";
 
 export default async function AuthLayout({
   children,
@@ -15,9 +16,9 @@ export default async function AuthLayout({
     headers: await headers(),
   });
 
-  if (session && session.user.role === "admin") {
+  if (session && session.user.role === UserRole.Admin) {
     redirect(redirects.adminToDashboard);
-  } else if (session && session.user.role !== "admin") {
+  } else if (session && session.user.role !== UserRole.Admin) {
     redirect(redirects.toDashboard);
   }
 
@@ -25,7 +26,7 @@ export default async function AuthLayout({
     <MainLayout
       user={
         session?.user
-          ? { ...session.user, role: session.user.role || "consumer" }
+          ? { ...session.user, role: session.user.role || UserRole.Consumer }
           : null
       }
     >

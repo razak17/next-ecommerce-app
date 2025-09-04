@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { siteConfig } from "@/config/site";
 import type { SessionUser } from "@/types";
+import { UserRole } from "@/types";
 import { Icons } from "../icons";
 
 interface AuthDropdownProps {
@@ -113,7 +114,7 @@ function AuthDropdownGroup({ role }: { role: string }) {
 
   return (
     <DropdownMenuGroup>
-      {role === "admin" ? (
+      {role === UserRole.Admin ? (
         <span>
           {siteConfig.authItems.admin.map((item) => {
             const IconComponent = Icons[item.icon ?? "chevronLeft"];

@@ -7,6 +7,7 @@ import { redirects } from "@/lib/constants";
 import { DashboardHeader } from "@/components/layouts/dashboard-header";
 import { DashboardSidebar } from "@/components/layouts/dashboard-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { UserRole } from "@/types";
 
 export default async function AdminLayout({
   children,
@@ -21,7 +22,7 @@ export default async function AdminLayout({
     redirect(redirects.toLogin);
   }
 
-  if (session.user.role !== "admin") {
+  if (session.user.role !== UserRole.Admin) {
     redirect(redirects.toLanding);
   }
 
@@ -39,7 +40,10 @@ export default async function AdminLayout({
         <DashboardHeader
           user={
             session?.user
-              ? { ...session.user, role: session.user.role || "consumer" }
+              ? {
+                  ...session.user,
+                  role: session.user.role || UserRole.Consumer,
+                }
               : null
           }
         />

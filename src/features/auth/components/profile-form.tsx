@@ -28,7 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { type User, userGenders } from "@/db/schema/users";
+import type { User } from "@/db/schema";
+import { UserGender } from "@/types";
 import { updateProfile } from "../actions/profile";
 import { updateProfileSchema } from "../validations/auth";
 
@@ -217,7 +218,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {userGenders.map((gender) => (
+                    {Object.values(UserGender).map((gender) => (
                       <SelectItem key={gender} value={gender}>
                         {toTitleCase(gender)}
                       </SelectItem>

@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { User } from "@/db/schema/users";
-import { userGenders, userRoles } from "@/db/schema/users";
+import { UserGender, UserRole } from "@/types";
 import { createUser, updateUser } from "../actions/users";
 import { type CreateUserSchema, createUserSchema } from "../validations/users";
 
@@ -172,7 +172,7 @@ export function UserForm({ user }: UserFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {userRoles.map((role) => (
+                    {Object.values(UserRole).map((role) => (
                       <SelectItem key={role} value={role}>
                         {toTitleCase(role)}
                       </SelectItem>
@@ -200,7 +200,7 @@ export function UserForm({ user }: UserFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {userGenders.map((gender) => (
+                    {Object.values(UserGender).map((gender) => (
                       <SelectItem key={gender} value={gender}>
                         {toTitleCase(gender)}
                       </SelectItem>

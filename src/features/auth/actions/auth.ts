@@ -10,7 +10,8 @@ import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
-import { user } from "@/db/schema";
+import { type UserRole as Role, user } from "@/db/schema";
+import { UserRole } from "@/types";
 
 export const signIn = async (email: string, password: string) => {
   try {
@@ -42,13 +43,13 @@ export const signUp = async ({
   password,
   firstName,
   lastName,
-  role = "consumer",
+  role = UserRole.Consumer,
 }: {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-  role?: "consumer" | "admin";
+  role?: Role;
 }) => {
   try {
     const newUser = await auth.api.signUpEmail({
