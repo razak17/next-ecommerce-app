@@ -55,6 +55,7 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
 
     toast.error("Signed in successfully.");
     setIsLoading(false);
+    router.push(`${window.location.origin}/`);
   }
 
   return (

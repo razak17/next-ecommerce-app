@@ -65,6 +65,7 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
 
     toast.error("Signed up successfully.");
     setIsLoading(false);
+    router.push(redirects.toLogin);
   }
 
   return (
