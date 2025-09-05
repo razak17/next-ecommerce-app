@@ -40,8 +40,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { Product } from "@/db/schema";
-import type { getCategories } from "@/features/categories/queries/categories";
-import type { getSubcategories } from "@/features/subcategories/queries/subcategories";
+import type { getAllCategories } from "@/features/categories/queries/categories";
+import type { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 import { useUploadFile } from "@/hooks/use-file-upload";
 import type { StoredFile } from "@/types";
 import { addProduct, updateProduct } from "../actions/products";
@@ -53,8 +53,8 @@ import {
 interface CreateProductFormProps {
   product?: Product;
   promises: Promise<{
-    categories: Awaited<ReturnType<typeof getCategories>>;
-    subcategories: Awaited<ReturnType<typeof getSubcategories>>;
+    categories: Awaited<ReturnType<typeof getAllCategories>>;
+    subcategories: Awaited<ReturnType<typeof getAllSubcategories>>;
   }>;
 }
 
@@ -81,6 +81,27 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
       subcategoryId: product?.subcategoryId ?? "",
     },
   });
+
+  const selectedCategoryId = form.watch("categoryId");
+
+  const filteredSubcategories = React.useMemo(() => {
+    if (!selectedCategoryId) return [];
+    return subcategories.filter(
+      (subcategory) => subcategory.categoryId === selectedCategoryId,
+    );
+  }, [selectedCategoryId, subcategories]);
+
+  React.useEffect(() => {
+    const currentSubcategoryId = form.getValues("subcategoryId");
+    if (currentSubcategoryId && selectedCategoryId) {
+      const isSubcategoryValid = filteredSubcategories.some(
+        (sub) => sub.id === currentSubcategoryId,
+      );
+      if (!isSubcategoryValid) {
+        form.setValue("subcategoryId", "");
+      }
+    }
+  }, [selectedCategoryId, filteredSubcategories, form]);
 
   async function onSubmit(input: CreateProductSchema) {
     setIsLoading(true);
@@ -189,15 +210,26 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
                 <Select
                   value={field.value?.toString()}
                   onValueChange={field.onChange}
+                  disabled={
+                    !selectedCategoryId || filteredSubcategories.length === 0
+                  }
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a subcategory" />
+                      <SelectValue
+                        placeholder={
+                          !selectedCategoryId
+                            ? "Select a category first"
+                            : filteredSubcategories.length === 0
+                              ? "No subcategories available"
+                              : "Select a subcategory"
+                        }
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     <SelectGroup>
-                      {subcategories.map((option) => (
+                      {filteredSubcategories.map((option) => (
                         <SelectItem key={option.id} value={option.id}>
                           {option.name}
                         </SelectItem>
