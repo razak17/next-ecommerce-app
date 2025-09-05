@@ -17,7 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getProduct } from "@/features/products/queries/products";
+import { getProductWithVariants } from "@/features/products/queries/products";
 
 interface ProductPageProps {
   params: Promise<{
@@ -28,7 +28,7 @@ interface ProductPageProps {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { productId } = await params;
 
-  const product = await getProduct(productId);
+  const product = await getProductWithVariants(productId);
 
   if (!product) {
     notFound();
@@ -129,6 +129,62 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   )}
                 </CardContent>
               </Card>
+
+              {product.variants && product.variants.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Product Variants</CardTitle>
+                    <Badge variant="outline" className="text-xs">
+                      {product.variants.length} type(s)
+                    </Badge>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {product.variants.map((productVariant) => (
+                      <div key={productVariant.id} className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium text-lg">
+                            {productVariant.variant.name}
+                          </h4>
+                          <Badge variant="outline">
+                            {productVariant.productVariantValues.length} options
+                          </Badge>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                          {productVariant.productVariantValues.map(
+                            (variantValue, index) => (
+                              <div
+                                key={`${productVariant.id}-${index}`}
+                                className="space-y-2 rounded-lg border p-4"
+                              >
+                                <div>
+                                  <h5 className="font-medium">
+                                    {variantValue.value}
+                                  </h5>
+                                  <p className="text-muted-foreground text-sm">
+                                    {formatPrice(variantValue.price)}
+                                  </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Badge
+                                    variant={
+                                      variantValue.stock.quantity > 0
+                                        ? "default"
+                                        : "destructive"
+                                    }
+                                    className="text-xs"
+                                  >
+                                    {variantValue.stock.quantity} in stock
+                                  </Badge>
+                                </div>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         </div>
