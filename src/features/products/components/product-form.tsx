@@ -40,10 +40,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { Product } from "@/db/schema";
-import type {
-  getCategories,
-  getSubcategories,
-} from "@/features/categories/queries/categories";
+import type { getCategories } from "@/features/categories/queries/categories";
+import type { getSubcategories } from "@/features/subcategories/queries/subcategories";
 import { useUploadFile } from "@/hooks/use-file-upload";
 import type { StoredFile } from "@/types";
 import { addProduct, updateProduct } from "../actions/products";

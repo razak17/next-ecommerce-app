@@ -18,11 +18,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  getCategories,
-  getSubcategories,
-} from "@/features/categories/queries/categories";
+import { getCategories } from "@/features/categories/queries/categories";
 import { ProductForm } from "@/features/products/components/product-form";
+import { getSubcategories } from "@/features/subcategories/queries/subcategories";
 
 export default function AdminProductsPage() {
   const promises = Promise.all([getCategories(), getSubcategories()]).then(

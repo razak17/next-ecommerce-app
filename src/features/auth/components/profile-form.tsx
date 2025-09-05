@@ -98,7 +98,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
         <div className="flex flex-col items-center space-y-4">
           <Avatar className="h-24 w-24">
             <AvatarImage src={imagePreview || user.image || undefined} />
-            <AvatarFallback className="text-lg">
+            <AvatarFallback className="text-3xl">
               {getInitials({
                 firstName: user.firstName,
                 lastName: user.lastName,

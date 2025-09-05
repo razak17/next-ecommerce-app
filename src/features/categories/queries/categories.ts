@@ -4,7 +4,7 @@ import { desc, eq } from "drizzle-orm";
 import { unstable_cache as cache } from "next/cache";
 
 import { db } from "@/db/drizzle";
-import { categories, subcategories } from "@/db/schema";
+import { categories } from "@/db/schema";
 
 export async function getCategories() {
   return await cache(
@@ -65,71 +65,6 @@ export async function getCategorySlugFromId({ id }: { id: string }) {
     {
       revalidate: 3600, // every hour
       tags: [`category-slug-${id}`],
-    },
-  )();
-}
-
-export async function getSubcategories() {
-  return await cache(
-    async () => {
-      return db
-        .selectDistinct({
-          id: subcategories.id,
-          name: subcategories.name,
-          slug: subcategories.slug,
-          description: subcategories.description,
-        })
-        .from(subcategories);
-    },
-    ["subcategories"],
-    {
-      revalidate: 3600, // every hour
-      tags: ["subcategories"],
-    },
-  )();
-}
-
-export async function getSubcategorySlugFromId({ id }: { id: string }) {
-  return await cache(
-    async () => {
-      return db
-        .select({
-          slug: subcategories.slug,
-        })
-        .from(subcategories)
-        .where(eq(subcategories.id, id))
-        .execute()
-        .then((res) => res[0]?.slug);
-    },
-    [`subcategory-slug-${id}`],
-    {
-      revalidate: 3600, // every hour
-      tags: [`subcategory-slug-${id}`],
-    },
-  )();
-}
-
-export async function getSubcategoriesByCategory({
-  categoryId,
-}: {
-  categoryId: string;
-}) {
-  return await cache(
-    async () => {
-      return db
-        .selectDistinct({
-          id: subcategories.id,
-          name: subcategories.name,
-          slug: subcategories.slug,
-          description: subcategories.description,
-        })
-        .from(subcategories)
-        .where(eq(subcategories.id, categoryId));
-    },
-    [`subcategories-${categoryId}`],
-    {
-      revalidate: 3600, // every hour
-      tags: [`subcategories-${categoryId}`],
     },
   )();
 }

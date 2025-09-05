@@ -43,6 +43,12 @@ export function DashboardSidebar({
       isActive: segments.includes("categories"),
     },
     {
+      title: "Subcategories",
+      url: "/admin/subcategories",
+      icon: "subcategory",
+      isActive: segments.includes("subcategories"),
+    },
+    {
       title: "Orders",
       url: "/admin/orders",
       icon: "credit",
