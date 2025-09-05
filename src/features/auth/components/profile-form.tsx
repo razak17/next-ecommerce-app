@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import {
   Select,
   SelectContent,
@@ -192,10 +193,14 @@ export function ProfileForm({ user }: ProfileFormProps) {
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input placeholder="Phone number" {...field} />
+              <FormItem className="flex flex-col items-start">
+                <FormLabel>Phone number</FormLabel>
+                <FormControl className="w-full">
+                  <PhoneInput
+                    placeholder="Placeholder"
+                    {...field}
+                    defaultCountry="US"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
