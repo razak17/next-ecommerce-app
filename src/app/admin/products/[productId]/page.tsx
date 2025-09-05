@@ -9,14 +9,6 @@ import { ProductImageCarousel } from "@/components/product-image-carousel";
 import { Rating } from "@/components/rating";
 import { Shell } from "@/components/shell";
 import { Badge } from "@/components/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -45,28 +37,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <Shell className="flex flex-col">
       <div className="w-full">
-        <Breadcrumb className="mb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToDashboard}>Admin</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToProducts}>Products</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage className="max-w-[100px] truncate">
-                {product.name}
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
         <div className="flex flex-col gap-8 md:flex-row md:gap-16">
           <ProductImageCarousel
             className="w-full md:w-1/2"

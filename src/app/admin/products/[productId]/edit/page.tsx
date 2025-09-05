@@ -1,17 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -49,34 +38,6 @@ export default async function EditProductPage({
   return (
     <Shell className="flex flex-col">
       <div className="w-full">
-        <Breadcrumb className="mb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToDashboard}>Admin</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToProducts}>Products</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink className="max-w-[100px] truncate" asChild>
-                <Link href={`${redirects.adminToProducts}/${product.id}`}>
-                  {product.name}
-                </Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Edit</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
         <Card>
           <CardHeader>
             <CardTitle className="font-bold text-2xl">Edit Product</CardTitle>

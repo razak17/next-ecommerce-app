@@ -63,13 +63,13 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           className="flex items-center gap-2 rounded-sm px-2"
           aria-label="User menu"
         >
-          <Avatar className="size-8">
+          <Avatar className="size-7">
             <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
             <AvatarFallback>{getInitials({ name: user.name })}</AvatarFallback>
           </Avatar>
-          <span className="max-w-[10rem] truncate font-medium text-md">
-            {user?.name ?? "User"}
-          </span>
+          {/* <span className="max-w-[10rem] truncate font-medium text-md"> */}
+          {/*   {user?.name ?? "User"} */}
+          {/* </span> */}
           {/* <ChevronDown className="size-6 opacity-70" aria-hidden="true" /> */}
         </Button>
       </DropdownMenuTrigger>

@@ -1,16 +1,4 @@
-import Link from "next/link";
-
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -30,27 +18,7 @@ export default function AdminProductsPage() {
 
   return (
     <Shell>
-      <div className="container mx-auto py-10">
-        <Breadcrumb className="mb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToDashboard}>Admin</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToProducts}>Products</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>New Product</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
+      <div className="w-full">
         <Card>
           <CardHeader>
             <CardTitle className="font-bold text-2xl">

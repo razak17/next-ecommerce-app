@@ -1,17 +1,6 @@
-import Link from "next/link";
 import { Suspense } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -33,20 +22,6 @@ export default async function AdminSubcategoriesPage() {
   return (
     <Shell>
       <div className="flex w-full flex-col gap-6">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToDashboard}>Admin</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Subcategories</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
         <div className="flex flex-col gap-6 md:flex-row">
           <Card className="flex-1">
             <CardHeader>

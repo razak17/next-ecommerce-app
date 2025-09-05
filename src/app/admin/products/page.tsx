@@ -5,14 +5,6 @@ import { Suspense } from "react";
 import { redirects } from "@/lib/constants";
 
 import { Shell } from "@/components/shell";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -59,20 +51,6 @@ export default function ProductsPage() {
   return (
     <Shell className="flex flex-col">
       <div className="w-full">
-        <Breadcrumb className="mb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href={redirects.adminToDashboard}>Admin</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Products</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
