@@ -13,4 +13,15 @@ export const createCategorySchema = z.object({
   // image: z.custom<File[] | undefined | null>().optional().nullable(),
 });
 
+export const updateCategorySchema = createCategorySchema;
+
+export const getCategoriesSchema = z.object({
+  page: z.coerce.number().default(1),
+  per_page: z.coerce.number().default(10),
+  sort: z.string().optional().default("createdAt.desc"),
+  name: z.string().optional(),
+});
+
 export type CreateCategorySchema = z.infer<typeof createCategorySchema>;
+export type UpdateCategorySchema = z.infer<typeof updateCategorySchema>;
+export type GetCategoriesSchema = z.infer<typeof getCategoriesSchema>;

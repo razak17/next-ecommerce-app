@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { Subcategory } from "@/db/schema";
-import type { getCategories } from "@/features/categories/queries/categories";
+import type { getAllCategories } from "@/features/categories/queries/categories";
 import {
   addSubcategory,
   deleteSubcategory,
@@ -40,7 +40,7 @@ import {
 
 interface SubcategoryFormProps {
   subcategory?: Subcategory & { categoryName?: string | null };
-  categories: Awaited<ReturnType<typeof getCategories>>;
+  categories: Awaited<ReturnType<typeof getAllCategories>>;
   onSuccess?: () => void;
 }
 

@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/card";
 import { CategoryDialog } from "@/features/categories/components/category-dialog";
 import { CategoryForm } from "@/features/categories/components/category-form";
-import { getCategories } from "@/features/categories/queries/categories";
+import { getAllCategories } from "@/features/categories/queries/categories";
 
 export default async function AdminCategoriesPage() {
-  const categories = await getCategories();
+  const categories = await getAllCategories();
 
   return (
     <Shell>

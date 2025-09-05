@@ -13,11 +13,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import type { Subcategory } from "@/db/schema";
-import type { getCategories } from "@/features/categories/queries/categories";
+import type { getAllCategories } from "@/features/categories/queries/categories";
 
 interface SubcategoryDialogProps {
   trigger?: React.ReactNode;
-  categories: Awaited<ReturnType<typeof getCategories>>;
+  categories: Awaited<ReturnType<typeof getAllCategories>>;
   subcategories?: (Subcategory & { categoryName?: string | null })[];
 }
 

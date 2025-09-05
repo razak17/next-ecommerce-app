@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCategories } from "@/features/categories/queries/categories";
+import { getAllCategories } from "@/features/categories/queries/categories";
 import { SubcategoryDialog } from "@/features/subcategories/components/subcategory-dialog";
 import { SubcategoryForm } from "@/features/subcategories/components/subcategory-form";
 import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
@@ -27,7 +27,7 @@ import { getAllSubcategories } from "@/features/subcategories/queries/subcategor
 export default async function AdminSubcategoriesPage() {
   const [subcategories, categories] = await Promise.all([
     getAllSubcategories(),
-    getCategories(),
+    getAllCategories(),
   ]);
 
   return (

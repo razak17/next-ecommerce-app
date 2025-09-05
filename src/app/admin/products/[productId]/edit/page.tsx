@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCategories } from "@/features/categories/queries/categories";
+import { getAllCategories } from "@/features/categories/queries/categories";
 import { ProductForm } from "@/features/products/components/product-form";
 import { getProduct } from "@/features/products/queries/products";
 import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
@@ -41,9 +41,10 @@ export default async function EditProductPage({
     notFound();
   }
 
-  const promises = Promise.all([getCategories(), getAllSubcategories()]).then(
-    ([categories, subcategories]) => ({ categories, subcategories }),
-  );
+  const promises = Promise.all([
+    getAllCategories(),
+    getAllSubcategories(),
+  ]).then(([categories, subcategories]) => ({ categories, subcategories }));
 
   return (
     <Shell className="flex flex-col">
