@@ -79,6 +79,7 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
       inventory: product?.inventory ?? NaN,
       categoryId: product?.categoryId ?? "",
       subcategoryId: product?.subcategoryId ?? "",
+      variants: [],
     },
   });
 
@@ -349,9 +350,198 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
             )}
           />
         </div>
+
+        {/* Variants Section */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-medium text-lg">Product Variants</h3>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const currentVariants = form.getValues("variants") || [];
+                form.setValue("variants", [
+                  ...currentVariants,
+                  {
+                    name: "",
+                    values: [{ value: "", price: "", inventory: 0 }],
+                  },
+                ]);
+              }}
+            >
+              Add Variant
+            </Button>
+          </div>
+
+          <FormField
+            control={form.control}
+            name="variants"
+            render={() => (
+              <div className="space-y-6">
+                {form.watch("variants")?.map((variant, variantIndex) => (
+                  <div
+                    key={variantIndex}
+                    className="space-y-4 rounded-lg border p-4"
+                  >
+                    <div className="flex justify-between">
+                      <FormField
+                        control={form.control}
+                        name={`variants.${variantIndex}.name`}
+                        render={({ field }) => (
+                          <FormItem className="mr-4 flex-1">
+                            <FormLabel>
+                              Variant Name (e.g., Size, Color)
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter variant name"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex flex-col justify-end">
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="h-9"
+                          onClick={() => {
+                            const currentVariants =
+                              form.getValues("variants") || [];
+                            form.setValue(
+                              "variants",
+                              currentVariants.filter(
+                                (_, index) => index !== variantIndex,
+                              ),
+                            );
+                          }}
+                        >
+                          Remove Variant
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Variant Values</FormLabel>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const currentVariants =
+                              form.getValues("variants") || [];
+                            const updatedVariants = [...currentVariants];
+                            updatedVariants[variantIndex].values.push({
+                              value: "",
+                              price: "",
+                              inventory: 0,
+                            });
+                            form.setValue("variants", updatedVariants);
+                          }}
+                        >
+                          Add Value
+                        </Button>
+                      </div>
+
+                      {variant.values.map((_, valueIndex) => (
+                        <div
+                          key={valueIndex}
+                          className="grid grid-cols-4 items-end gap-4"
+                        >
+                          <FormField
+                            control={form.control}
+                            name={`variants.${variantIndex}.values.${valueIndex}.value`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Value</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="e.g., Small, Red"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`variants.${variantIndex}.values.${valueIndex}.price`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Price</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="0.00" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`variants.${variantIndex}.values.${valueIndex}.inventory`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Inventory</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="number"
+                                    placeholder="0"
+                                    value={
+                                      Number.isNaN(field.value)
+                                        ? ""
+                                        : field.value
+                                    }
+                                    onChange={(e) =>
+                                      field.onChange(e.target.valueAsNumber)
+                                    }
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            className="h-9"
+                            size="sm"
+                            onClick={() => {
+                              const currentVariants =
+                                form.getValues("variants") || [];
+                              const updatedVariants = [...currentVariants];
+                              updatedVariants[variantIndex].values =
+                                updatedVariants[variantIndex].values.filter(
+                                  (_, index) => index !== valueIndex,
+                                );
+                              form.setValue("variants", updatedVariants);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          />
+        </div>
         <Button
           onClick={() =>
-            void form.trigger(["name", "description", "price", "inventory"])
+            void form.trigger([
+              "name",
+              "description",
+              "price",
+              "inventory",
+              "variants",
+            ])
           }
           className="w-fit"
           disabled={isLoading}

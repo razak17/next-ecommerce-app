@@ -173,6 +173,35 @@ export async function getProduct(id: string) {
   }
 }
 
+export async function getProductWithVariants(id: string) {
+  noStore();
+
+  try {
+    const product = await db.query.products.findFirst({
+      where: eq(products.id, id),
+      with: {
+        category: true,
+        subcategory: true,
+        variants: {
+          with: {
+            variant: true,
+            productVariantValues: {
+              with: {
+                productVariant: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return product;
+  } catch (error) {
+    console.error("Error fetching product with variants:", error);
+    return null;
+  }
+}
+
 export async function getAllProducts() {
   return await cache(
     async () => {
