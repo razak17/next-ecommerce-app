@@ -22,7 +22,7 @@ import {
 import { getCategories } from "@/features/categories/queries/categories";
 import { ProductForm } from "@/features/products/components/product-form";
 import { getProduct } from "@/features/products/queries/products";
-import { getSubcategories } from "@/features/subcategories/queries/subcategories";
+import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 
 interface EditProductPageProps {
   params: Promise<{
@@ -41,7 +41,7 @@ export default async function EditProductPage({
     notFound();
   }
 
-  const promises = Promise.all([getCategories(), getSubcategories()]).then(
+  const promises = Promise.all([getCategories(), getAllSubcategories()]).then(
     ([categories, subcategories]) => ({ categories, subcategories }),
   );
 

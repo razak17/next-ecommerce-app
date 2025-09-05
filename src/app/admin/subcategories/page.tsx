@@ -22,11 +22,11 @@ import {
 import { getCategories } from "@/features/categories/queries/categories";
 import { SubcategoryDialog } from "@/features/subcategories/components/subcategory-dialog";
 import { SubcategoryForm } from "@/features/subcategories/components/subcategory-form";
-import { getSubcategories } from "@/features/subcategories/queries/subcategories";
+import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 
 export default async function AdminSubcategoriesPage() {
   const [subcategories, categories] = await Promise.all([
-    getSubcategories(),
+    getAllSubcategories(),
     getCategories(),
   ]);
 

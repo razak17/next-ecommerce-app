@@ -1,16 +1,95 @@
 import "server-only";
 
-import { asc, eq } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, inArray } from "drizzle-orm";
 import { unstable_cache as cache } from "next/cache";
 
 import { db } from "@/db/drizzle";
-import { categories, subcategories } from "@/db/schema";
+import { categories, type Subcategory, subcategories } from "@/db/schema";
+import type { SearchParams } from "@/types";
+import { getSubcategoriesSchema } from "../validations/subcategories";
 
-export async function getSubcategories() {
+export async function getSubcategories(input: SearchParams) {
+  try {
+    const search = getSubcategoriesSchema.parse(input);
+
+    const limit = search.per_page;
+    const offset = (search.page - 1) * limit;
+
+    const [column, order] = (search.sort?.split(".") as [
+      keyof Subcategory | undefined,
+      "asc" | "desc" | undefined,
+    ]) ?? ["createdAt", "desc"];
+    const categoryIds = search.categoryId ? [search.categoryId] : [];
+
+    const data = await db
+      .select({
+        id: subcategories.id,
+        name: subcategories.name,
+        slug: subcategories.slug,
+        description: subcategories.description,
+        categoryId: subcategories.categoryId,
+        categoryName: categories.name,
+        createdAt: subcategories.createdAt,
+        updatedAt: subcategories.updatedAt,
+      })
+      .from(subcategories)
+      .limit(limit)
+      .offset(offset)
+      .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+      .where(
+        and(
+          search.name
+            ? ilike(subcategories.name, `%${search.name}%`)
+            : undefined,
+          categoryIds.length > 0
+            ? inArray(subcategories.categoryId, categoryIds)
+            : undefined,
+        ),
+      )
+      .orderBy(
+        column && column in subcategories
+          ? order === "asc"
+            ? asc(subcategories[column])
+            : desc(subcategories[column])
+          : desc(subcategories.createdAt),
+      );
+
+    const totalResult = await db
+      .select({ count: count() })
+      .from(subcategories)
+      .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+      .where(
+        and(
+          search.name
+            ? ilike(subcategories.name, `%${search.name}%`)
+            : undefined,
+          categoryIds.length > 0
+            ? inArray(subcategories.categoryId, categoryIds)
+            : undefined,
+        ),
+      );
+
+    const total = totalResult[0]?.count ?? 0;
+    const pageCount = Math.ceil(total / limit);
+
+    return {
+      data,
+      pageCount,
+    };
+  } catch (error) {
+    console.error("Error fetching subcategories:", error);
+    return {
+      data: [],
+      pageCount: 0,
+    };
+  }
+}
+
+export async function getAllSubcategories() {
   return await cache(
     async () => {
       return db
-        .selectDistinct({
+        .select({
           id: subcategories.id,
           name: subcategories.name,
           slug: subcategories.slug,
@@ -21,12 +100,13 @@ export async function getSubcategories() {
           updatedAt: subcategories.updatedAt,
         })
         .from(subcategories)
-        .leftJoin(categories, eq(subcategories.categoryId, categories.id));
+        .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+        .orderBy(asc(categories.name), asc(subcategories.name));
     },
-    ["subcategories"],
+    ["all-subcategories"],
     {
-      revalidate: 3600, // every hour
-      tags: ["subcategories"],
+      revalidate: 3600,
+      tags: ["all-subcategories"],
     },
   )();
 }

@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/card";
 import { getCategories } from "@/features/categories/queries/categories";
 import { ProductForm } from "@/features/products/components/product-form";
-import { getSubcategories } from "@/features/subcategories/queries/subcategories";
+import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 
 export default function AdminProductsPage() {
-  const promises = Promise.all([getCategories(), getSubcategories()]).then(
+  const promises = Promise.all([getCategories(), getAllSubcategories()]).then(
     ([categories, subcategories]) => ({ categories, subcategories }),
   );
 
