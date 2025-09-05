@@ -115,11 +115,7 @@ export function UsersTable({ users }: UsersTableProps) {
                       successMessage="User deleted successfully"
                       onConfirm={deleteUser.bind(null, user.id)}
                     >
-                      <Button
-                        className="cursor-pointer"
-                        variant="ghost"
-                        size="sm"
-                      >
+                      <Button variant="ghost" size="sm">
                         <IconTrash className="size-4" />
                         <span className="sr-only">Delete user</span>
                       </Button>

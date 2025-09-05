@@ -57,7 +57,7 @@ export function NotFoundCard({
             </ClientButton>
             <ClientButton
               variant="outline"
-              className="flex-1 cursor-pointer"
+              className="flex-1"
               onClick={() => window.history.back()}
             >
               <IconArrowLeft className="mr-2 h-4 w-4" />

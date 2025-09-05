@@ -83,7 +83,7 @@ export function ErrorCard({
             <ClientButton
               onClick={reset}
               variant="default"
-              className="flex flex-1 cursor-pointer items-center gap-2"
+              className="flex flex-1 items-center gap-2"
             >
               <IconRefresh className="size-4" />
               Try Again
