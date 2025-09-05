@@ -187,7 +187,7 @@ export async function getProductWithVariants(id: string) {
             variant: true,
             productVariantValues: {
               with: {
-                productVariant: true,
+                stock: true,
               },
             },
           },

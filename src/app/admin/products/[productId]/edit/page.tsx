@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { getAllCategories } from "@/features/categories/queries/categories";
 import { ProductForm } from "@/features/products/components/product-form";
-import { getProduct } from "@/features/products/queries/products";
+import { getProductWithVariants } from "@/features/products/queries/products";
 import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 
 interface EditProductPageProps {
@@ -24,7 +24,7 @@ export default async function EditProductPage({
 }: EditProductPageProps) {
   const { productId } = await params;
 
-  const product = await getProduct(productId);
+  const product = await getProductWithVariants(productId);
 
   if (!product) {
     notFound();

@@ -45,6 +45,7 @@ export const productVariantsRelations = relations(
     product: one(products, {
       fields: [productVariants.productId],
       references: [products.id],
+      relationName: "productVariants",
     }),
     variant: one(variants, {
       fields: [productVariants.variantId],
@@ -74,7 +75,11 @@ export const productVariantValuesRelations = relations(
   ({ one }) => ({
     productVariant: one(productVariants, {
       fields: [productVariantValues.productVariantId],
-      references: [productVariants.productId],
+      references: [productVariants.id],
+    }),
+    stock: one(stocks, {
+      fields: [productVariantValues.stockId],
+      references: [stocks.id],
     }),
   }),
 );

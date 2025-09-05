@@ -45,13 +45,14 @@ import type { getAllSubcategories } from "@/features/subcategories/queries/subca
 import { useUploadFile } from "@/hooks/use-file-upload";
 import type { StoredFile } from "@/types";
 import { addProduct, updateProduct } from "../actions/products";
+import type { getProductWithVariants } from "../queries/products";
 import {
   type CreateProductSchema,
   createProductSchema,
 } from "../validations/products";
 
 interface CreateProductFormProps {
-  product?: Product;
+  product?: Product | Awaited<ReturnType<typeof getProductWithVariants>>;
   promises: Promise<{
     categories: Awaited<ReturnType<typeof getAllCategories>>;
     subcategories: Awaited<ReturnType<typeof getAllSubcategories>>;
@@ -70,6 +71,50 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
     product?.images ?? [],
   );
 
+  // Transform variant data for form
+  const transformVariantsForForm = React.useCallback(() => {
+    if (!product || !("variants" in product) || !product.variants) {
+      return [];
+    }
+
+    // Group variants by variant name
+    const variantGroups = new Map<
+      string,
+      Array<{
+        value: string;
+        price: string;
+        inventory: number;
+      }>
+    >();
+
+    for (const productVariant of product.variants) {
+      const variantName = productVariant.variant.name;
+      if (!variantGroups.has(variantName)) {
+        variantGroups.set(variantName, []);
+      }
+
+      // Get stock info for each variant value
+      const variantValues = productVariant.productVariantValues.map((pv) => {
+        return {
+          value: pv.value,
+          price: pv.price.toString(),
+          inventory: pv.stock?.quantity ?? 0,
+        };
+      });
+
+      const existingGroup = variantGroups.get(variantName);
+      if (existingGroup) {
+        existingGroup.push(...variantValues);
+      }
+    }
+
+    // Convert to form format
+    return Array.from(variantGroups.entries()).map(([name, values]) => ({
+      name,
+      values,
+    }));
+  }, [product]);
+
   const form = useForm<CreateProductSchema>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
@@ -79,7 +124,7 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
       inventory: product?.inventory ?? NaN,
       categoryId: product?.categoryId ?? "",
       subcategoryId: product?.subcategoryId ?? "",
-      variants: [],
+      variants: transformVariantsForForm(),
     },
   });
 
