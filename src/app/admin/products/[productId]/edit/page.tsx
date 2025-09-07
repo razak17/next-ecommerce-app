@@ -13,15 +13,9 @@ import { ProductForm } from "@/features/products/components/product-form";
 import { getProductWithVariants } from "@/features/products/queries/products";
 import { getAllSubcategories } from "@/features/subcategories/queries/subcategories";
 
-interface EditProductPageProps {
-  params: Promise<{
-    productId: string;
-  }>;
-}
-
 export default async function EditProductPage({
   params,
-}: EditProductPageProps) {
+}: PageProps<"/admin/products/[productId]/edit">) {
   const { productId } = await params;
 
   const product = await getProductWithVariants(productId);

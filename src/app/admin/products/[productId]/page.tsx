@@ -19,13 +19,9 @@ import {
 } from "@/components/ui/tooltip";
 import { getProductWithVariants } from "@/features/products/queries/products";
 
-interface ProductPageProps {
-  params: Promise<{
-    productId: string;
-  }>;
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: PageProps<"/admin/products/[productId]">) {
   const { productId } = await params;
 
   const product = await getProductWithVariants(productId);

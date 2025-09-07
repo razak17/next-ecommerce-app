@@ -11,13 +11,9 @@ import {
 import { UserForm } from "@/features/users/components/user-form";
 import { getUser } from "@/features/users/queries/users";
 
-interface EditUserPageProps {
-  params: Promise<{
-    userId: string;
-  }>;
-}
-
-export default async function EditUserPage({ params }: EditUserPageProps) {
+export default async function EditUserPage({
+  params,
+}: PageProps<"/admin/users/[userId]/edit">) {
   const { userId } = await params;
 
   const user = await getUser(userId);

@@ -9,13 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUser } from "@/features/users/queries/users";
 
-interface UserPageProps {
-  params: Promise<{
-    userId: string;
-  }>;
-}
-
-export default async function UserPage({ params }: UserPageProps) {
+export default async function UserPage({
+  params,
+}: PageProps<"/admin/users/[userId]">) {
   const { userId } = await params;
 
   const user = await getUser(userId);
