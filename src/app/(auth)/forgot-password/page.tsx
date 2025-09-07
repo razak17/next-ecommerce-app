@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
 import {
   Card,
@@ -38,7 +36,7 @@ export default function ForgotPasswordPage() {
           <div className="text-muted-foreground text-sm">
             <Link
               aria-label="Register"
-              href={redirects.toLogin}
+              href="/auth/login"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
               Back to login?

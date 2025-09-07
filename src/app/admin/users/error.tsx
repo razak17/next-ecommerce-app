@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { ErrorCard } from "@/components/error-card";
 import { Shell } from "@/components/shell";
 
@@ -23,7 +21,7 @@ export default function UsersError({ error, reset }: ErrorProps) {
         <ErrorCard
           title="Users Error"
           description="We couldn't load the users page. Please try again."
-          retryLink={redirects.adminToDashboard}
+          retryLink="/admin/dashboard"
           retryLinkText="Dashboard"
           reset={reset}
           error={error}

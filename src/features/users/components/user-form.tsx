@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { redirects } from "@/lib/constants";
 import { toTitleCase, tryCatch } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
@@ -73,7 +72,7 @@ export function UserForm({ user }: UserFormProps) {
       user ? "User updated successfully" : "User created successfully",
     );
     form.reset();
-    router.push(redirects.adminToUsers);
+    router.push("/admin/users");
     setIsLoading(false);
   }
 

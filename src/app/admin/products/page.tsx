@@ -2,8 +2,6 @@ import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,7 +61,7 @@ export default function ProductsPage() {
               <Button asChild>
                 <Link
                   className="flex items-center gap-2"
-                  href={`${redirects.adminToProducts}/new`}
+                  href="/admin/products/new"
                 >
                   <IconPlus className="size-4" />
                   Add New Product

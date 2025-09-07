@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth/client";
-import { redirects } from "@/lib/constants";
 import { getInitials, isActiveUrl } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -37,14 +36,14 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
     return (
       <>
         <Button variant="ghost" size="sm" asChild>
-          <Link href={redirects.toLogin}>
+          <Link href="/auth/login">
             <LogIn className="mr-2 size-4" />
             Login
             <span className="sr-only">Login</span>
           </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <Link href={redirects.toRegister}>
+          <Link href="/auth/register">
             <User className="mr-2 size-4" />
             Register
             <span className="sr-only">Register</span>
@@ -93,7 +92,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <DropdownMenuItem
             onClick={async () => {
               await authClient.signOut();
-              router.push(redirects.toLanding);
+              router.push("/");
               router.refresh();
             }}
           >

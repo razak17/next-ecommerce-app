@@ -2,8 +2,6 @@ import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,7 +59,7 @@ export default function UsersPage() {
               <Button asChild>
                 <Link
                   className="flex items-center gap-2"
-                  href={`${redirects.adminToUsers}/new`}
+                  href="/admin/users/new"
                 >
                   <IconPlus className="size-4" />
                   Add New User

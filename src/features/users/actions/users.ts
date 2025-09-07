@@ -3,7 +3,6 @@
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 import { generateId } from "@/lib/id";
 
@@ -21,7 +20,7 @@ export async function createUser(input: CreateUserSchema & { name: string }) {
       emailVerified: false,
     });
 
-    revalidatePath(redirects.adminToUsers);
+    revalidatePath("/admin/users");
 
     return {
       success: false,
@@ -56,8 +55,8 @@ export async function updateUser(
       })
       .where(eq(user.id, id));
 
-    revalidatePath(redirects.adminToUsers);
-    revalidatePath(`${redirects.adminToUsers}/${id}`);
+    revalidatePath("/admin/users");
+    revalidatePath(`/admin/users/${id}`);
 
     return {
       success: true,
@@ -83,7 +82,7 @@ export async function deleteUser(id: User["id"]) {
 
     await db.delete(user).where(eq(user.id, id));
 
-    revalidatePath(redirects.adminToUsers);
+    revalidatePath("/admin/users");
 
     return {
       success: true,

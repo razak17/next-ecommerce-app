@@ -8,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-import { redirects } from "@/lib/constants";
-
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -58,14 +56,14 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
       router.refresh();
       if (isModal) {
         router.back();
-        router.push(redirects.toLanding);
+        router.push("/");
       }
       return;
     }
 
     toast.error("Signed up successfully.");
     setIsLoading(false);
-    router.push(redirects.toLogin);
+    router.push("/auth/login");
   }
 
   return (
@@ -140,7 +138,7 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
           Already have an account?{" "}
           <Link
             aria-label="Login"
-            href={redirects.toLogin}
+            href="/auth/login"
             className="text-primary underline-offset-4 transition-colors hover:underline"
           >
             Login

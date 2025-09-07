@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import Link from "next/link";
 
 import { Icons } from "@/components/icons";
@@ -31,7 +32,7 @@ export default function Home() {
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/about">Learn More</Link>
+              <Link href="/">Learn More</Link>
             </Button>
           </div>
         </div>
@@ -157,7 +158,7 @@ export default function Home() {
           <div className="flex items-center space-x-4">
             <Button variant="outline" size="sm" asChild>
               <Link
-                href={siteConfig.links.github}
+                href={siteConfig.links.github as Route}
                 target="_blank"
                 rel="noreferrer"
               >

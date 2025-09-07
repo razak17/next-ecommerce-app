@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { verifyEmail } from "@/features/auth/actions/auth";
@@ -16,7 +14,7 @@ export default async function EmailVerifyPage({
   searchParams,
 }: EmailVerifyPageProps) {
   if (!searchParams.token) {
-    redirect(redirects.toProfile);
+    redirect("/profile");
   }
 
   const result = await verifyEmail(searchParams.token);

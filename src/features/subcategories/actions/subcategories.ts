@@ -3,7 +3,6 @@
 import { and, eq, ne, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
@@ -31,7 +30,7 @@ export async function addSubcategory(input: CreateSubcategorySchema) {
       ...input,
     });
 
-    revalidatePath(redirects.adminToSubcategories);
+    revalidatePath("/admin/subcategories");
 
     return {
       success: true,
@@ -83,7 +82,7 @@ export async function updateSubcategory(
       })
       .where(eq(subcategories.id, id));
 
-    revalidatePath(redirects.adminToSubcategories);
+    revalidatePath("/admin/subcategories");
 
     return {
       success: true,
@@ -109,7 +108,7 @@ export async function deleteSubcategory(id: Subcategory["id"]) {
 
     await db.delete(subcategories).where(eq(subcategories.id, id));
 
-    revalidatePath(redirects.adminToSubcategories);
+    revalidatePath("/admin/subcategories");
 
     return {
       success: true,

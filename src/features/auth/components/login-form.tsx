@@ -1,13 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-
-import { redirects } from "@/lib/constants";
 
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/password-input";
@@ -48,14 +47,14 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
       router.refresh();
       if (isModal) {
         router.back();
-        router.push(redirects.toLanding);
+        router.push("/");
       }
       return;
     }
 
     toast.error("Signed in successfully.");
     setIsLoading(false);
-    router.push(`${window.location.origin}/`);
+    router.push(window.location.origin as Route);
   }
 
   return (

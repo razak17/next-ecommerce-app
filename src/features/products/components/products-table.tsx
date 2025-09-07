@@ -4,8 +4,6 @@ import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { redirects } from "@/lib/constants";
-
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { PlaceholderImage } from "@/components/placeholder-image";
 import { Badge } from "@/components/ui/badge";
@@ -117,15 +115,13 @@ export function ProductsTable({ products }: ProductsTableProps) {
               <TableCell>
                 <div className="flex items-center gap-2">
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href={`${redirects.adminToProducts}/${product.id}`}>
+                    <Link href={`/admin/products/${product.id}`}>
                       <IconEye className="size-4" />
                       <span className="sr-only">View product</span>
                     </Link>
                   </Button>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link
-                      href={`${redirects.adminToProducts}/${product.id}/edit`}
-                    >
+                    <Link href={`/admin/products/${product.id}/edit`}>
                       <IconEdit className="size-4" />
                       <span className="sr-only">Edit product</span>
                     </Link>

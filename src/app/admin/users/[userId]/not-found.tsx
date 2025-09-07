@@ -1,5 +1,3 @@
-import { redirects } from "@/lib/constants";
-
 import { NotFoundCard } from "@/components/not-found-card";
 import { Shell } from "@/components/shell";
 
@@ -10,9 +8,9 @@ export default function UserNotFound() {
         <NotFoundCard
           title="User Not Found"
           description="The user you're looking for doesn't exist or has been removed."
-          dashboardLink={redirects.adminToUsers}
+          dashboardLink="/admin/users"
           dashboardLinkText="Back To Users"
-          homeLink={redirects.adminToDashboard}
+          homeLink="/admin/dashboard"
           homeLinkText="Dashboard"
         />
       </div>

@@ -12,8 +12,6 @@ import {
   Text,
 } from "@react-email/components";
 
-import { redirects } from "@/lib/constants";
-
 interface AccountVerificationEmailProps {
   email: string;
   verificationUrl: string;
@@ -115,10 +113,7 @@ const AccountVerificationEmail = ({
                 123 Business Street, Suite 100, City, ST 12345
               </Text>
               <Text className="m-0 text-center text-gray-500 text-xs">
-                <Link
-                  href={redirects.toPrivacy}
-                  className="text-gray-500 no-underline"
-                >
+                <Link href="/privacy" className="text-gray-500 no-underline">
                   Privacy Policy
                 </Link>
                 {" | "}&copy; {new Date().getFullYear()} {companyName}. All

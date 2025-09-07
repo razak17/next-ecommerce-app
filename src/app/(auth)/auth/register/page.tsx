@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { redirects } from "@/lib/constants";
-
 import { Shell } from "@/components/shell";
 import {
   Card,
@@ -51,7 +49,7 @@ export default function RegisterPage() {
             By creating an account, you agree to our{" "}
             <Link
               aria-label="Terms"
-              href={redirects.toTerms}
+              href="/"
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
@@ -59,7 +57,7 @@ export default function RegisterPage() {
             and{" "}
             <Link
               aria-label="Privacy"
-              href={redirects.toPrivacy}
+              href="/"
               className="underline underline-offset-4 hover:text-primary"
             >
               Privacy Policy

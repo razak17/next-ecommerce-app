@@ -1,5 +1,3 @@
-import { redirects } from "@/lib/constants";
-
 import { NotFoundCard } from "@/components/not-found-card";
 import { Shell } from "@/components/shell";
 
@@ -10,9 +8,9 @@ export default function ProductNotFound() {
         <NotFoundCard
           title="Product Not Found"
           description="The specific product you're looking for doesn't exist, has been deleted, or you don't have permission to access it."
-          dashboardLink={redirects.adminToProducts}
+          dashboardLink="/admin/products"
           dashboardLinkText="View All Products"
-          homeLink={redirects.adminToDashboard}
+          homeLink="/admin/dashboard"
           homeLinkText="Dashboard"
         />
       </div>

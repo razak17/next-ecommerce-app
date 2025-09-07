@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { authClient } from "@/lib/auth/client";
-import { redirects } from "@/lib/constants";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -37,7 +36,7 @@ export function ForgotPasswordForm() {
 
     const { error } = await authClient.forgetPassword({
       email: values.email,
-      redirectTo: `${redirects.toResetPassword}`,
+      redirectTo: "/reset-password",
     });
 
     if (error) {

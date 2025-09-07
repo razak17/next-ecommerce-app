@@ -1,6 +1,7 @@
 "use client";
 
 import { IconArrowLeft, IconHome, IconPackage } from "@tabler/icons-react";
+import type { Route } from "next";
 import Link from "next/link";
 import type * as React from "react";
 
@@ -17,9 +18,9 @@ interface NotFoundCardProps
   extends React.ComponentPropsWithoutRef<typeof Card> {
   title?: string;
   description?: string;
-  dashboardLink?: string;
+  dashboardLink?: Route;
   dashboardLinkText?: string;
-  homeLink?: string;
+  homeLink?: Route;
   homeLinkText?: string;
 }
 

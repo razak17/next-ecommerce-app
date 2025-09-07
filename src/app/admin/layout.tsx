@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
-import { redirects } from "@/lib/constants";
 
 import { DashboardHeader } from "@/components/layouts/dashboard-header";
 import { DashboardSidebar } from "@/components/layouts/dashboard-sidebar";
@@ -19,11 +18,11 @@ export default async function AdminLayout({
   });
 
   if (!session) {
-    redirect(redirects.toLogin);
+    redirect("/auth/login");
   }
 
   if (session.user.role !== UserRole.Admin) {
-    redirect(redirects.toLanding);
+    redirect("/");
   }
 
   return (

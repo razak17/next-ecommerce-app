@@ -3,8 +3,6 @@
 import { IconEdit, IconTrash, IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 
-import { redirects } from "@/lib/constants";
-
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -98,13 +96,13 @@ export function UsersTable({ users }: UsersTableProps) {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Button asChild variant="ghost" size="sm">
-                      <Link href={`${redirects.adminToUsers}/${user.id}`}>
+                      <Link href={`/admin/users/${user.id}`}>
                         <IconUser className="size-4" />
                         <span className="sr-only">View user</span>
                       </Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                      <Link href={`${redirects.adminToUsers}/${user.id}/edit`}>
+                      <Link href={`/admin/users/${user.id}/edit`}>
                         <IconEdit className="size-4" />
                         <span className="sr-only">Edit user</span>
                       </Link>

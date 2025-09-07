@@ -7,7 +7,6 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { redirects } from "@/lib/constants";
 import { tryCatch } from "@/lib/utils";
 
 import { FileUploader } from "@/components/file-uploader";
@@ -172,7 +171,7 @@ export function ProductForm({ product, promises }: CreateProductFormProps) {
     }
     toast.success(`Product ${product ? "updated" : "added"} successfully`);
     form.reset();
-    router.push(redirects.adminToProducts);
+    router.push("/admin/products");
     setIsLoading(false);
   }
 

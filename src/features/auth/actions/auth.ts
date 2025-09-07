@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth/client";
-import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
@@ -22,7 +21,7 @@ export const signIn = async (email: string, password: string) => {
       },
     });
 
-    revalidatePath(redirects.toLanding);
+    revalidatePath("/");
 
     return {
       success: true,
@@ -86,7 +85,7 @@ export const sendVerificationEmail = async (email: string) => {
   try {
     await authClient.sendVerificationEmail({
       email,
-      callbackURL: redirects.toProfile,
+      callbackURL: "/profile",
     });
 
     return {
@@ -109,7 +108,7 @@ export const verifyEmail = async (token: string) => {
       query: { token },
     });
 
-    revalidatePath(redirects.toProfile);
+    revalidatePath("/profile");
 
     return {
       success: true,

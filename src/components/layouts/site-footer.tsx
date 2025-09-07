@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -39,7 +40,7 @@ export function SiteFooter() {
           </div>
           <div className="flex items-center space-x-1">
             <Link
-              href={siteConfig.links.github}
+              href={siteConfig.links.github as Route}
               target="_blank"
               rel="noreferrer"
               className={cn(

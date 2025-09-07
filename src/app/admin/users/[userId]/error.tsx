@@ -3,8 +3,6 @@
 import { IconUser } from "@tabler/icons-react";
 import { useEffect } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { ErrorCard } from "@/components/error-card";
 import { Shell } from "@/components/shell";
 
@@ -24,9 +22,9 @@ export default function UserError({ error, reset }: ErrorProps) {
         <ErrorCard
           title="User Error"
           description="We couldn't load the user information. Please try again."
-          retryLink={redirects.adminToDashboard}
+          retryLink="/admin/dashboard"
           retryLinkText="Dashboard"
-          dashboardLink={redirects.adminToUsers}
+          dashboardLink="/admin/users"
           dashboardLinkText="Back To Users"
           dashboardIcon={IconUser}
           reset={reset}

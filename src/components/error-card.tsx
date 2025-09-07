@@ -6,6 +6,7 @@ import {
   IconRefresh,
   IconSettings,
 } from "@tabler/icons-react";
+import type { Route } from "next";
 import Link from "next/link";
 import type * as React from "react";
 
@@ -25,9 +26,9 @@ interface ErrorCardProps extends React.ComponentPropsWithoutRef<typeof Card> {
   dashboardIcon?: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
-  retryLink?: string;
+  retryLink?: Route;
   retryLinkText?: string;
-  dashboardLink?: string;
+  dashboardLink?: Route;
   dashboardLinkText?: string;
   reset?: () => void;
   error?: Error & { digest?: string };

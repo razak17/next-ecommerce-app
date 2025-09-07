@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { authClient } from "@/lib/auth/client";
-import { redirects } from "@/lib/constants";
 
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/password-input";
@@ -51,7 +50,7 @@ export function ResetPasswordForm() {
       toast.error(error.message);
     } else {
       toast.success("Password reset successfully");
-      router.push(redirects.toLogin);
+      router.push("/auth/login");
     }
 
     setIsLoading(false);

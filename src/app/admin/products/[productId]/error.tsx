@@ -3,8 +3,6 @@
 import { IconPackage } from "@tabler/icons-react";
 import { useEffect } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { ErrorCard } from "@/components/error-card";
 import { Shell } from "@/components/shell";
 
@@ -24,9 +22,9 @@ export default function ProductError({ error, reset }: ErrorProps) {
         <ErrorCard
           title="Product Error"
           description="An error occurred while loading this product. It might have been deleted or there's a connection issue."
-          retryLink={redirects.adminToDashboard}
+          retryLink="/admin/dashboard"
           retryLinkText="Dashboard"
-          dashboardLink={redirects.adminToProducts}
+          dashboardLink="/admin/products"
           dashboardLinkText="Products"
           dashboardIcon={IconPackage}
           reset={reset}

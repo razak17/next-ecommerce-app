@@ -1,5 +1,3 @@
-import { redirects } from "@/lib/constants";
-
 import { NotFoundCard } from "@/components/not-found-card";
 import { Shell } from "@/components/shell";
 
@@ -10,7 +8,7 @@ export default function AdminNotFound() {
         <NotFoundCard
           title="Admin Page Not Found"
           description="The admin page you're looking for doesn't exist or you don't have permission to access it."
-          dashboardLink={redirects.adminToDashboard}
+          dashboardLink="/admin/dashboard"
           dashboardLinkText="Admin Dashboard"
         />
       </div>

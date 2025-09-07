@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 import type { Icons } from "@/components/icons";
 
 export interface SessionUser {
@@ -15,7 +17,7 @@ export interface StoredFile {
 
 export interface NavItem {
   title: string;
-  url: string;
+  url: Route;
   disabled?: boolean;
   external?: boolean;
   shortcut?: [string, string];
@@ -28,7 +30,7 @@ export interface NavItem {
 
 export interface SidebarNavItem {
   title: string;
-  url: string;
+  url: Route;
   disabled?: boolean;
   external?: boolean;
   icon?: keyof typeof Icons;

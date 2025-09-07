@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { ErrorCard } from "@/components/error-card";
 import { Shell } from "@/components/shell";
 
@@ -25,7 +23,7 @@ export default function AdminErrorPage({ error, reset }: ErrorProps) {
           description="An error occurred in the admin panel. This might be a temporary issue."
           retryLink="/"
           retryLinkText="Go to Home"
-          dashboardLink={redirects.adminToDashboard}
+          dashboardLink="/admin/dashboard"
           dashboardLinkText="Admin Dashboard"
           reset={reset}
           error={error}

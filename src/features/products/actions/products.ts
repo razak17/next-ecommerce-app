@@ -3,7 +3,6 @@
 import { and, eq, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
@@ -96,7 +95,7 @@ export async function addProduct(
       }
     }
 
-    revalidatePath(redirects.adminToProducts);
+    revalidatePath("/admin/products");
 
     return {
       success: true,
@@ -223,7 +222,7 @@ export async function updateProduct(
       }
     }
 
-    revalidatePath(redirects.adminToProducts);
+    revalidatePath("/admin/products");
 
     return {
       success: true,
@@ -241,7 +240,7 @@ export async function deleteProduct(id: Product["id"]) {
   try {
     await db.delete(products).where(eq(products.id, id));
 
-    revalidatePath(redirects.adminToProducts);
+    revalidatePath("/admin/products");
 
     return {
       success: true,

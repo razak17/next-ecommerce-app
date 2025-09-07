@@ -3,7 +3,6 @@
 import * as React from "react";
 
 import { authClient } from "@/lib/auth/client";
-import { redirects } from "@/lib/constants";
 import { showErrorToast } from "@/lib/handle-error";
 
 import { Icons } from "@/components/icons";
@@ -28,7 +27,7 @@ export function OAuthSignIn() {
       setLoading(provider);
       await authClient.signIn.social({
         provider: provider,
-        callbackURL: redirects.toLanding,
+        callbackURL: "/",
       });
     } catch (err) {
       setLoading(null);

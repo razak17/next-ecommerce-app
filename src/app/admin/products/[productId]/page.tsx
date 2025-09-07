@@ -2,7 +2,6 @@ import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { redirects } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 
 import { ProductImageCarousel } from "@/components/product-image-carousel";
@@ -61,7 +60,7 @@ export default async function ProductPage({
               </div>
               <Button asChild>
                 <Link
-                  href={`${redirects.adminToProducts}/${product.id}/edit`}
+                  href={`/admin/products/${product.id}/edit`}
                   className="flex items-center gap-2"
                 >
                   <IconEdit className="size-4" />

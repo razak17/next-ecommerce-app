@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-import { redirects } from "@/lib/constants";
-
 import { ErrorCard } from "@/components/error-card";
 import { Shell } from "@/components/shell";
 
@@ -23,7 +21,7 @@ export default function ProductsError({ error, reset }: ErrorProps) {
         <ErrorCard
           title="Products Error"
           description="An error occurred while loading products. This might be a database connection issue."
-          retryLink={redirects.adminToDashboard}
+          retryLink="/admin/dashboard"
           retryLinkText="Dashboard"
           reset={reset}
           error={error}

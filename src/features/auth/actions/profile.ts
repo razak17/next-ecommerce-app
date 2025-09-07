@@ -7,7 +7,6 @@ import { headers } from "next/headers";
 import type { z } from "zod";
 
 import { auth } from "@/lib/auth";
-import { redirects } from "@/lib/constants";
 import { getErrorMessage } from "@/lib/handle-error";
 
 import { db } from "@/db/drizzle";
@@ -36,7 +35,7 @@ export async function updateProfile(
       })
       .where(eq(user.id, currentUser.id));
 
-    revalidatePath(redirects.toProfile);
+    revalidatePath("/profile");
 
     return {
       success: true,

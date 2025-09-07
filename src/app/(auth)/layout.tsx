@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
-import { redirects } from "@/lib/constants";
 
 import { MainLayout } from "@/components/layouts/main-layout";
 import { UserRole } from "@/types";
@@ -17,9 +16,9 @@ export default async function AuthLayout({
   });
 
   if (session && session.user.role === UserRole.Admin) {
-    redirect(redirects.adminToDashboard);
+    redirect("/admin/dashboard");
   } else if (session && session.user.role !== UserRole.Admin) {
-    redirect(redirects.toDashboard);
+    redirect("/");
   }
 
   return (
