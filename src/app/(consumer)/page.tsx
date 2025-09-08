@@ -4,10 +4,50 @@ import Link from "next/link";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import BannerCarousel from "@/features/apps/components/banner-carousel";
 
 export default function Home() {
+  const bannerSlides = [
+    {
+      image: "/images/banner-0.jpg",
+      title: "Next-Gen Mobility",
+      description:
+        "Power, performance, and style - experience the future of smartphones today.",
+    },
+    {
+      image: "/images/banner-1.jpg",
+      title: "Innovation Redefined",
+      description:
+        "Discover cutting-edge technology designed to enhance your digital lifestyle.",
+    },
+    {
+      image: "/images/banner-2.jpg",
+      title: "Premium Experience",
+      description:
+        "Quality craftsmanship meets modern design for the ultimate user experience.",
+    },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col">
+      <section className="relative w-full">
+        <BannerCarousel items={bannerSlides} />
+      </section>
+
+      <section className="space-y-6 pt-6 md:pt-10 lg:pt-22">
+        <div className="container flex max-w-6xl flex-col items-center gap-4 text-center">
+          <h1 className="font-bold text-3xl tracking-wide md:text-5xl">
+            Top Trending Products
+          </h1>
+          <p className="mx-auto max-w-4xl text-center text-sm sm:text-base">
+            Discover the latest must-have items that are taking the market by
+            storm. Stay ahead with our curated collection of trending products
+            designed to elevate your lifestyle.
+          </p>
+        </div>
+        {/* Add categories here */}
+      </section>
+
       <section className="space-y-6 pt-6 pb-8 md:pt-10 md:pb-12 lg:py-32">
         <div className="container flex max-w-6xl flex-col items-center gap-4 text-center">
           <div className="rounded-full bg-muted px-4 py-1.5 font-medium text-sm">
