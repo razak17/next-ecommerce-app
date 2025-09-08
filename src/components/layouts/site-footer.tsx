@@ -24,8 +24,8 @@ export function SiteFooter() {
             reserved.
           </p>
         </section>
-        <section className="flex items-center space-x-4">
-          <div className="flex-1 text-left text-muted-foreground text-sm leading-loose">
+        <section className="flex flex-col items-center justify-between space-x-4 md:flex-row">
+          <div className="text-left text-muted-foreground text-sm leading-loose">
             Built by{" "}
             <Link
               href="https://twitter.com/razak17"
@@ -37,6 +37,20 @@ export function SiteFooter() {
               <span className="sr-only">Twitter</span>
             </Link>
             .
+          </div>
+          <div className="flex items-center gap-6 text-sm">
+            <Link
+              href={"/privacy" as Route}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href={"/terms" as Route}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Terms & Conditions
+            </Link>
           </div>
           <div className="flex items-center space-x-1">
             <Link
