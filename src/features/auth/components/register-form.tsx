@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { signUp } from "../actions/auth";
 import { registerSchema } from "../validations/auth";
 
-export function RegisterForm({ isModal }: { isModal?: boolean }) {
+export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -52,16 +52,12 @@ export function RegisterForm({ isModal }: { isModal?: boolean }) {
     });
 
     if (data?.error) {
-      toast.success(data.error);
-      router.refresh();
-      if (isModal) {
-        router.back();
-        router.push("/");
-      }
+      toast.error(data.error);
+      setIsLoading(false);
       return;
     }
 
-    toast.error("Signed up successfully.");
+    toast.success("Signed up successfully.");
     setIsLoading(false);
     router.push("/auth/login");
   }

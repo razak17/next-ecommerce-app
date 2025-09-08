@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { signIn } from "../actions/auth";
 import { loginSchema } from "../validations/auth";
 
-export function LoginForm({ isModal }: { isModal?: boolean }) {
+export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -43,16 +43,12 @@ export function LoginForm({ isModal }: { isModal?: boolean }) {
     const data = await signIn(email, password);
 
     if (data?.error) {
-      toast.success(data.error);
-      router.refresh();
-      if (isModal) {
-        router.back();
-        router.push("/");
-      }
+      toast.error(data.error);
+      setIsLoading(false);
       return;
     }
 
-    toast.error("Signed in successfully.");
+    toast.success("Signed in successfully.");
     setIsLoading(false);
     router.push(window.location.origin as Route);
   }
