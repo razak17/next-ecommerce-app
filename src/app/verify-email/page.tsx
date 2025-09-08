@@ -5,19 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { verifyEmail } from "@/features/auth/actions/auth";
 
 interface EmailVerifyPageProps {
-  searchParams: {
+  searchParams: Promise<{
     token?: string;
-  };
+  }>;
 }
 
 export default async function EmailVerifyPage({
   searchParams,
 }: EmailVerifyPageProps) {
-  if (!searchParams.token) {
+  const { token } = await searchParams;
+  if (!token) {
     redirect("/profile");
   }
 
-  const result = await verifyEmail(searchParams.token);
+  const result = await verifyEmail(token);
 
   return (
     <Shell>
