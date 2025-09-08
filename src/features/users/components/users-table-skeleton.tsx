@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -12,97 +13,65 @@ import {
 
 export function UsersTableSkeleton() {
   return (
-    <div className="space-y-4">
-      {/* Table skeleton with proper structure */}
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <TableRow key={i} className="animate-pulse">
-                {/* Name column with avatar and name */}
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                    <Skeleton className="size-8 flex-shrink-0 rounded-full" />
-                    <div className="min-w-0 flex-1 space-y-2">
-                      <Skeleton
-                        className="h-4 rounded"
-                        style={{ width: `${Math.random() * 80 + 60}px` }}
-                      />
-                      <Skeleton
-                        className="h-3 rounded"
-                        style={{ width: `${Math.random() * 60 + 40}px` }}
-                      />
-                    </div>
-                  </div>
-                </TableCell>
-
-                {/* Email */}
-                <TableCell>
-                  <Skeleton
-                    className="h-4 rounded"
-                    style={{ width: `${Math.random() * 100 + 120}px` }}
-                  />
-                </TableCell>
-
-                {/* Role badge */}
-                <TableCell>
-                  <Skeleton className="h-6 w-16 rounded-full" />
-                </TableCell>
-
-                {/* Status badge */}
-                <TableCell>
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                </TableCell>
-
-                {/* Phone */}
-                <TableCell>
-                  <Skeleton
-                    className="h-4 rounded"
-                    style={{ width: `${Math.random() * 40 + 80}px` }}
-                  />
-                </TableCell>
-
-                {/* Created date */}
-                <TableCell>
-                  <Skeleton className="h-4 w-20 rounded" />
-                </TableCell>
-
-                {/* Actions */}
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Skeleton className="size-8 rounded" />
-                    <Skeleton className="size-8 rounded" />
-                    <Skeleton className="size-8 rounded" />
-                  </div>
-                </TableCell>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="h-6 w-32" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead className="w-[120px]">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/* Optional footer with pagination skeleton */}
-      <div className="flex items-center justify-between pt-4">
-        <Skeleton className="h-4 w-32 rounded" />
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-8 w-16 rounded" />
-          <Skeleton className="h-8 w-8 rounded" />
-          <Skeleton className="h-8 w-8 rounded" />
-          <Skeleton className="h-8 w-8 rounded" />
-          <Skeleton className="h-8 w-16 rounded" />
+            </TableHeader>
+            <TableBody>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div className="flex items-center gap-2 py-3">
+                      <Skeleton className="size-10 rounded-full" />
+                      <div>
+                        <Skeleton className="h-4 w-24" />
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-32" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-6 w-20 rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-20" />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="size-8" />
+                      <Skeleton className="size-8" />
+                      <Skeleton className="size-8" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
