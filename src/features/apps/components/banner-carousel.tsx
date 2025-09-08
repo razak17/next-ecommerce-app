@@ -43,7 +43,7 @@ export default function BannerCarousel({ items }: CarouselWithPaginationProps) {
   }, [api]);
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent className="-ml-0">
           {items.map((slide, index) => (
@@ -58,7 +58,7 @@ export default function BannerCarousel({ items }: CarouselWithPaginationProps) {
                 />
                 <div className="absolute inset-0 z-10 hidden bg-black/25 md:block"></div>
                 <div className="flex w-full flex-col items-center">
-                  <div className="z-10 w-full max-w-6xl px-4">
+                  <div className="container z-10 w-full max-w-6xl">
                     <div className="relative text-center md:max-w-lg md:text-left lg:max-w-xl xl:max-w-2xl">
                       <h1 className="font-bold text-3xl text-black leading-tight sm:text-4xl md:text-5xl md:text-white lg:text-8xl">
                         {slide.title}

@@ -28,9 +28,6 @@ export const cartLineItemSchema = z.object({
   price: z.string().regex(/^\d+(\.\d{1,2})?$/),
   inventory: z.number().default(0),
   quantity: z.number(),
-  storeId: z.string(),
-  storeName: z.string().optional().nullable(),
-  storeStripeAccountId: z.string().optional().nullable(),
 });
 
 export const deleteCartItemSchema = z.object({
