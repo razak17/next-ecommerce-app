@@ -4,11 +4,15 @@ import { auth } from "@/lib/auth";
 
 import { MainLayout } from "@/components/layouts/main-layout";
 
+interface ConsumerLayoutProps
+  extends React.PropsWithChildren<{
+    modal: React.ReactNode;
+  }> {}
+
 export default async function ConsumerLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  modal,
+}: ConsumerLayoutProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -21,6 +25,7 @@ export default async function ConsumerLayout({
       }
     >
       {children}
+      {modal}
     </MainLayout>
   );
 }
