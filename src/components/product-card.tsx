@@ -24,9 +24,7 @@ import type { Product } from "@/db/schema";
 import { addToCart } from "@/features/cart/actions/cart";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: Pick<Product, "id" | "name" | "price" | "images" | "inventory"> & {
-    category: string | null;
-  };
+  product: Pick<Product, "id" | "name" | "price" | "images" | "inventory">;
   variant?: "default" | "switchable";
   isAddedToCart?: boolean;
   onSwitch?: () => Promise<void>;

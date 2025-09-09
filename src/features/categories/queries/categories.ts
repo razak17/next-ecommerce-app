@@ -133,3 +133,22 @@ export async function getCategorySlugFromId({ id }: { id: string }) {
     },
   )();
 }
+
+export async function getCategoryBySlug(slug: string) {
+  return await cache(
+    async () => {
+      const category = await db
+        .select()
+        .from(categories)
+        .where(eq(categories.slug, slug))
+        .limit(1);
+
+      return category[0] || null;
+    },
+    [`category-slug-${slug}`],
+    {
+      revalidate: 3600, // every hour
+      tags: [`category-slug-${slug}`],
+    },
+  )();
+}

@@ -53,3 +53,10 @@ export const UserGender = {
   Female: "female",
   Other: "other",
 } as const;
+
+export interface Option {
+  label: string;
+  value: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  withCount?: boolean;
+}

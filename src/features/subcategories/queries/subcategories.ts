@@ -160,6 +160,35 @@ export async function getSubcategorySlugFromId({ id }: { id: string }) {
   )();
 }
 
+export async function getSubcategoryBySlug(slug: string) {
+  return await cache(
+    async () => {
+      const subcategory = await db
+        .select({
+          id: subcategories.id,
+          name: subcategories.name,
+          slug: subcategories.slug,
+          description: subcategories.description,
+          categoryId: subcategories.categoryId,
+          categoryName: categories.name,
+          createdAt: subcategories.createdAt,
+          updatedAt: subcategories.updatedAt,
+        })
+        .from(subcategories)
+        .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+        .where(eq(subcategories.slug, slug))
+        .limit(1);
+
+      return subcategory[0] || null;
+    },
+    [`subcategory-slug-${slug}`],
+    {
+      revalidate: 3600,
+      tags: [`subcategory-slug-${slug}`],
+    },
+  )();
+}
+
 export async function getSubcategoriesByCategory(categoryId: string) {
   return await cache(
     async () => {

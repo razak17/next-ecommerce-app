@@ -34,6 +34,22 @@ export function toTitleCase(str: string) {
   );
 }
 
+export function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-");
+}
+
+export function unslugify(str: string) {
+  return str.replace(/-/g, " ");
+}
+
+export function truncate(str: string, length: number) {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
+}
+
 export function getInitials({
   name,
   firstName,
