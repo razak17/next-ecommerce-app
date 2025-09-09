@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { db } from "@/db/drizzle";
 import { categories, products } from "@/db/schema";
 import { env } from "@/env.js";
+import { AddToCartForm } from "@/features/products/components/add-to-cart-form";
 
 export async function generateMetadata({
   params,
@@ -116,7 +117,7 @@ export default async function ProductPage({
             {/*   rating={product.rating} */}
             {/* /> */}
           </div>
-          {/* <AddToCartForm productId={productId} showBuyNow={true} /> */}
+          <AddToCartForm productId={productId} showBuyNow={true} />
           <Separator className="mt-5" />
           <Accordion
             type="single"

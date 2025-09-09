@@ -1,96 +1,19 @@
 "use server";
 
-import { asc, eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import type { z } from "zod";
 
 import { getErrorMessage } from "@/lib/handle-error";
+
+import { db } from "@/db/drizzle";
+import { carts, products } from "@/db/schema";
 import {
-  type CartLineItemSchema,
   cartItemSchema,
   type deleteCartItemSchema,
   type deleteCartItemsSchema,
-} from "@/lib/validations/cart";
-
-import { db } from "@/db/drizzle";
-import { carts, categories, products, subcategories } from "@/db/schema";
-
-export async function getCart(): Promise<CartLineItemSchema[]> {
-  noStore();
-
-  const cookieStore = await cookies();
-  const cartId = cookieStore.get("cartId")?.value;
-
-  if (!cartId) return [];
-
-  try {
-    const cart = await db.query.carts.findFirst({
-      columns: {
-        items: true,
-      },
-      where: eq(carts.id, cartId),
-    });
-
-    const productIds = cart?.items?.map((item) => item.productId) ?? [];
-
-    if (productIds.length === 0) return [];
-
-    const uniqueProductIds = [...new Set(productIds)];
-
-    const cartLineItems = await db
-      .select({
-        id: products.id,
-        name: products.name,
-        images: products.images,
-        category: categories.name,
-        subcategory: subcategories.name,
-        price: products.price,
-        inventory: products.inventory,
-      })
-      .from(products)
-      .leftJoin(categories, eq(categories.id, products.categoryId))
-      .leftJoin(subcategories, eq(subcategories.id, products.subcategoryId))
-      .where(inArray(products.id, uniqueProductIds))
-      .groupBy(products.id)
-      .orderBy(asc(products.createdAt))
-      .execute()
-      .then((items) => {
-        return items.map((item) => {
-          const quantity = cart?.items?.find(
-            (cartItem) => cartItem.productId === item.id,
-          )?.quantity;
-
-          return {
-            ...item,
-            quantity: quantity ?? 0,
-          };
-        });
-      });
-
-    return cartLineItems;
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
-export async function getCartItems(input: { cartId?: string }) {
-  noStore();
-
-  if (!input.cartId) return [];
-
-  try {
-    const cart = await db.query.carts.findFirst({
-      where: eq(carts.id, input.cartId),
-    });
-
-    return cart?.items;
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
+} from "@/features/cart/validations/cart";
 
 export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
   noStore();

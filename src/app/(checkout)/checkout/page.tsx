@@ -1,6 +1,6 @@
 import { Shell } from "@/components/shell";
 
-export default function CartPage() {
+export default function CheckoutPage() {
   return (
     <Shell className="flex h-dvh flex-col items-center justify-center">
       <section className="flex flex-col items-center text-center font-mono">
