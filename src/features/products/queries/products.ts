@@ -87,7 +87,7 @@ export async function getProducts(input: SearchParams) {
           maxPrice ? lte(products.price, maxPrice) : undefined,
         ),
       )
-      .groupBy(products.id)
+      .groupBy(products.id, categories.name, subcategories.name)
       .orderBy(
         column && column in products
           ? order === "asc"
