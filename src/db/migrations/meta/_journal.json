@@ -57,6 +57,13 @@
       "when": 1756866805073,
       "tag": "0007_damp_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1757442715355,
+      "tag": "0008_perfect_sebastian_shaw",
+      "breakpoints": true
     }
   ]
 }

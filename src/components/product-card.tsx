@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/card";
 import type { Product } from "@/db/schema";
 import { addToCart } from "@/features/cart/actions/cart";
+import { FavoriteButton } from "@/features/favorites/components/favorite-button";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Pick<Product, "id" | "name" | "price" | "images" | "inventory">;
@@ -49,7 +50,7 @@ export function ProductCard({
       {...props}
     >
       <Link aria-label={product.name} href={`/product/${product.id}`}>
-        <CardHeader className="gap-0 border-b p-0 [.border-b]:pb-0">
+        <CardHeader className="relative gap-0 border-b p-0 [.border-b]:pb-0">
           <AspectRatio ratio={4 / 3}>
             {product.images?.length ? (
               <Image
@@ -66,6 +67,14 @@ export function ProductCard({
               <PlaceholderImage className="rounded-none" asChild />
             )}
           </AspectRatio>
+          <div className="absolute top-2 right-2">
+            <FavoriteButton
+              productId={product.id}
+              size="icon"
+              variant="secondary"
+              className="size-8"
+            />
+          </div>
         </CardHeader>
         <span className="sr-only">{product.name}</span>
       </Link>

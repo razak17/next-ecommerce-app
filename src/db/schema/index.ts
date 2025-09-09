@@ -1,5 +1,6 @@
 export * from "./carts";
 export * from "./categories";
+export * from "./favorites";
 export * from "./products";
 export * from "./stocks";
 export * from "./subcategories";
