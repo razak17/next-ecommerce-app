@@ -85,6 +85,13 @@ export async function Lobby({
     description: string;
   }[];
 
+  const lobbyStats = [
+    { label: "Happy Customers", value: "10K+" },
+    { label: "Products Sold", value: "50K+" },
+    { label: "Satisfaction Rate", value: "99.9%" },
+    { label: "Support Available", value: "24/7" },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col">
       <BannerCarousel items={bannerSlides} />
@@ -157,38 +164,19 @@ export async function Lobby({
       <section className="bg-primary pt-14 pb-14 md:pt-20 lg:pt-24">
         <div className="container">
           <div className="container grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
-            <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="font-bold text-4xl text-primary-foreground">
-                10K+
+            {lobbyStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="flex flex-col items-center space-y-2 text-center"
+              >
+                <div className="font-bold text-4xl text-primary-foreground">
+                  {stat.value}
+                </div>
+                <div className="text-primary-foreground/80 text-sm">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-primary-foreground/80 text-sm">
-                Happy Customers
-              </div>
-            </div>
-            <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="font-bold text-4xl text-primary-foreground">
-                50K+
-              </div>
-              <div className="text-primary-foreground/80 text-sm">
-                Products Sold
-              </div>
-            </div>
-            <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="font-bold text-4xl text-primary-foreground">
-                99.9%
-              </div>
-              <div className="text-primary-foreground/80 text-sm">
-                Satisfaction Rate
-              </div>
-            </div>
-            <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="font-bold text-4xl text-primary-foreground">
-                24/7
-              </div>
-              <div className="text-primary-foreground/80 text-sm">
-                Support Available
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
