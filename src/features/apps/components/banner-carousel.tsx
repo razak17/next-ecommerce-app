@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: false */
 "use client";
 
 import Image from "next/image";
@@ -28,6 +29,7 @@ export default function BannerCarousel({ items }: CarouselWithPaginationProps) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [isHovered, setIsHovered] = React.useState(false);
 
   React.useEffect(() => {
     if (!api) {
@@ -42,8 +44,26 @@ export default function BannerCarousel({ items }: CarouselWithPaginationProps) {
     });
   }, [api]);
 
+  React.useEffect(() => {
+    if (!api || isHovered) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const currentIndex = api.selectedScrollSnap();
+      const nextIndex = currentIndex + 1 >= count ? 0 : currentIndex + 1;
+      api.scrollTo(nextIndex);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [api, count, isHovered]);
+
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent className="-ml-0">
           {items.map((slide, index) => (
