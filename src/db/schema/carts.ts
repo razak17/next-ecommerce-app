@@ -1,9 +1,9 @@
 import { boolean, json, pgTable, text, varchar } from "drizzle-orm/pg-core";
 
 import { generateId } from "@/lib/id";
-import type { CartItemSchema } from "@/lib/validations/cart";
 
 import { lifecycleDates } from "./utils";
+import type { CartItemSchema } from "@/features/cart/validations/cart";
 
 export const carts = pgTable("carts", {
   id: varchar("id", { length: 30 })
