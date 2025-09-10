@@ -21,80 +21,10 @@ export async function Lobby({
     productsPromise,
     categoriesPromise,
   ]);
-  const bannerSlides = [
-    {
-      image: "/images/banner-0.jpg",
-      title: "Next-Gen Mobility",
-      description:
-        "Power, performance, and style - experience the future of smartphones today.",
-    },
-    {
-      image: "/images/banner-1.jpg",
-      title: "Innovation Redefined",
-      description:
-        "Discover cutting-edge technology designed to enhance your digital lifestyle.",
-    },
-    {
-      image: "/images/banner-2.jpg",
-      title: "Premium Experience",
-      description:
-        "Quality craftsmanship meets modern design for the ultimate user experience.",
-    },
-  ];
-
-  const whyChooseUs = [
-    {
-      icon: "store",
-      title: "Quality Products",
-      description:
-        "Carefully curated selection of high-quality products from trusted brands and suppliers worldwide.",
-    },
-    {
-      icon: "cart",
-      title: "Fast Delivery",
-      description:
-        "Lightning-fast shipping with real-time tracking. Get your orders delivered within 24-48 hours.",
-    },
-    {
-      icon: "users",
-      title: "24/7 Support",
-      description:
-        "Our dedicated customer support team is available round the clock to assist you with any queries.",
-    },
-    {
-      icon: "credit",
-      title: "Secure Payments",
-      description:
-        "Shop with confidence using our encrypted payment system supporting multiple payment methods.",
-    },
-    {
-      icon: "analytics",
-      title: "Easy Returns",
-      description:
-        "Hassle-free 30-day return policy. Not satisfied? Return your purchase with no questions asked.",
-    },
-    {
-      icon: "dollarSign",
-      title: "Best Prices",
-      description:
-        "Competitive pricing with regular discounts and special offers. Get the best value for your money.",
-    },
-  ] satisfies {
-    icon: keyof typeof Icons;
-    title: string;
-    description: string;
-  }[];
-
-  const lobbyStats = [
-    { label: "Happy Customers", value: "10K+" },
-    { label: "Products Sold", value: "50K+" },
-    { label: "Satisfaction Rate", value: "99.9%" },
-    { label: "Support Available", value: "24/7" },
-  ];
 
   return (
     <div className="flex min-h-screen flex-col">
-      <BannerCarousel items={bannerSlides} />
+      <BannerCarousel items={siteConfig.bannerSlides} />
 
       <Shell className="max-w-6xl gap-0">
         <section className="space-y-6 pt-14 md:pt-20 lg:pt-24">
@@ -140,7 +70,7 @@ export async function Lobby({
           </div>
 
           <div className="container grid justify-center gap-4 sm:grid-cols-2 md:max-w-6xl md:grid-cols-3">
-            {whyChooseUs.map((item, index) => {
+            {siteConfig.whyChooseUs.map((item, index) => {
               const Icon = Icons[item.icon ?? "store"];
               return (
                 <div
@@ -164,7 +94,7 @@ export async function Lobby({
       <section className="bg-primary pt-14 pb-14 md:pt-20 lg:pt-24">
         <div className="container">
           <div className="container grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
-            {lobbyStats.map((stat) => (
+            {siteConfig.lobbyStats.map((stat) => (
               <div
                 key={stat.label}
                 className="flex flex-col items-center space-y-2 text-center"
