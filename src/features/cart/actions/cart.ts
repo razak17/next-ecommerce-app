@@ -21,7 +21,6 @@ export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
   try {
     const input = cartItemSchema.parse(rawInput);
 
-    // Checking if product is in stock
     const product = await db.query.products.findFirst({
       columns: {
         inventory: true,
@@ -164,9 +163,7 @@ export async function updateCartItem(rawInput: z.infer<typeof cartItemSchema>) {
 
     await db
       .update(carts)
-      .set({
-        items: cart.items,
-      })
+      .set({ items: cart.items })
       .where(eq(carts.id, cartId));
 
     revalidatePath("/");

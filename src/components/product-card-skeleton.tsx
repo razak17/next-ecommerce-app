@@ -19,7 +19,10 @@ export function ProductCardSkeleton({
 }: ProductCardSkeletonProps) {
   return (
     <Card
-      className={cn("h-full overflow-hidden rounded-lg", className)}
+      className={cn(
+        "size-full gap-0 overflow-hidden rounded-lg p-0",
+        className,
+      )}
       {...props}
     >
       <CardHeader className="gap-0 border-b p-0 [.border-b]:pb-0">
