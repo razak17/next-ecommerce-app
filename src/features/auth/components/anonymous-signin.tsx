@@ -1,12 +1,14 @@
 "use client";
 
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
 
+import { authClient } from "@/lib/auth/client";
+
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { anonymousSignIn } from "../actions/auth";
 
 export function AnonymousSignIn() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -15,19 +17,23 @@ export function AnonymousSignIn() {
   const handleSignInAnonymous = async () => {
     setIsLoading(true);
     try {
-      const data = await anonymousSignIn();
-      if (data.error) {
-        toast.error(data.error);
+      const { error } = await authClient.signIn.anonymous();
+      if (error) {
+        toast.error(error.message);
         return;
       }
       router.refresh();
       toast.success("Signed in successfully.");
+      router.push(window.location.origin as Route);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <Button
+      disabled={isLoading}
       variant="outline"
       className="w-full bg-background"
       onClick={handleSignInAnonymous}
