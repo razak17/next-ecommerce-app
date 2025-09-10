@@ -18,7 +18,7 @@ export default async function AdminLayout({
   });
 
   if (!session) {
-    redirect("/auth/login");
+    redirect("/login");
   }
 
   if (session.user.role !== UserRole.Admin) {

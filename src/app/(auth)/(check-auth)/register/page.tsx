@@ -49,7 +49,7 @@ export default function RegisterPage() {
             By creating an account, you agree to our{" "}
             <Link
               aria-label="Terms"
-              href="/"
+              href="/terms"
               className="underline underline-offset-4 hover:text-primary"
             >
               Terms of Service
@@ -57,7 +57,7 @@ export default function RegisterPage() {
             and{" "}
             <Link
               aria-label="Privacy"
-              href="/"
+              href="/privacy"
               className="underline underline-offset-4 hover:text-primary"
             >
               Privacy Policy

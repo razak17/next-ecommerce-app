@@ -11,35 +11,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { env } from "@/env";
-import { ResetPasswordForm } from "@/features/auth/components/reset-password-form";
+import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form";
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Reset Password",
-  description: "Reset your password",
+  title: "Forgot Password",
+  description: "Enter your email to reset your password",
 };
 
-export default function ResetPasswordPage() {
+export default function ForgotPasswordPage() {
   return (
     <Shell className="max-w-lg">
       <Card className="gap-4">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Reset Password</CardTitle>
+          <CardTitle className="text-2xl">Forgot Password</CardTitle>
           <CardDescription>
-            Enter your new password to reset your password
+            Enter your email to reset your password
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <ResetPasswordForm />
+          <ForgotPasswordForm />
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-center gap-2">
           <div className="text-muted-foreground text-sm">
             <Link
               aria-label="Register"
-              href="/auth/register"
+              href="/login"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
-              Need an account?
+              Back to login?
             </Link>
           </div>
         </CardFooter>

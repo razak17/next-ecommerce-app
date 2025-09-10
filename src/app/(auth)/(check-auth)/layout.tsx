@@ -5,20 +5,20 @@ import { auth } from "@/lib/auth";
 
 import { UserRole } from "@/types";
 
-export default async function CheckoutLayout({
+export default async function CheckAuthLayout({
   children,
-}: React.PropsWithChildren) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session) {
-    redirect("/login");
-  }
-
-  if (session.user.role !== UserRole.Admin) {
+  if (session && session.user.role === UserRole.Admin) {
+    redirect("/admin/dashboard");
+  } else if (session && session.user.role !== UserRole.Admin) {
     redirect("/");
   }
 
-  return <main>{children}</main>;
+  return <>{children}</>;
 }

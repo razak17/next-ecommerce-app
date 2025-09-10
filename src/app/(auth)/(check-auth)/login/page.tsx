@@ -61,7 +61,7 @@ export default function LoginPage() {
             </span>
             <Link
               aria-label="Register"
-              href="/auth/register"
+              href="/register"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
               Register

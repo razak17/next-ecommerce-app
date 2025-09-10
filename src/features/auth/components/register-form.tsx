@@ -59,7 +59,7 @@ export function RegisterForm() {
 
     toast.success("Signed up successfully.");
     setIsLoading(false);
-    router.push("/auth/login");
+    router.push("/login");
   }
 
   return (
@@ -134,7 +134,7 @@ export function RegisterForm() {
           Already have an account?{" "}
           <Link
             aria-label="Login"
-            href="/auth/login"
+            href="/login"
             className="text-primary underline-offset-4 transition-colors hover:underline"
           >
             Login

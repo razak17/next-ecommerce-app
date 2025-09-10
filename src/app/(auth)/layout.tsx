@@ -1,28 +1,13 @@
-import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-
-import { auth } from "@/lib/auth";
 
 import { siteConfig } from "@/config/site";
-import { UserRole } from "@/types";
 
 export default async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  //
-  // if (session && session.user.role === UserRole.Admin) {
-  //   redirect("/admin/dashboard");
-  // } else if (session && session.user.role !== UserRole.Admin) {
-  //   redirect("/");
-  // }
-
   return (
     <div className="relative grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-2">
       <Link

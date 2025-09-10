@@ -33,14 +33,14 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
     return (
       <>
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/auth/login">
+          <Link href="/login">
             <LogIn className="mr-2 size-4" />
             Login
             <span className="sr-only">Login</span>
           </Link>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/auth/register">
+          <Link href="/register">
             <User className="mr-2 size-4" />
             Register
             <span className="sr-only">Register</span>
@@ -87,7 +87,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <AuthDropdownGroup role={user.role} />
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href="/auth/logout">
+            <Link href="/logout">
               <ExitIcon
                 className="mr-2 size-4 text-foreground"
                 aria-hidden="true"
