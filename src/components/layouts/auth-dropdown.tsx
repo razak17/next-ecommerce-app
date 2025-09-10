@@ -3,9 +3,8 @@
 import { ExitIcon } from "@radix-ui/react-icons";
 import { LogIn, User } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
-import { authClient } from "@/lib/auth/client";
 import { getInitials, isActiveUrl } from "@/lib/utils";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,8 +29,6 @@ interface AuthDropdownProps {
 }
 
 export function AuthDropdown({ user }: AuthDropdownProps) {
-  const router = useRouter();
-
   if (!user) {
     return (
       <>
@@ -89,18 +86,14 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
           <DropdownMenuSeparator />
           <AuthDropdownGroup role={user.role} />
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={async () => {
-              await authClient.signOut();
-              router.push("/");
-              router.refresh();
-            }}
-          >
-            <ExitIcon
-              className="mr-2 size-4 text-foreground"
-              aria-hidden="true"
-            />
-            Log out
+          <DropdownMenuItem asChild>
+            <Link href="/auth/logout">
+              <ExitIcon
+                className="mr-2 size-4 text-foreground"
+                aria-hidden="true"
+              />
+              Logout
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenuPortal>

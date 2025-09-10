@@ -30,37 +30,39 @@ import { getProductsSchema } from "../validations/products";
 
 // See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
 export async function getFeaturedProducts(currentUserId?: string) {
-  return await cache(
-    async () => {
-      return db
-        .select({
-          id: products.id,
-          name: products.name,
-          images: products.images,
-          category: categories.name,
-          price: products.price,
-          inventory: products.inventory,
-          isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
-        })
-        .from(products)
-        .limit(8)
-        .leftJoin(categories, eq(products.categoryId, categories.id))
-        .leftJoin(
-          favorites,
-          and(
-            eq(favorites.productId, products.id),
-            eq(favorites.userId, currentUserId ?? ""),
-          ),
-        )
-        .groupBy(products.id, categories.name, favorites.productId)
-        .orderBy(desc(count(products.images)), desc(products.createdAt));
-    },
-    ["featured-products"],
-    {
-      revalidate: 3600, // every hour
-      tags: ["featured-products"],
-    },
-  )();
+  let query = db
+    .select({
+      id: products.id,
+      name: products.name,
+      images: products.images,
+      category: categories.name,
+      price: products.price,
+      inventory: products.inventory,
+      isFavorited: currentUserId
+        ? sql<boolean>`${favorites.productId} IS NOT NULL`
+        : sql<boolean>`FALSE`,
+    })
+    .from(products)
+    .limit(8)
+    .leftJoin(categories, eq(products.categoryId, categories.id));
+
+  if (currentUserId) {
+    query = query.leftJoin(
+      favorites,
+      and(
+        eq(favorites.productId, products.id),
+        eq(favorites.userId, currentUserId),
+      ),
+    );
+
+    return await query
+      .groupBy(products.id, categories.name, favorites.productId)
+      .orderBy(desc(count(products.images)), desc(products.createdAt));
+  } else {
+    return await query
+      .groupBy(products.id, categories.name)
+      .orderBy(desc(count(products.images)), desc(products.createdAt));
+  }
 }
 
 // See the unstable_noStore API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_noStore
@@ -81,7 +83,7 @@ export async function getProducts(input: SearchParams, currentUserId?: string) {
     const categoryIds = search.categories?.split(".") ?? [];
     const subcategoryIds = search.subcategories?.split(".") ?? [];
 
-    const data = await db
+    let dataQuery = db
       .select({
         id: products.id,
         name: products.name,
@@ -92,7 +94,9 @@ export async function getProducts(input: SearchParams, currentUserId?: string) {
         price: products.price,
         inventory: products.inventory,
         rating: products.rating,
-        isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
+        isFavorited: currentUserId
+          ? sql<boolean>`${favorites.productId} IS NOT NULL`
+          : sql<boolean>`FALSE`,
         createdAt: products.createdAt,
         updatedAt: products.updatedAt,
       })
@@ -100,14 +104,19 @@ export async function getProducts(input: SearchParams, currentUserId?: string) {
       .limit(limit)
       .offset(offset)
       .leftJoin(categories, eq(products.categoryId, categories.id))
-      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
-      .leftJoin(
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id));
+
+    if (currentUserId) {
+      dataQuery = dataQuery.leftJoin(
         favorites,
         and(
           eq(favorites.productId, products.id),
-          eq(favorites.userId, currentUserId ?? ""),
+          eq(favorites.userId, currentUserId),
         ),
-      )
+      );
+    }
+
+    const data = await dataQuery
       .where(
         and(
           categoryIds.length > 0
@@ -124,7 +133,7 @@ export async function getProducts(input: SearchParams, currentUserId?: string) {
         products.id,
         categories.name,
         subcategories.name,
-        favorites.productId,
+        ...(currentUserId ? [favorites.productId] : []),
       )
       .orderBy(
         column && column in products
@@ -194,7 +203,7 @@ export async function getProductCountByCategory({
 
 export async function getProduct(productId: string, currentUserId?: string) {
   try {
-    const product = await db
+    let query = db
       .select({
         id: products.id,
         name: products.name,
@@ -209,18 +218,25 @@ export async function getProduct(productId: string, currentUserId?: string) {
         subcategoryId: products.subcategoryId,
         category: categories,
         subcategory: subcategories,
-        isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
+        isFavorited: currentUserId
+          ? sql<boolean>`${favorites.productId} IS NOT NULL`
+          : sql<boolean>`FALSE`,
       })
       .from(products)
       .leftJoin(categories, eq(products.categoryId, categories.id))
-      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
-      .leftJoin(
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id));
+
+    if (currentUserId) {
+      query = query.leftJoin(
         favorites,
         and(
           eq(favorites.productId, products.id),
-          eq(favorites.userId, currentUserId ?? ""),
+          eq(favorites.userId, currentUserId),
         ),
-      )
+      );
+    }
+
+    const product = await query
       .where(eq(products.id, productId))
       .limit(1)
       .then((res) => res[0] ?? null);
