@@ -78,6 +78,13 @@
       "when": 1757456521113,
       "tag": "0010_mute_cyclops",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1757523889925,
+      "tag": "0011_foamy_plazm",
+      "breakpoints": true
     }
   ]
 }
