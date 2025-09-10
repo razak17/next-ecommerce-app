@@ -37,6 +37,32 @@ export const signIn = async (email: string, password: string) => {
   }
 };
 
+export async function anonymousSignIn() {
+  try {
+    const { data, error } = await authClient.signIn.anonymous();
+    if (error) {
+      return {
+        success: false,
+        usercurrentUser: null,
+        error: error.message,
+      };
+    }
+    return {
+      success: true,
+      currentUser: data.user,
+      error: null,
+    };
+  } catch (error) {
+    const e = error as APIError;
+
+    return {
+      success: false,
+      usercurrentUser: null,
+      error: e.message || getErrorMessage(e),
+    };
+  }
+}
+
 export const signUp = async ({
   email,
   password,

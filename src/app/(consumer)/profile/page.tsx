@@ -96,7 +96,10 @@ export default async function ProfilePage() {
                       {currentUser.emailVerified ? "Verified" : "Not Verified"}
                     </Badge>
                     {!currentUser.emailVerified && (
-                      <EmailVerificationForm userEmail={currentUser.email} />
+                      <EmailVerificationForm
+                        isAnonymousUser={currentUser.isAnonymous}
+                        userEmail={currentUser.email}
+                      />
                     )}
                   </div>
                 </div>
@@ -111,7 +114,7 @@ export default async function ProfilePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ChangePasswordForm />
+                <ChangePasswordForm isAnonymousUser={currentUser.isAnonymous} />
               </CardContent>
             </Card>
           </div>

@@ -1,0 +1,1 @@
+ALTER TABLE "carts" ADD COLUMN "user_id" text;

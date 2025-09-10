@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { admin as adminPlugin } from "better-auth/plugins";
+import { admin as adminPlugin, anonymous } from "better-auth/plugins";
 
 import { ac, admin, consumer } from "./permissions";
 import ResetPasswordEmail from "@/components/reset-password-email";
@@ -85,6 +85,11 @@ export const auth = betterAuth({
       },
       adminRoles: ["admin"],
       defaultRole: "consumer",
+    }),
+    anonymous({
+      onLinkAccount: async () => {
+        // perform actions like moving the cart items from anonymous user to the new user
+      },
     }),
     nextCookies(), // make sure this is the last plugin in the array
   ],

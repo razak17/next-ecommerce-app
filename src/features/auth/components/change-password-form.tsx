@@ -20,7 +20,13 @@ import {
 import { changePassword } from "../actions/profile";
 import { changePasswordSchema } from "../validations/auth";
 
-export function ChangePasswordForm() {
+interface ChangePasswordFormProps {
+  isAnonymousUser?: boolean | null;
+}
+
+export function ChangePasswordForm({
+  isAnonymousUser = false,
+}: ChangePasswordFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof changePasswordSchema>>({
@@ -59,6 +65,7 @@ export function ChangePasswordForm() {
               <FormLabel>Current Password</FormLabel>
               <FormControl>
                 <PasswordInput
+                  disabled={isAnonymousUser ?? false}
                   placeholder="Enter current password"
                   {...field}
                 />
@@ -75,7 +82,11 @@ export function ChangePasswordForm() {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="Enter new password" {...field} />
+                <PasswordInput
+                  disabled={isAnonymousUser ?? false}
+                  placeholder="Enter new password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,14 +100,22 @@ export function ChangePasswordForm() {
             <FormItem>
               <FormLabel>Confirm New Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="Confirm new password" {...field} />
+                <PasswordInput
+                  disabled={isAnonymousUser ?? false}
+                  placeholder="Confirm new password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" disabled={isLoading} className="w-full">
+        <Button
+          type="submit"
+          disabled={isAnonymousUser ?? isLoading}
+          className="w-full"
+        >
           {isLoading && (
             <Icons.spinner
               className="mr-2 size-4 animate-spin"

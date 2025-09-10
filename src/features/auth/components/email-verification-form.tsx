@@ -8,10 +8,12 @@ import { sendVerificationEmail } from "@/features/auth/actions/auth";
 
 interface EmailVerificationFormProps {
   userEmail: string;
+  isAnonymousUser?: boolean | null;
 }
 
 export function EmailVerificationForm({
   userEmail,
+  isAnonymousUser = false,
 }: EmailVerificationFormProps) {
   const [isPending, startTransition] = useTransition();
   const [emailSent, setEmailSent] = useState(false);
@@ -37,7 +39,7 @@ export function EmailVerificationForm({
       </p>
       <Button
         onClick={handleSendVerification}
-        disabled={isPending || emailSent}
+        disabled={isAnonymousUser || isPending || emailSent}
         size="sm"
         variant="outline"
       >
