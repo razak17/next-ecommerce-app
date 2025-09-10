@@ -49,7 +49,7 @@ export async function getFeaturedProducts(currentUserId?: string) {
           favorites,
           and(
             eq(favorites.productId, products.id),
-            currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+            eq(favorites.userId, currentUserId ?? ""),
           ),
         )
         .groupBy(products.id, categories.name, favorites.productId)
@@ -105,7 +105,7 @@ export async function getProducts(input: SearchParams, currentUserId?: string) {
         favorites,
         and(
           eq(favorites.productId, products.id),
-          currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+          eq(favorites.userId, currentUserId ?? ""),
         ),
       )
       .where(
@@ -218,7 +218,7 @@ export async function getProduct(productId: string, currentUserId?: string) {
         favorites,
         and(
           eq(favorites.productId, products.id),
-          currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+          eq(favorites.userId, currentUserId ?? ""),
         ),
       )
       .where(eq(products.id, productId))
