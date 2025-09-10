@@ -1,5 +1,4 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 
@@ -13,7 +12,20 @@ export default async function FavoritesPage() {
   });
 
   if (!session?.user?.id) {
-    redirect("/login");
+    return (
+      <Shell className="flex h-dvh flex-col items-center justify-center">
+        <section className="flex flex-col items-center text-center">
+          <h1 className="mb-4 font-bold text-4xl">Your Favorites</h1>
+          <p className="mb-6 text-lg text-muted-foreground">
+            You haven't added any products to your favorites yet.
+          </p>
+          <p className="text-muted-foreground">
+            Browse our products and click the heart icon to add items to your
+            favorites!
+          </p>
+        </section>
+      </Shell>
+    );
   }
 
   const favorites = await getUserFavorites(session.user.id);
