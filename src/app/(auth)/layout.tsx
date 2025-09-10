@@ -14,7 +14,7 @@ export default async function AuthLayout({
         href="/"
         className="absolute top-6 left-8 z-20 flex items-center font-bold text-foreground/80 text-lg tracking-tight transition-colors hover:text-foreground"
       >
-        <span>{siteConfig.name}</span>
+        <span className="font-mono text-xl">{siteConfig.name}</span>
       </Link>
       <main className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full items-center lg:static lg:top-0 lg:left-0 lg:flex lg:translate-x-0 lg:translate-y-0">
         {children}
