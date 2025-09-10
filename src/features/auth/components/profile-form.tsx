@@ -127,6 +127,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
               </Button>
             </label>
             <input
+              disabled={isUploadingImage}
               id="image-upload"
               type="file"
               accept="image/*"

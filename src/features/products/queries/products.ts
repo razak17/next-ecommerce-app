@@ -1,18 +1,35 @@
 import "server-only";
 
-import { and, asc, count, desc, eq, gte, inArray, lte } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gte,
+  inArray,
+  lte,
+  not,
+  sql,
+} from "drizzle-orm";
 import {
   unstable_cache as cache,
   unstable_noStore as noStore,
 } from "next/cache";
 
 import { db } from "@/db/drizzle";
-import { categories, type Product, products, subcategories } from "@/db/schema";
+import {
+  categories,
+  favorites,
+  type Product,
+  products,
+  subcategories,
+} from "@/db/schema";
 import type { SearchParams } from "@/types";
 import { getProductsSchema } from "../validations/products";
 
 // See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
-export async function getFeaturedProducts() {
+export async function getFeaturedProducts(currentUserId?: string) {
   return await cache(
     async () => {
       return db
@@ -23,11 +40,19 @@ export async function getFeaturedProducts() {
           category: categories.name,
           price: products.price,
           inventory: products.inventory,
+          isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
         })
         .from(products)
         .limit(8)
         .leftJoin(categories, eq(products.categoryId, categories.id))
-        .groupBy(products.id, categories.name)
+        .leftJoin(
+          favorites,
+          and(
+            eq(favorites.productId, products.id),
+            currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+          ),
+        )
+        .groupBy(products.id, categories.name, favorites.productId)
         .orderBy(desc(count(products.images)), desc(products.createdAt));
     },
     ["featured-products"],
@@ -39,7 +64,7 @@ export async function getFeaturedProducts() {
 }
 
 // See the unstable_noStore API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_noStore
-export async function getProducts(input: SearchParams) {
+export async function getProducts(input: SearchParams, currentUserId?: string) {
   noStore();
 
   try {
@@ -67,6 +92,7 @@ export async function getProducts(input: SearchParams) {
         price: products.price,
         inventory: products.inventory,
         rating: products.rating,
+        isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
         createdAt: products.createdAt,
         updatedAt: products.updatedAt,
       })
@@ -75,6 +101,13 @@ export async function getProducts(input: SearchParams) {
       .offset(offset)
       .leftJoin(categories, eq(products.categoryId, categories.id))
       .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+      .leftJoin(
+        favorites,
+        and(
+          eq(favorites.productId, products.id),
+          currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+        ),
+      )
       .where(
         and(
           categoryIds.length > 0
@@ -87,7 +120,12 @@ export async function getProducts(input: SearchParams) {
           maxPrice ? lte(products.price, maxPrice) : undefined,
         ),
       )
-      .groupBy(products.id, categories.name, subcategories.name)
+      .groupBy(
+        products.id,
+        categories.name,
+        subcategories.name,
+        favorites.productId,
+      )
       .orderBy(
         column && column in products
           ? order === "asc"
@@ -154,19 +192,82 @@ export async function getProductCountByCategory({
   )();
 }
 
-export async function getProduct(id: string) {
-  noStore();
+export async function getProduct(productId: string, currentUserId?: string) {
+  try {
+    const product = await db
+      .select({
+        id: products.id,
+        name: products.name,
+        description: products.description,
+        images: products.images,
+        price: products.price,
+        inventory: products.inventory,
+        rating: products.rating,
+        createdAt: products.createdAt,
+        updatedAt: products.updatedAt,
+        categoryId: products.categoryId,
+        subcategoryId: products.subcategoryId,
+        category: categories,
+        subcategory: subcategories,
+        isFavorited: sql<boolean>`${favorites.productId} IS NOT NULL`,
+      })
+      .from(products)
+      .leftJoin(categories, eq(products.categoryId, categories.id))
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+      .leftJoin(
+        favorites,
+        and(
+          eq(favorites.productId, products.id),
+          currentUserId ? eq(favorites.userId, currentUserId) : undefined,
+        ),
+      )
+      .where(eq(products.id, productId))
+      .limit(1)
+      .then((res) => res[0] ?? null);
 
+    return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+}
+
+export async function getProductForMetaData(productId: string) {
   try {
     const product = await db.query.products.findFirst({
-      where: eq(products.id, id),
-      with: {
-        category: true,
-        subcategory: true,
+      columns: {
+        name: true,
+        description: true,
       },
+      where: eq(products.id, productId),
     });
 
     return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+}
+
+export async function getOtherProducts(productId: string) {
+  try {
+    const otherProducts = await db
+      .select({
+        id: products.id,
+        name: products.name,
+        price: products.price,
+        images: products.images,
+        category: categories.name,
+        inventory: products.inventory,
+        rating: products.rating,
+      })
+      .from(products)
+      .leftJoin(categories, eq(products.categoryId, categories.id))
+      .limit(4)
+      .where(not(eq(products.id, productId)))
+      .orderBy(desc(products.inventory));
+
+    return otherProducts;
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;

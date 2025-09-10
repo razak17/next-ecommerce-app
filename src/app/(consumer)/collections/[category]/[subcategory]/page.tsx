@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
+import { auth } from "@/lib/auth";
 import { toTitleCase, unslugify } from "@/lib/utils";
 
 import {
@@ -32,6 +34,10 @@ export default async function SubcategoryPage({
   const { category, subcategory } = await params;
   const q = await searchParams;
 
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const categoryData = await getCategoryBySlug(category);
   const subcategoryData = await getSubcategoryBySlug(subcategory);
 
@@ -41,7 +47,10 @@ export default async function SubcategoryPage({
     ...(subcategoryData && { subcategories: subcategoryData.id }),
   };
 
-  const products = await getProducts(searchParamsWithFilters);
+  const products = await getProducts(
+    searchParamsWithFilters,
+    session?.user?.id,
+  );
 
   return (
     <Shell>

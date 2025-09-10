@@ -25,7 +25,9 @@ import { addToCart } from "@/features/cart/actions/cart";
 import { FavoriteButton } from "@/features/favorites/components/favorite-button";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: Pick<Product, "id" | "name" | "price" | "images" | "inventory">;
+  product: Pick<Product, "id" | "name" | "price" | "images" | "inventory"> & {
+    isFavorited?: boolean;
+  };
   variant?: "default" | "switchable";
   isAddedToCart?: boolean;
   onSwitch?: () => Promise<void>;
@@ -69,6 +71,7 @@ export function ProductCard({
           </AspectRatio>
           <div className="absolute top-2 right-2">
             <FavoriteButton
+              isFavorited={product.isFavorited}
               productId={product.id}
               size="icon"
               variant="secondary"

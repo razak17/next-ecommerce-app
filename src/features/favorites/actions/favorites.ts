@@ -60,38 +60,3 @@ export async function toggleFavorite(productId: Product["id"]) {
     };
   }
 }
-
-export async function checkIsFavorited(productId: Product["id"]) {
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session?.user?.id) {
-      return {
-        success: true,
-        isFavorited: false,
-        error: null,
-      };
-    }
-
-    const existingFavorite = await db.query.favorites.findFirst({
-      where: and(
-        eq(favorites.userId, session.user.id),
-        eq(favorites.productId, productId),
-      ),
-    });
-
-    return {
-      success: true,
-      isFavorited: !!existingFavorite,
-      error: null,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      isFavorited: false,
-      error: getErrorMessage(error),
-    };
-  }
-}

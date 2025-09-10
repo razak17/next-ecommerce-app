@@ -68,6 +68,7 @@ export default async function FavoritesPage() {
                 price: product.price,
                 images: product.images,
                 inventory: product.inventory,
+                isFavorited: true,
               }}
             />
           ))}

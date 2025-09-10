@@ -1,10 +1,8 @@
-import { desc, eq, not } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { formatPrice, toTitleCase } from "@/lib/utils";
 
-// import { AddToCartForm } from "./_components/add-to-cart-form";
 // import { UpdateProductRatingButton } from "./_components/update-product-rating-button";
 import { ProductCard } from "@/components/product-card";
 import { ProductImageCarousel } from "@/components/product-image-carousel";
@@ -18,23 +16,20 @@ import {
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { db } from "@/db/drizzle";
-import { categories, products } from "@/db/schema";
 import { env } from "@/env.js";
 import { AddToCartForm } from "@/features/products/components/add-to-cart-form";
+import {
+  getOtherProducts,
+  getProduct,
+  getProductForMetaData,
+} from "@/features/products/queries/products";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/product/[productId]">): Promise<Metadata> {
   const { productId } = await params;
 
-  const product = await db.query.products.findFirst({
-    columns: {
-      name: true,
-      description: true,
-    },
-    where: eq(products.id, productId),
-  });
+  const product = await getProductForMetaData(productId);
 
   if (!product) {
     return {};
@@ -52,41 +47,28 @@ export default async function ProductPage({
 }: PageProps<"/product/[productId]">) {
   const { productId } = await params;
 
-  const product = await db.query.products.findFirst({
-    columns: {
-      id: true,
-      name: true,
-      description: true,
-      price: true,
-      images: true,
-      inventory: true,
-      rating: true,
-    },
-    with: {
-      category: true,
-    },
-    where: eq(products.id, productId),
-  });
+  const product = await getProduct(productId);
+  // const product = await db.query.products.findFirst({
+  //   columns: {
+  //     id: true,
+  //     name: true,
+  //     description: true,
+  //     price: true,
+  //     images: true,
+  //     inventory: true,
+  //     rating: true,
+  //   },
+  //   with: {
+  //     category: true,
+  //   },
+  //   where: eq(products.id, productId),
+  // });
 
   if (!product) {
     notFound();
   }
 
-  const otherProducts = await db
-    .select({
-      id: products.id,
-      name: products.name,
-      price: products.price,
-      images: products.images,
-      category: categories.name,
-      inventory: products.inventory,
-      rating: products.rating,
-    })
-    .from(products)
-    .leftJoin(categories, eq(products.categoryId, categories.id))
-    .limit(4)
-    .where(not(eq(products.id, productId)))
-    .orderBy(desc(products.inventory));
+  const otherProducts = await getOtherProducts(productId);
 
   return (
     <Shell className="pb-12 md:pb-14">
@@ -136,7 +118,7 @@ export default async function ProductPage({
           <Separator className="md:hidden" />
         </div>
       </div>
-      {otherProducts.length > 0 ? (
+      {otherProducts && otherProducts?.length > 0 ? (
         <div className="space-y-6 overflow-hidden">
           <h2 className="line-clamp-1 flex-1 font-bold text-2xl">
             More products

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { checkIsFavorited, toggleFavorite } from "../actions/favorites";
+import { toggleFavorite } from "../actions/favorites";
 
 interface FavoriteButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   productId: string;
@@ -33,16 +33,6 @@ export function FavoriteButton({
 }: FavoriteButtonProps) {
   const [isTransitioning, startTransition] = React.useTransition();
   const [favorited, setFavorited] = React.useState(isFavorited ?? false);
-  const [isLoading, setIsLoading] = React.useState(isFavorited === undefined);
-
-  React.useEffect(() => {
-    if (isFavorited === undefined) {
-      checkIsFavorited(productId).then(({ isFavorited: initialState }) => {
-        setFavorited(initialState);
-        setIsLoading(false);
-      });
-    }
-  }, [productId, isFavorited]);
 
   const handleToggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -66,22 +56,6 @@ export function FavoriteButton({
     });
   };
 
-  if (isLoading) {
-    return (
-      <Button
-        size={size}
-        variant={variant}
-        className={cn("shrink-0", className)}
-        disabled
-        {...props}
-      >
-        {/* <Icons.spinner className="size-4 animate-spin" aria-hidden="true" /> */}
-        <HeartIcon className="size-4" aria-hidden="true" />
-        <span className="sr-only">Loading...</span>
-      </Button>
-    );
-  }
-
   return (
     <Button
       aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
@@ -89,7 +63,7 @@ export function FavoriteButton({
       variant={variant}
       className={cn("shrink-0", className)}
       onClick={handleToggleFavorite}
-      disabled={isLoading || isTransitioning}
+      disabled={isTransitioning}
       {...props}
     >
       {isTransitioning ? (

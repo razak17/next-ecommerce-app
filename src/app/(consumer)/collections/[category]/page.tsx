@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
+import { auth } from "@/lib/auth";
 import { toTitleCase } from "@/lib/utils";
 
 import {
@@ -31,13 +33,20 @@ export default async function CategoryPage({
   const { category } = await params;
   const q = await searchParams;
 
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const categoryData = await getCategoryBySlug(category);
 
   const searchParamsWithCategory = categoryData
     ? { ...q, categories: categoryData.id }
     : q;
 
-  const products = await getProducts(searchParamsWithCategory);
+  const products = await getProducts(
+    searchParamsWithCategory,
+    session?.user?.id,
+  );
 
   return (
     <Shell>
