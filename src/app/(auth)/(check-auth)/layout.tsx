@@ -14,9 +14,17 @@ export default async function CheckAuthLayout({
     headers: await headers(),
   });
 
-  if (session && session.user.role === UserRole.Admin) {
+  if (
+    session &&
+    session.user.role === UserRole.Admin &&
+    !session.user.isAnonymous
+  ) {
     redirect("/admin/dashboard");
-  } else if (session && session.user.role !== UserRole.Admin) {
+  } else if (
+    session &&
+    session.user.role !== UserRole.Admin &&
+    !session.user.isAnonymous
+  ) {
     redirect("/");
   }
 
