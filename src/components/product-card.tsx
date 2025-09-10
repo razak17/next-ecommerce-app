@@ -105,7 +105,9 @@ export function ProductCard({
 
                 if (error) {
                   toast.error(error);
+                  return;
                 }
+                toast.success("Item added to cart");
               }}
               disabled={isUpdatePending}
             >
