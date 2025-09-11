@@ -45,21 +45,23 @@ export function UpdateCart({ cartLineItem }: UpdateCartProps) {
         </Button>
         <Input
           id={`${id}-quantity`}
-          type="number"
           min="0"
-          className="h-8 w-14 rounded-none border-x-0"
+          className="h-8 w-14 rounded-none border-x-0 text-center"
           value={cartLineItem.quantity}
           onChange={(e) => {
-            startTransition(async () => {
-              try {
-                await updateCartItem({
-                  productId: cartLineItem.id,
-                  quantity: Number(e.target.value),
-                });
-              } catch (err) {
-                showErrorToast(err);
-              }
-            });
+            const value = e.target.value;
+            if (value === "" || /^\d+$/.test(value)) {
+              startTransition(async () => {
+                try {
+                  await updateCartItem({
+                    productId: cartLineItem.id,
+                    quantity: Number(value) || 0,
+                  });
+                } catch (err) {
+                  showErrorToast(err);
+                }
+              });
+            }
           }}
           disabled={isPending}
         />
