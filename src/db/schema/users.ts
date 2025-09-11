@@ -26,7 +26,7 @@ export const user = pgTable("user", {
     .notNull(),
   gender: userGenderEnums(),
   phone: text("phone"),
-  role: userRoleEnums(),
+  role: userRoleEnums().default("consumer"),
   banned: boolean("banned").default(false),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
