@@ -1,8 +1,11 @@
 import { GemIcon, PackageCheckIcon, TruckIcon } from "lucide-react";
 
 import { ContentSection } from "@/components/content-section";
+// import { Icons } from "@/components/icons";
 import { ProductCard } from "@/components/product-card";
 import { Shell } from "@/components/shell";
+import { siteConfig } from "@/config/site";
+import BannerCarousel from "@/features/apps/components/banner-carousel";
 import { CategoryCard } from "@/features/apps/components/category-card";
 import type { getAllCategories } from "@/features/categories/queries/categories";
 import type { getFeaturedProducts } from "@/features/products/queries/products";
@@ -43,7 +46,9 @@ export async function Lobby({
   ];
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
+      <BannerCarousel items={siteConfig.bannerSlides} />
+
       <Shell className="max-w-6xl gap-0">
         <section className="space-y-6 pt-14 md:pt-20 lg:pt-24">
           <div className="mb-4 flex max-w-6xl flex-col items-center gap-1 text-center">
@@ -75,6 +80,40 @@ export async function Lobby({
         </ContentSection>
       </Shell>
 
+      {/* <section className="bg-muted/30 pt-14 pb-14 md:pt-20 lg:pt-24"> */}
+      {/*   <div className="container space-y-6"> */}
+      {/*     <div className="flex flex-col items-center space-y-4 text-center"> */}
+      {/*       <h2 className="font-bold text-2xl leading-[1.1] tracking-wide md:text-3xl"> */}
+      {/*         Why Choose {siteConfig.name}? */}
+      {/*       </h2> */}
+      {/*       <p className="max-w-3xl text-lg text-muted-foreground"> */}
+      {/*         We provide the best shopping experience with quality products, */}
+      {/*         fast delivery, and excellent customer service. */}
+      {/*       </p> */}
+      {/*     </div> */}
+      {/**/}
+      {/*     <div className="container grid justify-center gap-4 sm:grid-cols-2 md:max-w-6xl md:grid-cols-3"> */}
+      {/*       {siteConfig.whyChooseUs.map((item, index) => { */}
+      {/*         const Icon = Icons[item.icon ?? "store"]; */}
+      {/*         return ( */}
+      {/*           <div */}
+      {/*             key={index} */}
+      {/*             className="relative overflow-hidden rounded-lg border bg-background p-6" */}
+      {/*           > */}
+      {/*             <div className="flex items-center space-x-2"> */}
+      {/*               <Icon className="size-8 text-primary" /> */}
+      {/*               <h3 className="font-bold text-lg">{item.title}</h3> */}
+      {/*             </div> */}
+      {/*             <p className="mt-3 text-muted-foreground text-sm"> */}
+      {/*               {item.description} */}
+      {/*             </p> */}
+      {/*           </div> */}
+      {/*         ); */}
+      {/*       })} */}
+      {/*     </div> */}
+      {/*   </div> */}
+      {/* </section> */}
+
       <section className="container space-y-6 bg-primary py-14">
         <div className="flex flex-col items-center space-y-4 text-center">
           <h2 className="max-w-5xl font-bold text-2xl text-primary-foreground leading-[1.1] tracking-wide md:text-3xl">
@@ -104,6 +143,26 @@ export async function Lobby({
           ))}
         </div>
       </section>
-    </>
+
+      {/* <section className="pb-14"> */}
+      {/*   <div className="container bg-primary py-14"> */}
+      {/*     <div className="container grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4"> */}
+      {/*       {siteConfig.lobbyStats.map((stat) => ( */}
+      {/*         <div */}
+      {/*           key={stat.label} */}
+      {/*           className="flex flex-col items-center space-y-2 text-center" */}
+      {/*         > */}
+      {/*           <div className="font-bold text-4xl text-primary-foreground"> */}
+      {/*             {stat.value} */}
+      {/*           </div> */}
+      {/*           <div className="text-primary-foreground/80 text-sm"> */}
+      {/*             {stat.label} */}
+      {/*           </div> */}
+      {/*         </div> */}
+      {/*       ))} */}
+      {/*     </div> */}
+      {/*   </div> */}
+      {/* </section> */}
+    </div>
   );
 }

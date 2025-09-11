@@ -1,15 +1,15 @@
 import { ProductCardSkeleton } from "@/components/product-card-skeleton";
 import { Shell } from "@/components/shell";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+// import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function LobbySkeleton() {
   return (
     <div className="flex min-h-screen flex-col">
-      <AspectRatio ratio={16 / 6}>
-        <Skeleton className="h-full w-full rounded-none" />
-      </AspectRatio>
+      {/* <AspectRatio ratio={16 / 6}> */}
+      {/*   <Skeleton className="h-full w-full rounded-none" /> */}
+      {/* </AspectRatio> */}
 
       <Shell className="max-w-6xl gap-0">
         <section className="space-y-6 pt-14 md:pt-20 lg:pt-24">
