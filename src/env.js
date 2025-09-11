@@ -22,6 +22,10 @@ export const env = createEnv({
     RESEND_API_KEY: z.string().min(1),
     EMAIL_SENDER_NAME: z.string().min(1),
     EMAIL_SENDER_ADDRESS: z.string().min(1),
+    PAYPAL_CLIENT_SECRET: z.string().min(1),
+    PAYPAL_API_URL: z.string().min(1),
+    STRIPE_SECRET_KEY: z.string().min(1),
+    STRIPE_WEBHOOK_SECRET: z.string().min(1),
   },
 
   /**
@@ -32,6 +36,8 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_APP_URL: z.url(),
     NEXT_PUBLIC_APP_ENV: z.enum(["development", "test", "production"]),
+    NEXT_PUBLIC_PAYPAL_CLIENT_ID: z.string().min(1),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
   },
 
   /**
@@ -56,6 +62,13 @@ export const env = createEnv({
     EMAIL_SENDER_NAME: process.env.EMAIL_SENDER_NAME,
     EMAIL_SENDER_ADDRESS: process.env.EMAIL_SENDER_ADDRESS,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_PAYPAL_CLIENT_ID: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    PAYPAL_CLIENT_SECRET: process.env.PAYPAL_CLIENT_SECRET,
+    PAYPAL_API_URL: process.env.PAYPAL_API_URL,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
