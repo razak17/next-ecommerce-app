@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
+
+import { auth } from "@/lib/auth";
 
 import { Shell } from "@/components/shell";
 import {
@@ -21,7 +24,11 @@ export const metadata: Metadata = {
   description: "Sign in to your account",
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <Shell className="max-w-lg">
       <Card className="gap-4">
@@ -42,17 +49,21 @@ export default function LoginPage() {
             </div>
           </div>
           <LoginForm />
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          <AnonymousSignIn />
+          {!session?.user?.isAnonymous && (
+            <>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              <AnonymousSignIn />
+            </>
+          )}
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
           <div className="text-muted-foreground text-sm">
