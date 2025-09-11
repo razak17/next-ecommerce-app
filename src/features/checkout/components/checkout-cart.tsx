@@ -33,7 +33,7 @@ export async function CheckoutCard() {
                 }),
               )}
             >
-              Checkout
+              Proceed To Checkout
             </Link>
           </CardHeader>
           <Separator className="mb-4" />
