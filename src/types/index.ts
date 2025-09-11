@@ -7,6 +7,7 @@ export interface SessionUser {
   email: string;
   image?: string | null;
   role: string;
+  isAnonymous?: boolean | null;
 }
 
 export interface StoredFile {

@@ -1,13 +1,9 @@
 import { SiteFooter } from "@/components/layouts/site-footer";
 import { SiteHeader } from "@/components/layouts/site-header";
+import type { SessionUser } from "@/types";
 
 interface MainLayoutProps {
-  user: {
-    name: string;
-    email: string;
-    image?: string | null;
-    role: string;
-  } | null;
+  user: SessionUser | null;
   children?: React.ReactNode;
 }
 

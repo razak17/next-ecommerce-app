@@ -2,6 +2,7 @@
 
 import { ExitIcon } from "@radix-ui/react-icons";
 import { LogIn, User } from "lucide-react";
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,24 +29,32 @@ interface AuthDropdownProps {
   user: SessionUser | null;
 }
 
+const authItems = [
+  {
+    title: "Login",
+    href: "/login",
+    icon: LogIn,
+  },
+  {
+    title: "Register",
+    href: "/register",
+    icon: User,
+  },
+];
+
 export function AuthDropdown({ user }: AuthDropdownProps) {
   if (!user) {
     return (
       <>
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/login">
-            <LogIn className="mr-2 size-4" />
-            Login
-            <span className="sr-only">Login</span>
-          </Link>
-        </Button>
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/register">
-            <User className="mr-2 size-4" />
-            Register
-            <span className="sr-only">Register</span>
-          </Link>
-        </Button>
+        {authItems.map((item, index) => (
+          <Button key={index} variant="ghost" size="sm" asChild>
+            <Link href={item.href as Route}>
+              <item.icon className="mr-2 size-4" />
+              {item.title}
+              <span className="sr-only">Login</span>
+            </Link>
+          </Button>
+        ))}
       </>
     );
   }
@@ -63,10 +72,6 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
             <AvatarImage src={user?.image ?? ""} alt={user?.name ?? "User"} />
             <AvatarFallback>{getInitials({ name: user.name })}</AvatarFallback>
           </Avatar>
-          {/* <span className="max-w-[10rem] truncate font-medium text-md"> */}
-          {/*   {user?.name ?? "User"} */}
-          {/* </span> */}
-          {/* <ChevronDown className="size-6 opacity-70" aria-hidden="true" /> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
@@ -84,6 +89,21 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {user?.isAnonymous &&
+            authItems.map((item, index) => {
+              return (
+                <DropdownMenuItem key={index} asChild>
+                  <Link href={item.href as Route}>
+                    <item.icon
+                      className="mr-2 size-4 text-foreground"
+                      aria-hidden="true"
+                    />
+                    {item.title}
+                    <span className="sr-only">Login</span>
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
           <AuthDropdownGroup role={user.role} />
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
