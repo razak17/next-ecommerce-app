@@ -7,7 +7,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import type { Route } from "next";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -19,7 +19,6 @@ interface PaginationButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   page?: string;
   per_page?: string;
   sort?: string;
-  createQueryString: (params: Record<string, string | number | null>) => string;
   siblingCount?: number;
 }
 
@@ -28,16 +27,32 @@ export function PaginationButton({
   page,
   per_page,
   sort,
-  createQueryString,
   siblingCount = 1,
   className,
   ...props
 }: PaginationButtonProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = React.useTransition();
 
-  // Memoize pagination range to avoid unnecessary re-renders
+  const createQueryString = React.useCallback(
+    (params: Record<string, string | number | null>) => {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+
+      for (const [key, value] of Object.entries(params)) {
+        if (value === null) {
+          newSearchParams.delete(key);
+        } else {
+          newSearchParams.set(key, String(value));
+        }
+      }
+
+      return newSearchParams.toString();
+    },
+    [searchParams],
+  );
+
   const paginationRange = React.useMemo(() => {
     const delta = siblingCount + 2;
 
