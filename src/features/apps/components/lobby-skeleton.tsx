@@ -1,16 +1,11 @@
 import { ProductCardSkeleton } from "@/components/product-card-skeleton";
 import { Shell } from "@/components/shell";
-// import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function LobbySkeleton() {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* <AspectRatio ratio={16 / 6}> */}
-      {/*   <Skeleton className="h-full w-full rounded-none" /> */}
-      {/* </AspectRatio> */}
-
+    <>
       <Shell className="max-w-6xl gap-0">
         <section className="space-y-6 pt-14 md:pt-20 lg:pt-24">
           <div className="mb-4 flex max-w-6xl flex-col items-center gap-1 text-center">
@@ -50,46 +45,25 @@ export function LobbySkeleton() {
         </section>
       </Shell>
 
-      <section className="bg-muted/30 pt-14 pb-14 md:pt-20 lg:pt-24">
-        <div className="container space-y-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <Skeleton className="h-8 w-64" />
-            <Skeleton className="h-6 w-96" />
-          </div>
+      <section className="container space-y-6 bg-primary py-14">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <Skeleton className="h-8 w-96 bg-primary-foreground/20" />
+          <Skeleton className="h-6 w-80 bg-primary-foreground/20" />
+        </div>
 
-          <div className="container grid justify-center gap-4 sm:grid-cols-2 md:max-w-6xl md:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="relative overflow-hidden rounded-lg border bg-background p-6"
-              >
-                <div className="flex items-center space-x-2">
-                  <Skeleton className="size-8" />
-                  <Skeleton className="h-6 w-24" />
-                </div>
-                <Skeleton className="mt-3 h-4 w-full" />
-                <Skeleton className="mt-2 h-4 w-3/4" />
-              </div>
-            ))}
-          </div>
+        <div className="container grid max-w-6xl grid-cols-1 gap-6 pt-6 sm:grid-cols-2 md:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center space-y-2 text-center"
+            >
+              <Skeleton className="size-12 bg-primary-foreground/20" />
+              <Skeleton className="h-6 w-32 bg-primary-foreground/20" />
+              <Skeleton className="mt-3 h-4 w-48 bg-primary-foreground/20" />
+            </div>
+          ))}
         </div>
       </section>
-
-      <section className="bg-primary pt-14 pb-14 md:pt-20 lg:pt-24">
-        <div className="container">
-          <div className="container grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center space-y-2 text-center"
-              >
-                <Skeleton className="h-12 w-16 bg-primary-foreground/20" />
-                <Skeleton className="h-4 w-20 bg-primary-foreground/20" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }
