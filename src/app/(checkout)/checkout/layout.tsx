@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 
-import { UserRole } from "@/types";
+import { MainLayout } from "@/components/layouts/main-layout";
 
 export default async function CheckoutLayout({
   children,
@@ -16,9 +16,15 @@ export default async function CheckoutLayout({
     redirect("/login");
   }
 
-  if (session.user.role !== UserRole.Admin) {
-    redirect("/");
-  }
-
-  return <main>{children}</main>;
+  return (
+    <MainLayout
+      user={
+        session?.user
+          ? { ...session.user, role: session.user.role || "consumer" }
+          : null
+      }
+    >
+      {children}
+    </MainLayout>
+  );
 }
