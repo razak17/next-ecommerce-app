@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
+import { authClient } from "@/lib/auth/client";
+
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -20,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signUp } from "../actions/auth";
 import { registerSchema } from "../validations/auth";
 
 export function RegisterForm() {
@@ -43,16 +44,16 @@ export function RegisterForm() {
 
     const { firstName, lastName, email, password } = values;
 
-    const data = await signUp({
+    const { error } = await authClient.signUp.email({
       email,
       password,
       firstName,
       lastName,
-      role: "consumer",
+      name: `${firstName} ${lastName}`,
     });
 
-    if (data?.error) {
-      toast.error(data.error);
+    if (error) {
+      toast.error(error.message);
       setIsLoading(false);
       return;
     }

@@ -10,6 +10,7 @@ import { siteConfig } from "@/config/site";
 import { db } from "@/db/drizzle";
 import * as schema from "@/db/schema";
 import { env } from "@/env";
+import { linkAnonymousFavoritesToUser } from "@/features/anonymous/actions/anonymous";
 import { resend } from "../resend";
 
 const EMAIL_FROM = `${env.EMAIL_SENDER_NAME} <${env.EMAIL_SENDER_ADDRESS}>`;
@@ -17,6 +18,18 @@ const EMAIL_FROM = `${env.EMAIL_SENDER_NAME} <${env.EMAIL_SENDER_ADDRESS}>`;
 export const auth = betterAuth({
   user: {
     additionalFields: {
+      firstName: {
+        type: "string",
+        required: false,
+        defaultValue: null,
+        input: true,
+      },
+      lastName: {
+        type: "string",
+        required: false,
+        defaultValue: null,
+        input: true,
+      },
       gender: {
         type: "string",
         required: false,
@@ -77,6 +90,15 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    anonymous({
+      onLinkAccount: async ({ anonymousUser, newUser }) => {
+        // perform actions like moving the cart items from anonymous user to the new user
+        await linkAnonymousFavoritesToUser(
+          anonymousUser.user.id,
+          newUser.user.id,
+        );
+      },
+    }),
     adminPlugin({
       ac,
       roles: {
@@ -85,11 +107,6 @@ export const auth = betterAuth({
       },
       adminRoles: ["admin"],
       defaultRole: "consumer",
-    }),
-    anonymous({
-      onLinkAccount: async () => {
-        // perform actions like moving the cart items from anonymous user to the new user
-      },
     }),
     nextCookies(), // make sure this is the last plugin in the array
   ],

@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
+import { authClient } from "@/lib/auth/client";
+
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -20,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "../actions/auth";
 import { loginSchema } from "../validations/auth";
 
 export function LoginForm() {
@@ -38,12 +39,14 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
 
-    const { email, password } = values;
+    const { error } = await authClient.signIn.email({
+      email: values.email,
+      password: values.password,
+      rememberMe: true,
+    });
 
-    const data = await signIn(email, password);
-
-    if (data?.error) {
-      toast.error(data.error);
+    if (error) {
+      toast.error(error.message);
       setIsLoading(false);
       return;
     }

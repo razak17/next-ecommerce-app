@@ -16,20 +16,18 @@ export function AnonymousSignIn() {
 
   const handleSignInAnonymous = async () => {
     setIsLoading(true);
-    try {
-      const { error } = await authClient.signIn.anonymous();
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      router.refresh();
-      toast.success("Signed in successfully.");
-      router.push(window.location.origin as Route);
-    } catch (error) {
-      console.log(error);
-    } finally {
+
+    const { error } = await authClient.signIn.anonymous();
+
+    if (error) {
+      toast.error(error.message);
       setIsLoading(false);
+      return;
     }
+
+    toast.success("Signed in successfully.");
+    setIsLoading(false);
+    router.push(window.location.origin as Route);
   };
   return (
     <Button
