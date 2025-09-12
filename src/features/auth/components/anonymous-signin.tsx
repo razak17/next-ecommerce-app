@@ -27,6 +27,7 @@ export function AnonymousSignIn() {
 
     toast.success("Signed in successfully.");
     setIsLoading(false);
+    router.refresh();
     router.push(window.location.origin as Route);
   };
   return (
