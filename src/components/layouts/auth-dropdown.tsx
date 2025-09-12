@@ -121,7 +121,7 @@ export function AuthDropdown({ user }: AuthDropdownProps) {
   );
 }
 
-function AuthDropdownGroup({ role }: { role: string }) {
+function AuthDropdownGroup({ role }: { role?: string | null }) {
   const pathname = usePathname();
 
   return (

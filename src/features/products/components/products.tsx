@@ -336,7 +336,6 @@ export function Products({
           page={page}
           per_page={per_page}
           sort={sort}
-          createQueryString={createQueryString}
         />
       ) : null}
     </section>

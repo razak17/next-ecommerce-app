@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { cn, isActiveUrl } from "@/lib/utils";
 
+import { Badge } from "@/components/ui/badge";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -17,6 +18,8 @@ import type { NavItem } from "@/types";
 
 interface MainNavProps {
   items?: NavItem[];
+  cartItemsCount?: number;
+  favoritesCount?: number;
 }
 
 const iconMap = {
@@ -26,13 +29,17 @@ const iconMap = {
   Heart,
 };
 
-export function MainNav({ items }: MainNavProps) {
+export function MainNav({
+  items,
+  cartItemsCount = 0,
+  favoritesCount = 0,
+}: MainNavProps) {
   const pathname = usePathname();
 
   return (
     <div className="hidden gap-6 lg:flex">
       <NavigationMenu>
-        <NavigationMenuList>
+        <NavigationMenuList className="gap-4">
           {items?.map((item) => {
             const IconComponent = item.icon
               ? iconMap[item.icon as keyof typeof iconMap]
@@ -56,6 +63,16 @@ export function MainNav({ items }: MainNavProps) {
                       )}
                       <span>{item.title}</span>
                     </div>
+                    {item.title === "Cart" && (
+                      <Badge className="-right-4 -top-2 absolute z-10 rounded-full">
+                        {cartItemsCount}
+                      </Badge>
+                    )}
+                    {item.title === "Favorites" && (
+                      <Badge className="-right-4 -top-2 absolute z-10 rounded-full">
+                        {favoritesCount}
+                      </Badge>
+                    )}
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>

@@ -1,7 +1,10 @@
 "use server";
 
 import { asc, eq, inArray } from "drizzle-orm";
-import { unstable_noStore as noStore } from "next/cache";
+import {
+  unstable_cache as cache,
+  unstable_noStore as noStore,
+} from "next/cache";
 import { cookies } from "next/headers";
 
 import { db } from "@/db/drizzle";
@@ -82,4 +85,31 @@ export async function getCartItems(input: { cartId?: string }) {
     console.error(err);
     return [];
   }
+}
+
+export async function getUserCartItemsCount(userId: string) {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get("cartId")?.value;
+
+  return await cache(
+    async () => {
+      try {
+        if (!cartId) return 0;
+
+        const result = await db
+          .select()
+          .from(carts)
+          .where(eq(carts.id, cartId));
+        return result ? result[0]?.items?.length : 0;
+      } catch (error) {
+        console.error("Error fetching favorites count:", error);
+        return 0;
+      }
+    },
+    [`cart-items-count-${userId}`],
+    {
+      revalidate: 3,
+      tags: [`cart-items-count-${userId}`],
+    },
+  )();
 }

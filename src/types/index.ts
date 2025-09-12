@@ -6,7 +6,7 @@ export interface SessionUser {
   name: string;
   email: string;
   image?: string | null;
-  role: string;
+  role?: string | null;
   isAnonymous?: boolean | null;
 }
 

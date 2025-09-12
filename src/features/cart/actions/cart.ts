@@ -111,6 +111,8 @@ export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
       })
       .where(eq(carts.id, cartId));
 
+    revalidatePath("/cart");
+    revalidatePath("/shop");
     revalidatePath("/");
 
     return {
@@ -166,6 +168,8 @@ export async function updateCartItem(rawInput: z.infer<typeof cartItemSchema>) {
       .set({ items: cart.items })
       .where(eq(carts.id, cartId));
 
+    revalidatePath("/cart");
+    revalidatePath("/shop");
     revalidatePath("/");
 
     return {
@@ -193,6 +197,8 @@ export async function deleteCart() {
 
     await db.delete(carts).where(eq(carts.id, cartId));
 
+    revalidatePath("/cart");
+    revalidatePath("/shop");
     revalidatePath("/");
 
     return {
@@ -236,6 +242,8 @@ export async function deleteCartItem(
       })
       .where(eq(carts.id, cartId));
 
+    revalidatePath("/cart");
+    revalidatePath("/shop");
     revalidatePath("/");
   } catch (err) {
     return {
@@ -276,6 +284,8 @@ export async function deleteCartItems(
       })
       .where(eq(carts.id, cartId));
 
+    revalidatePath("/cart");
+    revalidatePath("/shop");
     revalidatePath("/");
 
     return {
