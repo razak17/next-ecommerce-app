@@ -13,23 +13,23 @@ import { Button } from "@/components/ui/button";
 export function AnonymousSignIn() {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
-  const { refetch } = authClient.useSession();
 
   const handleSignInAnonymous = async () => {
-    setIsLoading(true);
-
-    const { error } = await authClient.signIn.anonymous();
-
-    if (error) {
-      toast.error(error.message);
-      setIsLoading(false);
-      return;
-    }
-
-    toast.success("Signed in successfully.");
-    setIsLoading(false);
-    await refetch();
-    router.push(window.location.origin as Route);
+    await authClient.signIn.anonymous({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Signed in successfully.");
+          router.replace(window.location.origin as Route);
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onResponse: () => setIsLoading(false),
+      },
+    });
   };
   return (
     <Button

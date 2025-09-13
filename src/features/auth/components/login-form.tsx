@@ -1,8 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { Route } from "next";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -26,8 +24,6 @@ import { loginSchema } from "../validations/auth";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { refetch } = authClient.useSession();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -44,6 +40,7 @@ export function LoginForm() {
       email: values.email,
       password: values.password,
       rememberMe: true,
+      callbackURL: `${window.location.origin}/`,
     });
 
     if (error) {
@@ -54,8 +51,6 @@ export function LoginForm() {
 
     toast.success("Signed in successfully.");
     setIsLoading(false);
-    await refetch();
-    router.push(window.location.origin as Route);
   }
 
   return (
