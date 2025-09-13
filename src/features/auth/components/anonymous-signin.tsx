@@ -19,8 +19,8 @@ export function AnonymousSignIn() {
         onSuccess: () => {
           toast.success("Signed in successfully.");
           router.refresh();
-          router.replace("/");
           window.location.reload();
+          router.replace("/");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
