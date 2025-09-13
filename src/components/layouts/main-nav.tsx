@@ -39,7 +39,7 @@ export function MainNav({
   return (
     <div className="hidden gap-6 lg:flex">
       <NavigationMenu>
-        <NavigationMenuList className="gap-4">
+        <NavigationMenuList>
           {items?.map((item) => {
             const IconComponent = item.icon
               ? iconMap[item.icon as keyof typeof iconMap]
