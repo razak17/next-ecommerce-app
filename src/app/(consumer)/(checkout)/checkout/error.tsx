@@ -17,8 +17,17 @@ export default function StoreCheckoutError({
   }, [error]);
 
   return (
-    <Shell variant="centered" className="max-w-md">
-      <ErrorCard title={error.name} description={error.message} reset={reset} />
+    <Shell className="flex min-h-screen flex-col items-center justify-center">
+      <div className="container mx-auto max-w-md py-10">
+        <ErrorCard
+          title="Checkout Error"
+          description="An error occurred while checking out."
+          retryLink="/cart"
+          retryLinkText="Go To Cart"
+          reset={reset}
+          error={error}
+        />
+      </div>
     </Shell>
   );
 }
