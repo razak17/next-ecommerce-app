@@ -20,12 +20,10 @@ export default async function ConsumerLayout({
     headers: await headers(),
   });
 
-  const [favoritesCount, cartItemsCount] = session?.user?.id
-    ? await Promise.all([
-        getUserFavoritesCount(session?.user?.id),
-        getUserCartItemsCount(session?.user?.id),
-      ])
-    : [0, 0];
+  const favoritesCount = session?.user?.id
+    ? await getUserFavoritesCount(session?.user?.id)
+    : 0;
+  const cartItemsCount = await getUserCartItemsCount();
 
   return (
     <div className="relative flex min-h-screen flex-col">

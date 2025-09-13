@@ -87,7 +87,10 @@ export async function addToCart(rawInput: z.infer<typeof cartItemSchema>) {
 
       cookieStore.set("cartId", String(newCart[0]?.insertedId));
 
+      revalidatePath("/cart");
+      revalidatePath("/shop");
       revalidatePath("/");
+
       return {
         data: [input],
         error: null,

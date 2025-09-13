@@ -87,7 +87,7 @@ export async function getCartItems(input: { cartId?: string }) {
   }
 }
 
-export async function getUserCartItemsCount(userId: string) {
+export async function getUserCartItemsCount() {
   const cookieStore = await cookies();
   const cartId = cookieStore.get("cartId")?.value;
 
@@ -106,10 +106,10 @@ export async function getUserCartItemsCount(userId: string) {
         return 0;
       }
     },
-    [`cart-items-count-${userId}`],
+    ["cart-items-count"],
     {
       revalidate: 3,
-      tags: [`cart-items-count-${userId}`],
+      tags: ["cart-items-count"],
     },
   )();
 }
