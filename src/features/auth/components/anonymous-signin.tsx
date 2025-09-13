@@ -1,6 +1,5 @@
 "use client";
 
-import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
@@ -19,7 +18,7 @@ export function AnonymousSignIn() {
       fetchOptions: {
         onSuccess: () => {
           toast.success("Signed in successfully.");
-          router.replace(window.location.origin as Route);
+          router.replace("/");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -31,6 +30,7 @@ export function AnonymousSignIn() {
       },
     });
   };
+
   return (
     <Button
       disabled={isLoading}
