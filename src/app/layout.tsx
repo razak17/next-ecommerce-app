@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { fontMono, fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +36,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <SpeedInsights />
         </ThemeProvider>
         <Toaster />
       </body>
