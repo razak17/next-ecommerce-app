@@ -26,8 +26,9 @@ import { loginSchema } from "../validations/auth";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
+  const { refetch } = authClient.useSession();
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -53,6 +54,7 @@ export function LoginForm() {
 
     toast.success("Signed in successfully.");
     setIsLoading(false);
+    await refetch();
     router.push(window.location.origin as Route);
   }
 
