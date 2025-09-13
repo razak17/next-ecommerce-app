@@ -1,4 +1,5 @@
 import type { Route } from "next";
+import type Stripe from "stripe";
 
 import type { Icons } from "@/components/icons";
 
@@ -61,3 +62,5 @@ export interface Option {
   icon?: React.ComponentType<{ className?: string }>;
   withCount?: boolean;
 }
+
+export type StripePaymentStatus = Stripe.PaymentIntent.Status;

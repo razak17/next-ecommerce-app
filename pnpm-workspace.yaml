@@ -1,5 +1,6 @@
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
+  - '@vercel/speed-insights'
   - esbuild
   - msgpackr-extract
   - sharp

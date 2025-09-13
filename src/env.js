@@ -35,6 +35,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_APP_URL: z.url(),
+    NEXT_PUBLIC_SERVER_URL: z.string().min(1),
     NEXT_PUBLIC_APP_ENV: z.enum(["development", "test", "production"]),
     NEXT_PUBLIC_PAYPAL_CLIENT_ID: z.string().min(1),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
@@ -62,6 +63,7 @@ export const env = createEnv({
     EMAIL_SENDER_NAME: process.env.EMAIL_SENDER_NAME,
     EMAIL_SENDER_ADDRESS: process.env.EMAIL_SENDER_ADDRESS,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     NEXT_PUBLIC_PAYPAL_CLIENT_ID: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
