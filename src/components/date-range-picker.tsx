@@ -87,7 +87,8 @@ export function DateRangePicker({
       fromDay = dateRange.from;
       toDay = dateRange.to;
     } else if (dayCount) {
-      toDay = new Date();
+      const tomorrow = addDays(new Date(), 1);
+      toDay = tomorrow;
       fromDay = addDays(toDay, -dayCount);
     }
 

@@ -66,12 +66,12 @@ export function DashboardSidebar({
       icon: "analytics",
       isActive: segments.includes("analytics"),
     },
-    {
-      title: "Settings",
-      url: "/admin/settings",
-      icon: "settings",
-      isActive: segments.includes("settings"),
-    },
+    // {
+    //   title: "Settings",
+    //   url: "/admin/settings",
+    //   icon: "settings",
+    //   isActive: segments.includes("settings"),
+    // },
   ];
 
   return (
