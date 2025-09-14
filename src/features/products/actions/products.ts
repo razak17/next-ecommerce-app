@@ -2,6 +2,7 @@
 
 import { and, eq, ne } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import type { z } from "zod";
 
 import { getErrorMessage } from "@/lib/handle-error";
 
@@ -15,7 +16,10 @@ import {
   variants,
 } from "@/db/schema";
 import type { StoredFile } from "@/types";
-import type { CreateProductSchema } from "../validations/products";
+import type {
+  CreateProductSchema,
+  updateProductRatingSchema,
+} from "../validations/products";
 
 export async function addProduct(
   input: Omit<CreateProductSchema, "images"> & {
@@ -232,6 +236,41 @@ export async function updateProduct(
     return {
       success: false,
       error: getErrorMessage(error),
+    };
+  }
+}
+
+export async function updateProductRating(
+  input: z.infer<typeof updateProductRatingSchema>,
+) {
+  try {
+    const product = await db.query.products.findFirst({
+      columns: {
+        id: true,
+        rating: true,
+      },
+      where: eq(products.id, input.id),
+    });
+
+    if (!product) {
+      throw new Error("Product not found.");
+    }
+
+    await db
+      .update(products)
+      .set({ rating: input.rating })
+      .where(eq(products.id, input.id));
+
+    revalidatePath("/");
+
+    return {
+      data: null,
+      error: null,
+    };
+  } catch (err) {
+    return {
+      data: null,
+      error: getErrorMessage(err),
     };
   }
 }

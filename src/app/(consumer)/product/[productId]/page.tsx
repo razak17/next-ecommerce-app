@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import { formatPrice, toTitleCase } from "@/lib/utils";
 
-// import { UpdateProductRatingButton } from "./_components/update-product-rating-button";
 import { ProductCard } from "@/components/product-card";
 import { ProductImageCarousel } from "@/components/product-image-carousel";
 import { Rating } from "@/components/rating";
@@ -18,6 +17,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { env } from "@/env.js";
 import { AddToCartForm } from "@/features/products/components/add-to-cart-form";
+import { UpdateProductRatingButton } from "@/features/products/components/update-product-rating-button";
 import {
   getOtherProducts,
   getProduct,
@@ -94,10 +94,10 @@ export default async function ProductPage({
           </p>
           <div className="flex items-center justify-between">
             <Rating rating={Math.round(product.rating / 5)} />
-            {/* <UpdateProductRatingButton */}
-            {/*   productId={product.id} */}
-            {/*   rating={product.rating} */}
-            {/* /> */}
+            <UpdateProductRatingButton
+              productId={product.id}
+              rating={product.rating}
+            />
           </div>
           <AddToCartForm productId={productId} showBuyNow={true} />
           <Separator className="mt-5" />

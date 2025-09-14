@@ -51,8 +51,17 @@ export const getProductsSchema = z.object({
   active: z.string().optional().default("true"),
 });
 
+export const updateProductRatingSchema = z.object({
+  id: z.string(),
+  rating: z.number(),
+});
+
 export type CreateProductSchema = z.infer<typeof createProductSchema>;
 export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
 export type GetProductsSchema = z.infer<typeof getProductsSchema>;
 export type ProductVariantSchema = z.infer<typeof productVariantSchema>;
 export type VariantValueSchema = z.infer<typeof variantValueSchema>;
+
+export type UpdateProductRatingSchema = z.infer<
+  typeof updateProductRatingSchema
+>;
