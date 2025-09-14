@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function AdminOrdersPage({
   searchParams,
 }: PageProps<"/admin/orders">) {
-  const { page, per_page, sort, customer, status, from, to } =
+  const { page, per_page, sort, id, customer, status, from, to } =
     ordersSearchParamsSchema.parse(await searchParams);
 
   // Fallback page for invalid page numbers
@@ -45,6 +45,8 @@ export default async function AdminOrdersPage({
   const ordersPromise = (async () => {
     try {
       const whereConditions = and(
+        // Filter by email
+        id ? like(orders.id, `%${id}%`) : undefined,
         // Filter by email
         customer ? like(orders.email, `%${customer}%`) : undefined,
         // Filter by status

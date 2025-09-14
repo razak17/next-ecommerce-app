@@ -25,6 +25,7 @@ export const purchasesSearchParamsSchema = searchParamsSchema
   });
 
 export const ordersSearchParamsSchema = searchParamsSchema.extend({
+  id: z.string().optional(),
   customer: z.string().optional(),
   status: z.string().optional(),
 });
