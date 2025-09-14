@@ -113,7 +113,7 @@ export default async function AdminOrdersPage({
           <DateRangePicker align="end" />
         </div>
         <React.Suspense fallback={<DataTableSkeleton columnCount={6} />}>
-          <OrdersTable promise={ordersPromise} />
+          <OrdersTable isAdmin promise={ordersPromise} />
         </React.Suspense>
       </div>
     </Shell>

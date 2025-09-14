@@ -1,4 +1,3 @@
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { and, eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -7,7 +6,6 @@ import { notFound } from "next/navigation";
 import { formatId, formatPrice } from "@/lib/utils";
 
 import { Shell } from "@/components/shell";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -46,16 +44,6 @@ export default async function AdminOrderPage({
 
   return (
     <Shell>
-      <Button asChild className="w-fit" variant="link">
-        <Link
-          aria-label="Back to orders"
-          href="/admin/orders"
-          className="group flex items-center space-x-2 lg:flex-auto"
-        >
-          <ArrowLeftIcon className="size-5" aria-hidden="true" />
-          <div className="block font-medium">Back to orders</div>
-        </Link>
-      </Button>
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Order {formatId(order.id)}</CardTitle>

@@ -38,11 +38,13 @@ interface OrdersTableProps {
     pageCount: number;
   }>;
   showCustomerFilter?: boolean;
+  isAdmin?: boolean;
 }
 
 export function OrdersTable({
   promise,
   showCustomerFilter = true,
+  isAdmin = false,
 }: OrdersTableProps) {
   const { data, pageCount } = React.use(promise);
 
@@ -128,23 +130,29 @@ export function OrdersTable({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem asChild>
-                <Link href={`/orders/${row.original.id}`}>View details</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
                 <Link
-                  href={`https://dashboard.stripe.com/test/payments/${row.original.paymentIntentId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`${isAdmin ? "/admin" : ""}/orders/${row.original.id}`}
                 >
-                  View on Stripe
+                  View details
                 </Link>
               </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link
+                    href={`https://dashboard.stripe.com/test/payments/${row.original.paymentIntentId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on Stripe
+                  </Link>
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         ),
       },
     ],
-    [showCustomerFilter],
+    [showCustomerFilter, isAdmin],
   );
 
   const filterFields = [
