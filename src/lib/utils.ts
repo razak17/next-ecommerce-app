@@ -23,6 +23,22 @@ export function formatPrice(
   }).format(Number(price));
 }
 
+export function formatDate(
+  date: Date | string | number,
+  opts: Intl.DateTimeFormatOptions = {},
+) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: opts.month ?? "long",
+    day: opts.day ?? "numeric",
+    year: opts.year ?? "numeric",
+    ...opts,
+  }).format(new Date(date));
+}
+
+export function formatId(id: string) {
+  return `#${id.toString().padStart(4, "0")}`;
+}
+
 export function normalize(str: string) {
   return str === "/" ? "/" : str.replace(/\/$/, "");
 }

@@ -64,3 +64,10 @@ export interface Option {
 }
 
 export type StripePaymentStatus = Stripe.PaymentIntent.Status;
+
+export interface DataTableFilterField<TData> {
+  label: string;
+  value: keyof TData;
+  placeholder?: string;
+  options?: Option[];
+}
