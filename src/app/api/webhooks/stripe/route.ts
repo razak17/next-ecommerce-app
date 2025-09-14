@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import type Stripe from "stripe";
 import { z } from "zod";
 
@@ -54,10 +55,6 @@ export async function POST(req: Request) {
         ?.items as unknown as CheckoutItemSchema[];
 
       // If there are items in metadata, then create order
-      console.warn(
-        "DEBUGPRINT[1217]: route.ts:57: checkoutItems=",
-        checkoutItems,
-      );
       if (checkoutItems) {
         try {
           // Parsing items from metadata
@@ -143,6 +140,10 @@ export async function POST(req: Request) {
               items: [],
             })
             .where(eq(carts.paymentIntentId, paymentIntentId));
+
+          revalidatePath("/cart");
+          revalidatePath("/shop");
+          revalidatePath("/");
         } catch (err) {
           console.log("Error creating order.", err);
         }

@@ -14,7 +14,10 @@ import { db } from "@/db/drizzle";
 import { carts } from "@/db/schema";
 import { env } from "@/env.js";
 import type { CheckoutItemSchema } from "@/features/cart/validations/cart";
-import type { createPaymentIntentSchema } from "../validations/stripe";
+import type {
+  createPaymentIntentSchema,
+  getPaymentIntentSchema,
+} from "../validations/stripe";
 
 // Modified from: https://github.com/jackblatch/OneStopShop/blob/main/server-actions/stripe/payment.ts
 // Creating a payment intent for a store
@@ -77,6 +80,46 @@ export async function createPaymentIntent(
     return {
       data: null,
       error: getErrorMessage(err),
+    };
+  }
+}
+
+// Modified from: https://github.com/jackblatch/OneStopShop/blob/main/server-actions/stripe/payment.ts
+// Getting a payment intent for a store
+export async function getPaymentIntent(
+  input: z.infer<typeof getPaymentIntentSchema>,
+) {
+  noStore();
+
+  try {
+    const cookieStore = await cookies();
+    const cartId = cookieStore.get("cartId")?.value;
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      input.paymentIntentId,
+    );
+
+    if (paymentIntent.status !== "succeeded") {
+      throw new Error("Payment intent not succeeded.");
+    }
+
+    if (
+      paymentIntent.metadata.cartId !== cartId &&
+      paymentIntent.shipping?.address?.postal_code?.split(" ").join("") !==
+        input.deliveryPostalCode
+    ) {
+      throw new Error("CartId or delivery postal code does not match.");
+    }
+
+    return {
+      paymentIntent,
+      isVerified: true,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      paymentIntent: null,
+      isVerified: false,
     };
   }
 }
