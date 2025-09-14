@@ -1,7 +1,7 @@
 "use client";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import type { ColumnDef } from "@tanstack/react-table";
+import type { Column, ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
 
@@ -37,9 +37,13 @@ interface OrdersTableProps {
     data: AwaitedOrder[];
     pageCount: number;
   }>;
+  showCustomerFilter?: boolean;
 }
 
-export function OrdersTable({ promise }: OrdersTableProps) {
+export function OrdersTable({
+  promise,
+  showCustomerFilter = true,
+}: OrdersTableProps) {
   const { data, pageCount } = React.use(promise);
 
   // Memoize the columns so they don't re-render on every render
@@ -76,12 +80,18 @@ export function OrdersTable({ promise }: OrdersTableProps) {
           );
         },
       },
-      {
-        accessorKey: "customer",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Customer" />
-        ),
-      },
+      ...(showCustomerFilter
+        ? [
+            {
+              accessorKey: "customer",
+              header: ({
+                column,
+              }: {
+                column: Column<AwaitedOrder, unknown>;
+              }) => <DataTableColumnHeader column={column} title="Customer" />,
+            },
+          ]
+        : []),
       {
         accessorKey: "quantity",
         header: ({ column }) => (
@@ -139,15 +149,19 @@ export function OrdersTable({ promise }: OrdersTableProps) {
         ),
       },
     ],
-    [],
+    [showCustomerFilter],
   );
 
   const filterFields = [
-    {
-      label: "Customer",
-      value: "customer" as const,
-      placeholder: "Search customers...",
-    },
+    ...(showCustomerFilter
+      ? [
+          {
+            label: "Customer",
+            value: "customer" as const,
+            placeholder: "Search customers...",
+          },
+        ]
+      : []),
     {
       label: "Order ID",
       value: "id" as const,

@@ -1,17 +1,114 @@
 "use server";
 
-import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, inArray, like, lte, sql } from "drizzle-orm";
 import { unstable_noStore as noStore } from "next/cache";
+import type { SearchParams } from "next/dist/server/request/search-params";
 import type Stripe from "stripe";
 import { z } from "zod";
 
 import { db } from "@/db/drizzle";
-import { categories, orders, products, subcategories } from "@/db/schema";
+import {
+  categories,
+  type Order,
+  orders,
+  products,
+  subcategories,
+} from "@/db/schema";
+import { ordersSearchParamsSchema } from "@/features/apps/validations/params";
 import {
   type CartLineItemSchema,
   checkoutItemSchema,
 } from "@/features/cart/validations/cart";
 import type { getOrderLineItemsSchema } from "../validations/orders";
+
+export async function getUserOrders(input: SearchParams, userEmail: string) {
+  noStore();
+  try {
+    const {
+      page = 1,
+      per_page = 10,
+      sort = "createdAt.desc",
+      id,
+      status,
+      from,
+      to,
+    } = ordersSearchParamsSchema.parse(input);
+
+    // Fallback page for invalid page numbers
+    const fallbackPage = Number.isNaN(page) || page < 1 ? 1 : page;
+    // Number of items per page
+    const limit = Number.isNaN(per_page) ? 10 : per_page;
+    // Number of items to skip
+    const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0;
+    // Column and order to sort by
+    const [column, order] = (sort.split(".") as [
+      keyof Order | undefined,
+      "asc" | "desc" | undefined,
+    ]) ?? ["createdAt", "desc"];
+
+    const statuses = status ? status.split(".") : [];
+    const fromDay = from ? new Date(from) : undefined;
+    const toDay = to ? new Date(to) : undefined;
+
+    const whereConditions = and(
+      eq(orders.email, userEmail),
+      // Filter by order ID
+      id ? like(orders.id, `%${id}%`) : undefined,
+      // Filter by status
+      statuses.length > 0
+        ? inArray(orders.stripePaymentIntentStatus, statuses)
+        : undefined,
+      // Filter by createdAt
+      fromDay && toDay
+        ? and(gte(orders.createdAt, fromDay), lte(orders.createdAt, toDay))
+        : undefined,
+    );
+
+    const data = await db
+      .select({
+        id: orders.id,
+        quantity: orders.quantity,
+        amount: orders.amount,
+        paymentIntentId: orders.stripePaymentIntentId,
+        status: orders.stripePaymentIntentStatus,
+        customer: orders.email,
+        createdAt: orders.createdAt,
+      })
+      .from(orders)
+      .limit(limit)
+      .offset(offset)
+      .where(whereConditions)
+      .orderBy(
+        column && column in orders
+          ? order === "asc"
+            ? asc(orders[column])
+            : desc(orders[column])
+          : desc(orders.createdAt),
+      );
+
+    const count = await db
+      .select({
+        count: sql<number>`count(*)`,
+      })
+      .from(orders)
+      .where(whereConditions)
+      .execute()
+      .then((res) => res[0]?.count ?? 0);
+
+    const pageCount = Math.ceil(count / limit);
+
+    return {
+      data,
+      pageCount,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      data: [],
+      pageCount: 0,
+    };
+  }
+}
 
 export async function getOrderLineItems(
   input: z.infer<typeof getOrderLineItemsSchema> & {
