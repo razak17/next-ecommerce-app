@@ -63,12 +63,12 @@ export function MainNav({
                       )}
                       <span>{item.title}</span>
                     </div>
-                    {item.title === "Cart" && (
+                    {item.title === "Cart" && cartItemsCount > 0 && (
                       <Badge className="-right-4 -top-1.5 absolute z-10 h-5 min-w-5 rounded-full px-1 tabular-nums">
                         {cartItemsCount}
                       </Badge>
                     )}
-                    {item.title === "Favorites" && (
+                    {item.title === "Favorites" && favoritesCount > 0 && (
                       <Badge className="-right-4 -top-1.5 absolute z-10 h-5 min-w-5 rounded-full px-1 tabular-nums">
                         {favoritesCount}
                       </Badge>
