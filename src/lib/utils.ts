@@ -39,6 +39,19 @@ export function formatId(id: string) {
   return `#${id.toString().padStart(4, "0")}`;
 }
 
+export function formatNumber(
+  number: number | string,
+  opts: Intl.NumberFormatOptions = {},
+) {
+  return new Intl.NumberFormat("en-US", {
+    style: opts.style ?? "decimal",
+    notation: opts.notation ?? "standard",
+    minimumFractionDigits: opts.minimumFractionDigits ?? 0,
+    maximumFractionDigits: opts.maximumFractionDigits ?? 2,
+    ...opts,
+  }).format(Number(number));
+}
+
 export function normalize(str: string) {
   return str === "/" ? "/" : str.replace(/\/$/, "");
 }

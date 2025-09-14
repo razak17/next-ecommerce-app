@@ -1,6 +1,17 @@
 "use server";
 
-import { and, asc, desc, eq, gte, inArray, like, lte, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  countDistinct,
+  desc,
+  eq,
+  gte,
+  inArray,
+  like,
+  lte,
+  sql,
+} from "drizzle-orm";
 import { unstable_noStore as noStore } from "next/cache";
 import type { SearchParams } from "next/dist/server/request/search-params";
 import type Stripe from "stripe";
@@ -246,5 +257,58 @@ export async function getSales(input: { fromDay?: Date; toDay?: Date }) {
   } catch (err) {
     console.error(err);
     return [];
+  }
+}
+
+export async function getCustomers(input: {
+  limit: number;
+  offset: number;
+  fromDay?: Date;
+  toDay?: Date;
+}) {
+  noStore();
+  try {
+    const { limit, offset, fromDay, toDay } = input;
+
+    const customers = await db
+      .select({
+        email: orders.email,
+        name: orders.name,
+        totalSpent: sql<number>`sum(${orders.amount})`,
+      })
+      .from(orders)
+      .limit(limit)
+      .offset(offset)
+      .where(
+        fromDay && toDay
+          ? and(gte(orders.createdAt, fromDay), lte(orders.createdAt, toDay))
+          : undefined,
+      )
+      .groupBy(orders.email, orders.name, orders.createdAt)
+      .orderBy(desc(orders.createdAt));
+
+    const customerCount = await db
+      .select({
+        count: countDistinct(orders.email),
+      })
+      .from(orders)
+      .where(
+        fromDay && toDay
+          ? and(gte(orders.createdAt, fromDay), lte(orders.createdAt, toDay))
+          : undefined,
+      )
+      .execute()
+      .then((res) => res[0]?.count ?? 0);
+
+    return {
+      customers,
+      customerCount,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      customers: [],
+      customerCount: 0,
+    };
   }
 }
