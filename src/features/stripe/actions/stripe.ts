@@ -1,5 +1,6 @@
 "use server";
 
+import { eq } from "drizzle-orm";
 import { unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
 import type Stripe from "stripe";
@@ -9,6 +10,8 @@ import { calculateOrderAmount } from "@/lib/checkout";
 import { getErrorMessage } from "@/lib/handle-error";
 import { stripe } from "@/lib/stripe";
 
+import { db } from "@/db/drizzle";
+import { carts } from "@/db/schema";
 import { env } from "@/env.js";
 import type { CheckoutItemSchema } from "@/features/cart/validations/cart";
 import type { createPaymentIntentSchema } from "../validations/stripe";
@@ -42,6 +45,7 @@ export async function createPaymentIntent(
 
     const { total } = calculateOrderAmount(input.items);
 
+    // Create a payment intent if it doesn't exist
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       // application_fee_amount: fee,
@@ -51,6 +55,17 @@ export async function createPaymentIntent(
         enabled: true,
       },
     });
+
+    // Update the cart with the payment intent id and client secret
+    if (paymentIntent.status === "requires_payment_method") {
+      await db
+        .update(carts)
+        .set({
+          paymentIntentId: paymentIntent.id,
+          clientSecret: paymentIntent.client_secret,
+        })
+        .where(eq(carts.id, cartId));
+    }
 
     return {
       data: {

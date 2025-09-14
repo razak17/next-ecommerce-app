@@ -113,6 +113,13 @@
       "when": 1757630840811,
       "tag": "0015_right_pet_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1757810438586,
+      "tag": "0016_kind_bloodstrike",
+      "breakpoints": true
     }
   ]
 }

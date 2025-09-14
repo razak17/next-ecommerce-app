@@ -15,7 +15,7 @@ import { absoluteUrl, cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
-// See the stripe playemnts docs: https://stripe.com/docs/payments/quickstart
+// See the stripe payments docs: https://stripe.com/docs/payments/quickstart
 
 interface CheckoutFormProps extends React.ComponentPropsWithoutRef<"form"> {}
 
