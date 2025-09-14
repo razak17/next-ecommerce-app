@@ -8,6 +8,31 @@ import { type Category, categories } from "@/db/schema";
 import type { SearchParams } from "@/types";
 import { getCategoriesSchema } from "../validations/categories";
 
+export async function getFeaturedCategories(limit: number = 4) {
+  return await cache(
+    async () => {
+      return db
+        .select({
+          id: categories.id,
+          name: categories.name,
+          slug: categories.slug,
+          description: categories.description,
+          image: categories.image,
+          createdAt: categories.createdAt,
+          updatedAt: categories.updatedAt,
+        })
+        .from(categories)
+        .limit(limit)
+        .orderBy(desc(categories.name));
+    },
+    ["featured-categories", String(limit)],
+    {
+      revalidate: 3600, // every hour
+      tags: ["categories"],
+    },
+  )();
+}
+
 export async function getCategories(input: SearchParams) {
   try {
     const search = getCategoriesSchema.parse(input);

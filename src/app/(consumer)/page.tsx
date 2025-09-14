@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 import BannerCarousel from "@/features/apps/components/banner-carousel";
 import { Lobby } from "@/features/apps/components/lobby";
 import { LobbySkeleton } from "@/features/apps/components/lobby-skeleton";
-import { getAllCategories } from "@/features/categories/queries/categories";
+import { getFeaturedCategories } from "@/features/categories/queries/categories";
 import { getFeaturedProducts } from "@/features/products/queries/products";
 
 async function HomeContent() {
@@ -16,7 +16,7 @@ async function HomeContent() {
   });
 
   const productsPromise = getFeaturedProducts(session?.user?.id);
-  const categoriesPromise = getAllCategories();
+  const categoriesPromise = getFeaturedCategories();
 
   return (
     <Lobby
