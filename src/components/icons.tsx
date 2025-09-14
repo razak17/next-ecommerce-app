@@ -6,6 +6,7 @@ import {
   HomeIcon,
   ImageIcon,
 } from "@radix-ui/react-icons";
+import { IconPackage } from "@tabler/icons-react";
 import { ChartBarStackedIcon, ChartColumnStackedIcon } from "lucide-react";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
@@ -477,6 +478,7 @@ export const Icons = {
   ),
   home: HomeIcon,
   dashboard: DashboardIcon,
+  package: IconPackage,
   category: ChartColumnStackedIcon,
   subcategory: ChartBarStackedIcon,
   avatar: AvatarIcon,
