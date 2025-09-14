@@ -128,12 +128,7 @@ export function OrdersTable({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem asChild>
-                <Link
-                  //href={`/dashboard/orders/${row.original.id}`}
-                  href="/"
-                >
-                  View details
-                </Link>
+                <Link href={`/orders/${row.original.id}`}>View details</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link

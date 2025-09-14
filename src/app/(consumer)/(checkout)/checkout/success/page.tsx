@@ -40,7 +40,7 @@ export default async function OrderSuccessPage({
   const lineItems =
     isVerified && paymentIntent
       ? await getOrderLineItems({
-          items: paymentIntent?.metadata?.items,
+          items: JSON.parse(paymentIntent?.metadata?.items),
           paymentIntent,
         })
       : [];

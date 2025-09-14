@@ -1,7 +1,8 @@
 import * as z from "zod";
 
 export const getOrderLineItemsSchema = z.object({
-  items: z.string().optional(),
+  items: z.any().optional(),
+  // items: z.union([z.string(), z.array(z.any()), z.null()]).optional(),
 });
 
 export const verifyOrderSchema = z.object({

@@ -118,7 +118,7 @@ export async function getOrderLineItems(
   try {
     const safeParsedItems = z
       .array(checkoutItemSchema)
-      .safeParse(JSON.parse(input.items ?? "[]"));
+      .safeParse(input.items ?? "[]");
 
     if (!safeParsedItems.success) {
       throw new Error("Could not parse items.");
