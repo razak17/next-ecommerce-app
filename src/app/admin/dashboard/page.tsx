@@ -7,6 +7,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { formatNumber, formatPrice } from "@/lib/utils";
 
@@ -30,9 +31,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { OverviewCard } from "@/features/analytics/components/overview-card";
+import { DashboardSkeleton } from "@/features/apps/components/dashboard-skeleton";
 import { getDashboardStats } from "@/features/orders/queries/orders";
 
-export default async function AdminHome() {
+async function DashboardContent() {
   const {
     totalProducts,
     totalOrders,
@@ -282,5 +284,13 @@ export default async function AdminHome() {
         </div>
       </div>
     </Shell>
+  );
+}
+
+export default function AdminHome() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardContent />
+    </Suspense>
   );
 }
