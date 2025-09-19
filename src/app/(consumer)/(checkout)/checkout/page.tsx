@@ -1,7 +1,9 @@
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { auth } from "@/lib/auth";
 import { formatPrice } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,14 @@ import { CheckoutShell } from "@/features/checkout/components/checkout-shell";
 import { createPaymentIntent } from "@/features/stripe/actions/stripe";
 
 export default async function CheckoutPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session || session.user?.isAnonymous) {
+    redirect("/login");
+  }
+
   const cartLineItems = await getCart();
 
   if (!cartLineItems || cartLineItems.length === 0) {
