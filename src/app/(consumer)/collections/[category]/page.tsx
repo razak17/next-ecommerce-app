@@ -53,7 +53,7 @@ export default async function CategoryPage({
       <PageHeader>
         <PageHeaderHeading size="sm">{toTitleCase(category)}</PageHeaderHeading>
         <PageHeaderDescription size="sm">
-          {`Buy ${category} from the best stores`}
+          {`Buy the best ${category}`}
         </PageHeaderDescription>
       </PageHeader>
       <Products products={products.data} pageCount={products.pageCount} />
