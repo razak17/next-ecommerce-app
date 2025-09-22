@@ -80,7 +80,9 @@ export function UsersTable({ users }: UsersTableProps) {
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>{user.email}</TableCell>
+                <TableCell className="max-w-[12rem] truncate">
+                  {user.email}
+                </TableCell>
                 <TableCell>
                   <Badge variant={getRoleBadgeVariant(user.role)}>
                     {user.role || "No role"}

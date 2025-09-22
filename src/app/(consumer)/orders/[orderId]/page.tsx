@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { formatId, formatPrice } from "@/lib/utils";
+import { formatDate, formatId, formatPrice } from "@/lib/utils";
 
 import { Shell } from "@/components/shell";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -58,8 +59,27 @@ export default async function OrderPage({
       </Button>
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Order {formatId(order.id)}</CardTitle>
-          <CardDescription>View your order details</CardDescription>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-2xl">
+              Order {formatId(order.id)}
+            </CardTitle>
+            <Badge
+              variant={
+                order.status === ("succeeded" as string)
+                  ? "success"
+                  : order.status === "canceled"
+                    ? "destructive"
+                    : "outline"
+              }
+              className="pointer-events-none text-sm capitalize"
+            >
+              {order.status || "pending"}
+            </Badge>
+          </div>
+          <CardDescription>
+            Placed on {formatDate(order.createdAt)} • Total:{" "}
+            {formatPrice(order.amount)}
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex w-full flex-col space-y-2.5">
           {orderLineItems.map((item) => (

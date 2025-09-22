@@ -14,6 +14,11 @@ const authItems = {
       icon: "dashboard",
     },
     {
+      title: "Orders",
+      url: "/orders",
+      icon: "credit",
+    },
+    {
       title: "Profile",
       url: "/profile",
       icon: "settings",

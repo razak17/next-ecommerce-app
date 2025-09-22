@@ -3,6 +3,7 @@ import {
   index,
   integer,
   json,
+  pgEnum,
   pgTable,
   text,
   varchar,
@@ -13,6 +14,16 @@ import { generateId } from "@/lib/id";
 import { addresses } from "./addresses";
 import { lifecycleDates } from "./utils";
 import type { CheckoutItemSchema } from "@/features/cart/validations/cart";
+
+export const orderStatuses = [
+  "pending",
+  "processing",
+  "shipped",
+  "delivered",
+  "canceled",
+] as const;
+export type OrderStatus = (typeof orderStatuses)[number];
+export const orderStatusEnum = pgEnum("order_status", orderStatuses);
 
 // @see: https://github.com/jackblatch/OneStopShop/blob/main/db/schema.ts
 export const orders = pgTable(
@@ -28,6 +39,7 @@ export const orders = pgTable(
       .default("0"),
     stripePaymentIntentId: text("stripe_payment_intent_id").notNull(),
     stripePaymentIntentStatus: text("stripe_payment_intent_status").notNull(),
+    status: orderStatusEnum().default("pending"),
     name: text("name").notNull(),
     email: text("email").notNull(),
     addressId: varchar("address_id", { length: 30 })

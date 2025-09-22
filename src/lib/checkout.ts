@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 
+import type { OrderStatus } from "@/db/schema";
 import type { CartLineItemSchema } from "@/features/cart/validations/cart";
 import type { StripePaymentStatus } from "@/types";
 
@@ -13,6 +14,22 @@ export function calculateOrderAmount(items: CartLineItemSchema[]) {
     total: Number((total * 100).toFixed(0)), // converts to cents which stripe charges in
     fee: Number((fee * 100).toFixed(0)),
   };
+}
+
+export function getOrderStatusColor({
+  status,
+  shade = 600,
+}: {
+  status: OrderStatus;
+  shade?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950;
+}) {
+  return cn({
+    [`bg-gray-${shade}`]: status === "pending",
+    [`bg-blue-${shade}`]: status === "processing",
+    [`bg-orange-${shade}`]: status === "shipped",
+    [`bg-green-${shade}`]: status === "delivered",
+    [`bg-red-${shade}`]: status === "canceled",
+  });
 }
 
 export const stripePaymentStatuses: {

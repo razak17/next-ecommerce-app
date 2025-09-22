@@ -42,6 +42,7 @@ export async function getUserOrders(input: SearchParams, userEmail: string) {
       sort = "createdAt.desc",
       id,
       status,
+      order_status,
       from,
       to,
     } = ordersSearchParamsSchema.parse(input);
@@ -59,6 +60,7 @@ export async function getUserOrders(input: SearchParams, userEmail: string) {
     ]) ?? ["createdAt", "desc"];
 
     const statuses = status ? status.split(".") : [];
+    const orderStatuses = order_status ? order_status.split(".") : [];
     const fromDay = from ? new Date(from) : undefined;
     const toDay = to ? new Date(to) : undefined;
 
@@ -66,9 +68,13 @@ export async function getUserOrders(input: SearchParams, userEmail: string) {
       eq(orders.email, userEmail),
       // Filter by order ID
       id ? like(orders.id, `%${id}%`) : undefined,
-      // Filter by status
+      // Filter by payment status
       statuses.length > 0
         ? inArray(orders.stripePaymentIntentStatus, statuses)
+        : undefined,
+      // Filter by order status
+      orderStatuses.length > 0
+        ? inArray(orders.status, orderStatuses)
         : undefined,
       // Filter by createdAt
       fromDay && toDay
@@ -83,6 +89,7 @@ export async function getUserOrders(input: SearchParams, userEmail: string) {
         amount: orders.amount,
         paymentIntentId: orders.stripePaymentIntentId,
         status: orders.stripePaymentIntentStatus,
+        orderStatus: orders.status,
         customer: orders.email,
         createdAt: orders.createdAt,
       })
@@ -368,6 +375,7 @@ export async function getDashboardStats() {
           name: orders.name,
           amount: orders.amount,
           status: orders.stripePaymentIntentStatus,
+          orderStatus: orders.status,
           createdAt: orders.createdAt,
         })
         .from(orders)

@@ -5,11 +5,8 @@ import type { Column, ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
 
-import {
-  getStripePaymentStatusColor,
-  stripePaymentStatuses,
-} from "@/lib/checkout";
-import { cn, formatDate, formatId, formatPrice } from "@/lib/utils";
+import { stripePaymentStatuses } from "@/lib/checkout";
+import { formatDate, formatId, formatPrice, toTitleCase } from "@/lib/utils";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
@@ -22,13 +19,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Order } from "@/db/schema";
+import { type Order, orderStatuses } from "@/db/schema";
 import { useDataTable } from "@/hooks/use-data-table";
-import type { StripePaymentStatus } from "@/types";
 
 type AwaitedOrder = Pick<Order, "id" | "quantity" | "amount" | "createdAt"> & {
   customer: string | null;
   status: string;
+  orderStatus: string;
   paymentIntentId: string;
 };
 
@@ -65,17 +62,41 @@ export function OrdersTable({
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title="Payment Status" />
         ),
-        cell: ({ cell }) => {
+        cell: ({ cell, row }) => {
+          const { status } = row.original;
           return (
             <Badge
-              variant="outline"
-              className={cn(
-                "pointer-events-none text-sm text-white capitalize",
-                getStripePaymentStatusColor({
-                  status: cell.getValue() as StripePaymentStatus,
-                  shade: 600,
-                }),
-              )}
+              variant={
+                status === "succeeded"
+                  ? "success"
+                  : status === "canceled"
+                    ? "destructive"
+                    : "outline"
+              }
+              className="pointer-events-none text-sm capitalize"
+            >
+              {String(cell.getValue())}
+            </Badge>
+          );
+        },
+      },
+      {
+        accessorKey: "orderStatus",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Order Status" />
+        ),
+        cell: ({ cell, row }) => {
+          const { orderStatus: status } = row.original;
+          return (
+            <Badge
+              variant={
+                status === "succeeded"
+                  ? "success"
+                  : status === "canceled"
+                    ? "destructive"
+                    : "outline"
+              }
+              className="pointer-events-none text-sm capitalize"
             >
               {String(cell.getValue())}
             </Badge>
@@ -171,9 +192,17 @@ export function OrdersTable({
       placeholder: "Search order IDs...",
     },
     {
-      label: "Status",
+      label: "Payment Status",
       value: "status" as const,
       options: stripePaymentStatuses,
+    },
+    {
+      label: "Order Status",
+      value: "orderStatus" as const,
+      options: orderStatuses.map((status) => ({
+        label: toTitleCase(status),
+        value: status,
+      })),
     },
   ];
 
