@@ -17,7 +17,7 @@ import type { CheckoutItemSchema } from "@/features/cart/validations/cart";
 
 export const orderStatuses = [
   "pending",
-  "processing",
+  // "processing",
   "shipped",
   "delivered",
   "canceled",

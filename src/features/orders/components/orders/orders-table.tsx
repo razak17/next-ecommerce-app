@@ -4,6 +4,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import type { Column, ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import * as React from "react";
+import { toast } from "sonner";
 
 import { stripePaymentStatuses } from "@/lib/checkout";
 import { formatDate, formatId, formatPrice, toTitleCase } from "@/lib/utils";
@@ -20,12 +21,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { type Order, orderStatuses } from "@/db/schema";
+import { updateOrderStatus } from "@/features/orders/actions/orders";
 import { useDataTable } from "@/hooks/use-data-table";
 
 type AwaitedOrder = Pick<Order, "id" | "quantity" | "amount" | "createdAt"> & {
   customer: string | null;
   status: string;
-  orderStatus: string;
+  orderStatus: string | null;
   paymentIntentId: string;
 };
 
@@ -90,7 +92,7 @@ export function OrdersTable({
           return (
             <Badge
               variant={
-                status === "succeeded"
+                status === "delivered"
                   ? "success"
                   : status === "canceled"
                     ? "destructive"
@@ -98,7 +100,7 @@ export function OrdersTable({
               }
               className="pointer-events-none text-sm capitalize"
             >
-              {String(cell.getValue())}
+              {String(cell.getValue() || "pending")}
             </Badge>
           );
         },
@@ -138,39 +140,66 @@ export function OrdersTable({
       },
       {
         id: "actions",
-        cell: ({ row }) => (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                aria-label="Open menu"
-                variant="ghost"
-                className="flex size-8 p-0 data-[state=open]:bg-muted"
-              >
-                <DotsHorizontalIcon className="size-4" aria-hidden="true" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-[160px]">
-              <DropdownMenuItem asChild>
-                <Link
-                  href={`${isAdmin ? "/admin" : ""}/orders/${row.original.id}`}
+        cell: ({ row }) => {
+          const handleMarkAsDelivered = async () => {
+            try {
+              const result = await updateOrderStatus({
+                orderId: row.original.id,
+                status: "delivered",
+              });
+
+              if (result.error) {
+                toast.error(result.error);
+              } else {
+                toast.success("Order marked as delivered");
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Failed to update order status");
+            }
+          };
+
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  aria-label="Open menu"
+                  variant="ghost"
+                  className="flex size-8 p-0 data-[state=open]:bg-muted"
                 >
-                  View details
-                </Link>
-              </DropdownMenuItem>
-              {isAdmin && (
+                  <DotsHorizontalIcon className="size-4" aria-hidden="true" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[160px]">
                 <DropdownMenuItem asChild>
                   <Link
-                    href={`https://dashboard.stripe.com/test/payments/${row.original.paymentIntentId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`${isAdmin ? "/admin" : ""}/orders/${row.original.id}`}
                   >
-                    View on Stripe
+                    View details
                   </Link>
                 </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ),
+                {isAdmin && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href={`https://dashboard.stripe.com/test/payments/${row.original.paymentIntentId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View on Stripe
+                      </Link>
+                    </DropdownMenuItem>
+                    {row.original.orderStatus !== "delivered" && (
+                      <DropdownMenuItem onClick={handleMarkAsDelivered}>
+                        Mark as delivered
+                      </DropdownMenuItem>
+                    )}
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          );
+        },
       },
     ],
     [showCustomerFilter, isAdmin],

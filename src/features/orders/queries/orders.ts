@@ -22,6 +22,7 @@ import { db } from "@/db/drizzle";
 import {
   categories,
   type Order,
+  type OrderStatus,
   orders,
   products,
   subcategories,
@@ -74,7 +75,7 @@ export async function getUserOrders(input: SearchParams, userEmail: string) {
         : undefined,
       // Filter by order status
       orderStatuses.length > 0
-        ? inArray(orders.status, orderStatuses)
+        ? inArray(orders.status, orderStatuses as OrderStatus[])
         : undefined,
       // Filter by createdAt
       fromDay && toDay

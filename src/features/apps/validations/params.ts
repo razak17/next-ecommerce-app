@@ -1,7 +1,5 @@
 import * as z from "zod";
 
-import { orderStatuses } from "@/db/schema";
-
 export const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
   per_page: z.coerce.number().default(10),
@@ -30,7 +28,7 @@ export const ordersSearchParamsSchema = searchParamsSchema.extend({
   id: z.string().optional(),
   customer: z.string().optional(),
   status: z.string().optional(),
-  order_status: z.enum(orderStatuses).optional(),
+  order_status: z.string().optional(),
 });
 
 export const customersSearchParamsSchema = searchParamsSchema.extend({

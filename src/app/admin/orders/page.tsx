@@ -7,7 +7,7 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DateRangePicker } from "@/components/date-range-picker";
 import { Shell } from "@/components/shell";
 import { db } from "@/db/drizzle";
-import { type Order, orders } from "@/db/schema";
+import { type Order, type OrderStatus, orders } from "@/db/schema";
 import { env } from "@/env.js";
 import { ordersSearchParamsSchema } from "@/features/apps/validations/params";
 import { OrdersTable } from "@/features/orders/components/orders/orders-table";
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function AdminOrdersPage({
   searchParams,
 }: PageProps<"/admin/orders">) {
-  const { page, per_page, sort, id, customer, status, from, to } =
+  const { page, per_page, sort, id, customer, status, order_status, from, to } =
     ordersSearchParamsSchema.parse(await searchParams);
 
   // Fallback page for invalid page numbers
@@ -37,6 +37,7 @@ export default async function AdminOrdersPage({
   ]) ?? ["createdAt", "desc"];
 
   const statuses = status ? status.split(".") : [];
+  const orderStatuses = order_status ? order_status.split(".") : [];
 
   const fromDay = from ? new Date(from) : undefined;
   const toDay = to ? new Date(to) : undefined;
@@ -49,9 +50,13 @@ export default async function AdminOrdersPage({
         id ? like(orders.id, `%${id}%`) : undefined,
         // Filter by email
         customer ? like(orders.email, `%${customer}%`) : undefined,
-        // Filter by status
+        // Filter by payment status
         statuses.length > 0
           ? inArray(orders.stripePaymentIntentStatus, statuses)
+          : undefined,
+        // Filter by order status
+        orderStatuses.length > 0
+          ? inArray(orders.status, orderStatuses as OrderStatus[])
           : undefined,
         // Filter by createdAt
         fromDay && toDay
@@ -66,6 +71,7 @@ export default async function AdminOrdersPage({
           amount: orders.amount,
           paymentIntentId: orders.stripePaymentIntentId,
           status: orders.stripePaymentIntentStatus,
+          orderStatus: orders.status,
           customer: orders.email,
           createdAt: orders.createdAt,
         })

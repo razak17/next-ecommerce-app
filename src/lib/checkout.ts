@@ -25,7 +25,7 @@ export function getOrderStatusColor({
 }) {
   return cn({
     [`bg-gray-${shade}`]: status === "pending",
-    [`bg-blue-${shade}`]: status === "processing",
+    // [`bg-blue-${shade}`]: status === "processing",
     [`bg-orange-${shade}`]: status === "shipped",
     [`bg-green-${shade}`]: status === "delivered",
     [`bg-red-${shade}`]: status === "canceled",
