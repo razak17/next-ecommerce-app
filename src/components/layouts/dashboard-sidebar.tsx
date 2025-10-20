@@ -61,6 +61,12 @@ export function DashboardSidebar({
       isActive: segments.includes("users"),
     },
     {
+      title: "Reviews",
+      url: "/admin/reviews",
+      icon: "star",
+      isActive: segments.includes("reviews"),
+    },
+    {
       title: "Analytics",
       url: "/admin/analytics",
       icon: "analytics",

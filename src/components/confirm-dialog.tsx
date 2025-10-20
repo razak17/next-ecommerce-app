@@ -62,7 +62,7 @@ export const ConfirmDialog = ({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 dark:text-background"
             disabled={isLoading}
             onClick={performAction}
           >

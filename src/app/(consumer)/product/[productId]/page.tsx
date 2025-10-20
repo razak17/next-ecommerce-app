@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
+import { auth } from "@/lib/auth";
 import { formatPrice, toTitleCase } from "@/lib/utils";
 
 import { ProductCard } from "@/components/product-card";
 import { ProductImageCarousel } from "@/components/product-image-carousel";
-import { Rating } from "@/components/rating";
 import { Shell } from "@/components/shell";
 import {
   Accordion,
@@ -16,13 +17,20 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { env } from "@/env.js";
+import { FavoriteButton } from "@/features/favorites/components/favorite-button";
 import { AddToCartForm } from "@/features/products/components/add-to-cart-form";
-import { UpdateProductRatingButton } from "@/features/products/components/update-product-rating-button";
 import {
   getOtherProducts,
   getProduct,
   getProductForMetaData,
 } from "@/features/products/queries/products";
+import { ReviewStats } from "@/features/reviews/components/review-stats";
+import { ReviewsList } from "@/features/reviews/components/reviews-list";
+import {
+  getProductReviewStats,
+  getProductReviews,
+  getUserReviewForProduct,
+} from "@/features/reviews/queries/reviews";
 
 export async function generateMetadata({
   params,
@@ -44,31 +52,28 @@ export async function generateMetadata({
 
 export default async function ProductPage({
   params,
+  searchParams,
 }: PageProps<"/product/[productId]">) {
   const { productId } = await params;
 
   const product = await getProduct(productId);
-  // const product = await db.query.products.findFirst({
-  //   columns: {
-  //     id: true,
-  //     name: true,
-  //     description: true,
-  //     price: true,
-  //     images: true,
-  //     inventory: true,
-  //     rating: true,
-  //   },
-  //   with: {
-  //     category: true,
-  //   },
-  //   where: eq(products.id, productId),
-  // });
 
   if (!product) {
     notFound();
   }
 
-  const otherProducts = await getOtherProducts(productId);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const [otherProducts, reviews, reviewStats, userReview] = await Promise.all([
+    getOtherProducts(productId),
+    getProductReviews(productId, await searchParams),
+    getProductReviewStats(productId),
+    session?.user
+      ? getUserReviewForProduct(session.user.id, productId)
+      : Promise.resolve(null),
+  ]);
 
   return (
     <Shell className="pb-12 md:pb-14">
@@ -89,14 +94,16 @@ export default async function ProductPage({
             </p>
           </div>
           <Separator className="my-1.5" />
-          <p className="text-base text-muted-foreground">
-            {product.inventory} in stock
-          </p>
           <div className="flex items-center justify-between">
-            <Rating rating={Math.round(product.rating / 5)} />
-            <UpdateProductRatingButton
+            <p className="text-base text-muted-foreground">
+              {product.inventory} in stock
+            </p>
+            <FavoriteButton
+              isFavorited={product.isFavorited}
               productId={product.id}
-              rating={product.rating}
+              size="icon"
+              variant="secondary"
+              className="size-8"
             />
           </div>
           <AddToCartForm productId={productId} showBuyNow={true} />
@@ -118,6 +125,29 @@ export default async function ProductPage({
           <Separator className="md:hidden" />
         </div>
       </div>
+      {/* Reviews Section */}
+      <div className="space-y-6">
+        <Separator />
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-1">
+            <ReviewStats
+              totalReviews={reviewStats.totalReviews}
+              averageRating={reviewStats.averageRating}
+              ratingDistribution={reviewStats.ratingDistribution}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <ReviewsList
+              productId={productId}
+              initialReviews={reviews}
+              currentUserId={session?.user.id ?? undefined}
+              userRole={session?.user.role ?? undefined}
+              userExistingReview={userReview}
+            />
+          </div>
+        </div>
+      </div>
+
       {otherProducts && otherProducts?.length > 0 ? (
         <div className="space-y-6 overflow-hidden">
           <h2 className="line-clamp-1 flex-1 font-bold text-2xl">

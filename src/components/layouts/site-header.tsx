@@ -15,8 +15,6 @@ export async function SiteHeader() {
     headers: await headers(),
   });
 
-  console.warn("DEBUGPRINT[1340]: site-header.tsx:13: session=", session);
-
   const favoritesCount = session?.user?.id
     ? await getUserFavoritesCount(session?.user?.id)
     : 0;
