@@ -82,7 +82,10 @@ export function ErrorCard({
         <div className="flex flex-col gap-4">
           {reset ? (
             <ClientButton
-              onClick={reset}
+              onClick={() => {
+                reset();
+                window.location.reload();
+              }}
               variant="default"
               className="flex flex-1 items-center gap-2"
             >
