@@ -202,6 +202,8 @@ export async function getProductCountByCategory({
 }
 
 export async function getProduct(productId: string, currentUserId?: string) {
+  noStore();
+
   try {
     let query = db
       .select({

@@ -1,4 +1,4 @@
-import { StarIcon } from "@radix-ui/react-icons";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ export function Rating({ rating }: RatingProps) {
   return (
     <div className="flex items-center space-x-1">
       {Array.from({ length: 5 }).map((_, i) => (
-        <StarIcon
+        <StarFilledIcon
           key={i}
           className={cn(
             "size-4",

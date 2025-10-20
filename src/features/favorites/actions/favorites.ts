@@ -45,6 +45,7 @@ export async function toggleFavorite(productId: Product["id"]) {
 
     revalidatePath("/favorites");
     revalidatePath("/shop");
+    revalidatePath("/cart");
     revalidatePath("/");
 
     return {
