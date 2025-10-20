@@ -1,22 +1,26 @@
+import { headers } from "next/headers";
 import Link from "next/link";
+
+import { auth } from "@/lib/auth";
 
 import { AuthDropdown } from "./auth-dropdown";
 import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 import { siteConfig } from "@/config/site";
-import type { SessionUser } from "@/types";
+import { getUserCartItemsCount } from "@/features/cart/queries/cart";
+import { getUserFavoritesCount } from "@/features/favorites/queries/favorites";
 
-interface SiteHeaderProps {
-  user: SessionUser | null;
-  favoritesCount?: number;
-  cartItemsCount?: number;
-}
+export async function SiteHeader() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-export function SiteHeader({
-  user,
-  cartItemsCount,
-  favoritesCount,
-}: SiteHeaderProps) {
+  console.warn("DEBUGPRINT[1340]: site-header.tsx:13: session=", session);
+
+  const favoritesCount = session?.user?.id
+    ? await getUserFavoritesCount(session?.user?.id)
+    : 0;
+  const cartItemsCount = await getUserCartItemsCount();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 w-full items-center justify-between">
@@ -34,7 +38,7 @@ export function SiteHeader({
         <MobileNav items={siteConfig.mainNav} />
         <div className="flex items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <AuthDropdown user={user} />
+            <AuthDropdown user={session?.user ?? null} />
           </nav>
         </div>
       </div>

@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-// import { headers } from "next/headers";
 import Link from "next/link";
-
-// import { auth } from "@/lib/auth";
 
 import { Shell } from "@/components/shell";
 import {
@@ -25,10 +22,6 @@ export const metadata: Metadata = {
 };
 
 export default async function LoginPage() {
-  // const session = await auth.api.getSession({
-  //   headers: await headers(),
-  // });
-
   return (
     <Shell className="max-w-lg">
       <Card className="gap-4">

@@ -10,12 +10,8 @@ import { LobbySkeleton } from "@/features/apps/components/lobby-skeleton";
 import { getFeaturedCategories } from "@/features/categories/queries/categories";
 import { getFeaturedProducts } from "@/features/products/queries/products";
 
-async function HomeContent() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const productsPromise = getFeaturedProducts(session?.user?.id);
+export function HomeContent({ userId }: { userId?: string }) {
+  const productsPromise = getFeaturedProducts(userId);
   const categoriesPromise = getFeaturedCategories();
 
   return (
@@ -26,12 +22,16 @@ async function HomeContent() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <div className="flex min-h-screen flex-col">
       <BannerCarousel items={siteConfig.bannerSlides} />
       <React.Suspense fallback={<LobbySkeleton />}>
-        <HomeContent />
+        <HomeContent userId={session?.user?.id} />
       </React.Suspense>
     </div>
   );
